@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #ffffff;
+  --panel: #f3f5f7;
+  --ink: #12181f;
+  --navy: #0a2f66;
+  --blue: #0b63d6;
+  --blue-bright: #3d8bff;
+  --blue-soft: #e8f0fc;
+  --muted: #5b6773;
+  --muted-invert: #a9b8cc;
+  --line: #e2e6ea;
+  --line-invert: rgba(255, 255, 255, 0.14);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-panel: var(--panel);
+  --color-ink: var(--ink);
+  --color-navy: var(--navy);
+  --color-blue: var(--blue);
+  --color-blue-bright: var(--blue-bright);
+  --color-blue-soft: var(--blue-soft);
+  --color-muted: var(--muted);
+  --color-muted-invert: var(--muted-invert);
+  --color-line: var(--line);
+  --color-line-invert: var(--line-invert);
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+  --font-data: var(--font-plex-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+/* Signature schematic line-draw animation */
+.schematic-path {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: draw 2.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.schematic-node {
+  opacity: 0;
+  animation: node-in 0.6s ease-out forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes node-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schematic-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .schematic-node {
+    animation: none;
+    opacity: 1;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.eyebrow {
+  font-family: var(--font-data), monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Hero motor visual: cinematic slow zoom */
+.hero-kenburns {
+  animation: kenburns 26s ease-in-out infinite alternate;
+  transform-origin: 62% 50%;
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.07);
+  }
+}
+
+/* Copper coil energize shimmer */
+.coil-pulse {
+  animation: coilpulse 3s ease-in-out infinite;
+}
+
+@keyframes coilpulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-kenburns {
+    animation: none;
+  }
+  .coil-pulse {
+    animation: none;
+    opacity: 0.85;
+  }
+}

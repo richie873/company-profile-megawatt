@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #ffffff;
+  --panel: #f4f5f7;
+  --ink: #12181f;
+  --navy: #0f1e3d;
+  --blue: #1b9ad6;
+  --blue-bright: #4bbee9;
+  --blue-soft: #eaf5fb;
+  --muted: #5b6773;
+  --muted-invert: #a6b3c4;
+  --line: #e5e8ec;
+  --line-invert: rgba(255, 255, 255, 0.12);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-panel: var(--panel);
+  --color-ink: var(--ink);
+  --color-navy: var(--navy);
+  --color-blue: var(--blue);
+  --color-blue-bright: var(--blue-bright);
+  --color-blue-soft: var(--blue-soft);
+  --color-muted: var(--muted);
+  --color-muted-invert: var(--muted-invert);
+  --color-line: var(--line);
+  --color-line-invert: var(--line-invert);
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+  --font-data: var(--font-plex-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+/* Signature schematic line-draw animation */
+.schematic-path {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: draw 2.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.schematic-node {
+  opacity: 0;
+  animation: node-in 0.6s ease-out forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes node-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schematic-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .schematic-node {
+    animation: none;
+    opacity: 1;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.eyebrow {
+  font-family: var(--font-data), monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Google Translate widget — minimal, matches site styling */
+.goog-te-banner-frame {
+  display: none !important;
+}
+body {
+  top: 0 !important;
+}
+body.notranslate .skiptranslate {
+  display: block !important;
+}
+#google_translate_element .goog-te-gadget {
+  font-family: var(--font-body), sans-serif !important;
+  font-size: 12px !important;
+  color: var(--muted) !important;
+}
+#google_translate_element .goog-te-gadget-simple {
+  background: var(--paper) !important;
+  border: 1px solid var(--line) !important;
+  padding: 5px 10px !important;
+  border-radius: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+#google_translate_element .goog-te-gadget-simple .goog-te-menu-value {
+  color: var(--ink) !important;
+}
+#google_translate_element .goog-te-gadget-simple .goog-te-menu-value span {
+  color: var(--ink) !important;
+}
+#google_translate_element img {
+  display: none !important;
+}
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+.hero-kenburns {
+  animation: kenburns 26s ease-in-out infinite alternate;
+  transform-origin: 62% 50%;
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.07);
+  }
+}
+
+/* Copper coil energize shimmer */
+.coil-pulse {
+  animation: coilpulse 3s ease-in-out infinite;
+}
+
+@keyframes coilpulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-kenburns {
+    animation: none;
+  }
+  .coil-pulse {
+    animation: none;
+    opacity: 0.85;
+  }
+}
