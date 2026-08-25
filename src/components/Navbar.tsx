@@ -62,7 +62,7 @@ export default function Navbar() {
 
           <a
             href="#kontak"
-            className="hidden rounded-none border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-blue hover:text-blue md:inline-block"
+            className="hidden rounded-none px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-blue hover:text-blue md:inline-block"
           >
             Request Konsultasi
           </a>

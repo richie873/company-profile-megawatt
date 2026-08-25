@@ -47,5 +47,21 @@ export default function GoogleTranslate() {
     document.body.appendChild(script);
   }, []);
 
-  return <div id="google_translate_element" className="notranslate" style={{ display: "none" }} />;
+  return (
+    <div
+      id="google_translate_element"
+      className="notranslate"
+      style={{
+        position: "absolute",
+        width: "1px",
+        height: "1px",
+        padding: 0,
+        margin: "-1px",
+        overflow: "hidden",
+        clip: "rect(0, 0, 0, 0)",
+        whiteSpace: "nowrap",
+        border: 0,
+      }}
+    />
+  );
 }

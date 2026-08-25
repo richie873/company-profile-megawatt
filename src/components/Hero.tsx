@@ -187,10 +187,10 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-10 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted-invert md:flex">
+      {/* <div className="absolute bottom-10 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted-invert md:flex">
         <span className="eyebrow text-[10px]">Scroll</span>
         <span className="h-10 w-px bg-white/25" />
-      </div>
+      </div> */}
     </section>
   );
 }
