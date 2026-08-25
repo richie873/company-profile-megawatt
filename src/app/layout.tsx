@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import { TranslationProvider } from "@/components/TranslationProvider";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -33,7 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${spaceGrotesk.variable} ${inter.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-body bg-paper text-ink">
-        {children}
+        <TranslationProvider>{children}</TranslationProvider>
       </body>
     </html>
   );

@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslation } from "@/components/TranslationProvider";
+
 const STATS = [
   { value: "10+", unit: "tahun", label: "Pengalaman rewinding & perbaikan" },
   { value: "3", unit: "workshop", label: "Tangerang, Bekasi & Mojokerto" },
@@ -6,6 +10,7 @@ const STATS = [
 ];
 
 export default function StatsBar() {
+  const { t } = useTranslation();
   return (
     <section className="relative z-10 border-y border-line bg-panel">
       <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-line px-6 lg:grid-cols-4 lg:px-10">
@@ -16,11 +21,11 @@ export default function StatsBar() {
                 {stat.value}
               </span>
               {stat.unit && (
-                <span className="text-sm text-muted">{stat.unit}</span>
+                <span className="text-sm text-muted">{t(stat.unit)}</span>
               )}
             </div>
             <p className="mt-2 max-w-[16ch] text-sm leading-snug text-muted">
-              {stat.label}
+              {t(stat.label)}
             </p>
           </div>
         ))}

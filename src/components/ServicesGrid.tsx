@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslation } from "@/components/TranslationProvider";
+
 const SERVICES = [
   {
     code: "01",
@@ -17,21 +21,23 @@ const SERVICES = [
 ];
 
 export default function ServicesGrid() {
+  const { t } = useTranslation();
   return (
     <section id="layanan" className="mx-auto max-w-7xl bg-paper px-6 py-28 lg:px-10">
       <div className="flex flex-col justify-between gap-6 border-b border-line pb-10 md:flex-row md:items-end">
         <div>
           <p className="eyebrow flex items-center gap-2 text-xs text-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-blue" aria-hidden="true" />
-            Layanan Kami
+            {t("Layanan Kami")}
           </p>
           <h2 className="mt-4 max-w-lg font-display text-4xl font-semibold tracking-tight text-ink">
-            Tiga layanan inti, satu standar kualitas.
+            {t("Tiga layanan inti, satu standar kualitas.")}
           </h2>
         </div>
         <p className="max-w-sm text-sm leading-relaxed text-muted">
-          Setiap pekerjaan melalui pemeriksaan dan pengujian sebelum unit
-          dikembalikan ke pelanggan.
+          {t(
+            "Setiap pekerjaan melalui pemeriksaan dan pengujian sebelum unit dikembalikan ke pelanggan."
+          )}
         </p>
       </div>
 
@@ -43,16 +49,16 @@ export default function ServicesGrid() {
           >
             <span className="eyebrow text-xs text-muted">{service.code}</span>
             <h3 className="mt-6 font-display text-xl font-semibold text-ink">
-              {service.title}
+              {t(service.title)}
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              {service.desc}
+              {t(service.desc)}
             </p>
             <a
               href="#kontak"
               className="mt-6 inline-block text-sm font-medium text-ink transition-colors hover:text-blue"
             >
-              Lebih Detail →
+              {t("Lebih Detail")} →
             </a>
           </div>
         ))}

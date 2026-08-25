@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslation } from "@/components/TranslationProvider";
 
 const PARTICLE_ORBIT =
   "M 1000 260 A 190 190 0 1 1 999.9 260 A 190 190 0 1 1 1000 260";
 
 export default function Hero() {
+  const { t } = useTranslation();
   const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
@@ -155,20 +157,19 @@ export default function Hero() {
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-10">
         <p className="eyebrow flex items-center gap-2 text-xs text-white/70">
           <span className="h-1.5 w-1.5 rounded-full bg-blue-bright" aria-hidden="true" />
-          Professional Electromotor Rewinding &amp; Engineering Services
+          {t("Professional Electromotor Rewinding & Engineering Services")}
         </p>
 
         <h1 className="mt-6 max-w-4xl font-display text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-          Motor listrik industri
+          {t("Motor listrik industri")}
           <br />
-          Anda, kembali andal.
+          {t("Anda, kembali andal.")}
         </h1>
 
         <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted-invert">
-          PT. Megawatt Power Listrindo melayani perbaikan, rewinding, dan
-          perawatan electromotor tegangan rendah hingga tinggi — solusi
-          menyeluruh untuk peralatan elektromekanis di sektor energi,
-          manufaktur, dan pertambangan.
+          {t(
+            "PT. Megawatt Power Listrindo melayani perbaikan, rewinding, dan perawatan electromotor tegangan rendah hingga tinggi — solusi menyeluruh untuk peralatan elektromekanis di sektor energi, manufaktur, dan pertambangan."
+          )}
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -176,21 +177,21 @@ export default function Hero() {
             href="#kontak"
             className="bg-white px-7 py-3.5 text-sm font-semibold text-navy transition-transform hover:-translate-y-0.5"
           >
-            Request Konsultasi
+            {t("Request Konsultasi")}
           </a>
           <a
             href="#layanan"
             className="border border-white/25 px-7 py-3.5 text-sm font-medium text-white transition-colors hover:border-white/60"
           >
-            Lihat Layanan Kami
+            {t("Lihat Layanan Kami")}
           </a>
         </div>
       </div>
 
-      {/* <div className="absolute bottom-10 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted-invert md:flex">
-        <span className="eyebrow text-[10px]">Scroll</span>
+      <div className="absolute bottom-10 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted-invert md:flex">
+        <span className="eyebrow text-[10px]">{t("Scroll")}</span>
         <span className="h-10 w-px bg-white/25" />
-      </div> */}
+      </div>
     </section>
   );
 }

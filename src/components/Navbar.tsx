@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import GoogleTranslate from "@/components/GoogleTranslate";
 import LanguageSelector from "@/components/LanguageSelector";
+import { useTranslation } from "@/components/TranslationProvider";
 
 const NAV_LINKS = [
   { label: "Tentang Kami", href: "#tentang" },
@@ -14,6 +14,7 @@ const NAV_LINKS = [
 ];
 
 export default function Navbar() {
+  const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -50,25 +51,24 @@ export default function Navbar() {
                 href={link.href}
                 className="text-sm text-muted transition-colors hover:text-ink"
               >
-                {link.label}
+                {t(link.label)}
               </a>
             </li>
           ))}
         </ul>
 
         <div className="flex items-center gap-4">
-          <GoogleTranslate />
           <LanguageSelector />
 
           <a
             href="#kontak"
-            className="hidden rounded-none px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-blue hover:text-blue md:inline-block"
+            className="hidden rounded-none border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-blue hover:text-blue md:inline-block"
           >
-            Request Konsultasi
+            {t("Request Konsultasi")}
           </a>
 
           <button className="text-sm text-ink md:hidden" aria-label="Buka menu">
-            Menu
+            {t("Menu")}
           </button>
         </div>
       </nav>

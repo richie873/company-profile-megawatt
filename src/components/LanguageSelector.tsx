@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useTranslation } from "@/components/TranslationProvider";
 
 type LangGroup = {
   region: string;
@@ -57,21 +58,6 @@ const GROUPS: LangGroup[] = [
   },
 ];
 
-function applyLanguage(code: string) {
-  if (code === "id") {
-    document.cookie =
-      "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname}`;
-    window.location.reload();
-    return;
-  }
-  const combo = document.querySelector<HTMLSelectElement>(".goog-te-combo");
-  if (combo) {
-    combo.value = code;
-    combo.dispatchEvent(new Event("change"));
-  }
-}
-
 function GlobeIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -89,6 +75,7 @@ function GlobeIcon({ className }: { className?: string }) {
 }
 
 export default function LanguageSelector() {
+  const { lang: currentLang, loading, setLang } = useTranslation();
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(GROUPS[0].region);
   const [mounted, setMounted] = useState(false);
@@ -112,87 +99,100 @@ export default function LanguageSelector() {
 
   const active = GROUPS.find((g) => g.region === activeTab) ?? GROUPS[0];
 
+  const choose = (code: string) => {
+    setLang(code);
+    setOpen(false);
+  };
+
   const modal = open ? (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/40 p-4">
-          <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col overflow-y-auto bg-paper px-6 py-10 lg:px-10">
-            <div className="flex items-start justify-between gap-6">
-              <div>
-                <h2 className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-                  Pilih Bahasa
-                </h2>
-                <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
-                  Terjemahan otomatis didukung oleh Google Translate, tersedia
-                  dalam berbagai bahasa.
-                </p>
-              </div>
-              <button
-                onClick={() => setOpen(false)}
-                aria-label="Tutup"
-                className="text-3xl font-light leading-none text-ink transition-colors hover:text-blue"
-              >
-                ×
-              </button>
-            </div>
-
-            <button
-              onClick={() => {
-                applyLanguage("id");
-                setOpen(false);
-              }}
-              className="mt-10 flex items-center gap-3 border-y border-line py-4 text-left"
-            >
-              <GlobeIcon className="h-5 w-5 text-muted" />
-              <span className="text-sm font-semibold text-ink">
-                Bahasa Situs Asli
-              </span>
-              <span className="text-sm text-muted">Indonesia</span>
-            </button>
-
-            <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-b border-line pb-4">
-              {GROUPS.map((g) => (
-                <button
-                  key={g.region}
-                  onClick={() => setActiveTab(g.region)}
-                  className={`relative pb-2 text-sm font-medium transition-colors ${
-                    activeTab === g.region
-                      ? "text-ink"
-                      : "text-muted hover:text-ink"
-                  }`}
-                >
-                  {g.region}
-                  {activeTab === g.region && (
-                    <span className="absolute -bottom-[17px] left-0 h-0.5 w-full bg-blue" />
-                  )}
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-10 grid grid-cols-2 gap-x-10 gap-y-6 sm:grid-cols-3">
-              {active.languages.map((lang) => (
-                <button
-                  key={lang.code + lang.label}
-                  onClick={() => {
-                    applyLanguage(lang.code);
-                    setOpen(false);
-                  }}
-                  className="text-left text-sm font-semibold text-ink transition-colors hover:text-blue"
-                >
-                  {lang.label}
-                </button>
-              ))}
-            </div>
+      <div className="mx-auto flex w-full max-w-5xl max-h-[85vh] flex-1 flex-col overflow-y-auto bg-paper px-6 py-10 shadow-xl lg:px-10">
+        <div className="flex items-start justify-between gap-6">
+          <div>
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              Pilih Bahasa
+            </h2>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
+              Terjemahan otomatis tersedia dalam berbagai bahasa. Kualitas
+              terjemahan bersifat otomatis dan mungkin tidak sepenuhnya akurat
+              untuk istilah teknis.
+            </p>
           </div>
+          <button
+            onClick={() => setOpen(false)}
+            aria-label="Tutup"
+            className="text-3xl font-light leading-none text-ink transition-colors hover:text-blue"
+          >
+            ×
+          </button>
         </div>
-      ) : null;
+
+        <button
+          onClick={() => choose("id")}
+          className={`mt-10 flex items-center gap-3 border-y border-line py-4 text-left ${
+            currentLang === "id" ? "bg-panel" : ""
+          }`}
+        >
+          <GlobeIcon className="h-5 w-5 text-muted" />
+          <span className="text-sm font-semibold text-ink">
+            Bahasa Situs Asli
+          </span>
+          <span className="text-sm text-muted">Indonesia</span>
+        </button>
+
+        <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-b border-line pb-4">
+          {GROUPS.map((g) => (
+            <button
+              key={g.region}
+              onClick={() => setActiveTab(g.region)}
+              className={`relative pb-2 text-sm font-medium transition-colors ${
+                activeTab === g.region
+                  ? "text-ink"
+                  : "text-muted hover:text-ink"
+              }`}
+            >
+              {g.region}
+              {activeTab === g.region && (
+                <span className="absolute -bottom-[17px] left-0 h-0.5 w-full bg-blue" />
+              )}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-10 grid grid-cols-2 gap-x-10 gap-y-6 sm:grid-cols-3">
+          {active.languages.map((item) => (
+            <button
+              key={item.code + item.label}
+              onClick={() => choose(item.code)}
+              className={`text-left text-sm font-semibold transition-colors hover:text-blue ${
+                currentLang === item.code ? "text-blue" : "text-ink"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        {loading && (
+          <p className="mt-8 eyebrow text-xs text-muted">
+            Menerjemahkan halaman…
+          </p>
+        )}
+      </div>
+    </div>
+  ) : null;
 
   return (
     <>
       <button
         onClick={() => setOpen(true)}
         aria-label="Pilih bahasa"
-        className="flex h-9 w-9 items-center justify-center border border-ink/15 text-ink transition-colors hover:border-blue hover:text-blue"
+        className="relative flex h-9 w-9 items-center justify-center border border-ink/15 text-ink transition-colors hover:border-blue hover:text-blue"
       >
         <GlobeIcon className="h-4 w-4" />
+        {loading && (
+          <span className="absolute -right-1 -top-1 h-2 w-2 animate-pulse rounded-full bg-blue" />
+        )}
       </button>
 
       {mounted && modal ? createPortal(modal, document.body) : null}

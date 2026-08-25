@@ -85,46 +85,6 @@ body {
   text-transform: uppercase;
 }
 
-/* Google Translate widget — minimal, matches site styling */
-.goog-te-banner-frame {
-  display: none !important;
-}
-body {
-  top: 0 !important;
-}
-body.notranslate .skiptranslate {
-  display: block !important;
-}
-#google_translate_element .goog-te-gadget {
-  font-family: var(--font-body), sans-serif !important;
-  font-size: 12px !important;
-  color: var(--muted) !important;
-}
-#google_translate_element .goog-te-gadget-simple {
-  background: var(--paper) !important;
-  border: 1px solid var(--line) !important;
-  padding: 5px 10px !important;
-  border-radius: 0 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-}
-#google_translate_element .goog-te-gadget-simple .goog-te-menu-value {
-  color: var(--ink) !important;
-}
-#google_translate_element .goog-te-gadget-simple .goog-te-menu-value span {
-  color: var(--ink) !important;
-}
-#google_translate_element img {
-  display: none !important;
-}
-.goog-tooltip,
-.goog-tooltip:hover {
-  display: none !important;
-}
-.goog-text-highlight {
-  background: none !important;
-  box-shadow: none !important;
-}
 .hero-kenburns {
   animation: kenburns 26s ease-in-out infinite alternate;
   transform-origin: 62% 50%;

@@ -1,35 +1,37 @@
+"use client";
+
+import { useTranslation } from "@/components/TranslationProvider";
+
 export default function AboutSplit() {
+  const { t } = useTranslation();
   return (
     <section id="tentang" className="mx-auto max-w-7xl bg-paper px-6 py-28 lg:px-10">
       <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
         <div>
           <p className="eyebrow flex items-center gap-2 text-xs text-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-blue" aria-hidden="true" />
-            Tentang Kami
+            {t("Tentang Kami")}
           </p>
           <h2 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-tight text-ink">
-            Spesialis perbaikan &amp; penggulungan ulang motor listrik.
+            {t("Spesialis perbaikan & penggulungan ulang motor listrik.")}
           </h2>
           <p className="mt-6 text-base leading-relaxed text-muted">
-            PT. Megawatt Power Listrindo bergerak di bidang jasa perbaikan
-            dan rewinding electromotor, dari tegangan rendah hingga tegangan
-            tinggi. Kami menghadirkan solusi menyeluruh untuk perawatan,
-            perbaikan, dan peningkatan performa peralatan elektromekanis di
-            berbagai sektor industri.
+            {t(
+              "PT. Megawatt Power Listrindo bergerak di bidang jasa perbaikan dan rewinding electromotor, dari tegangan rendah hingga tegangan tinggi. Kami menghadirkan solusi menyeluruh untuk perawatan, perbaikan, dan peningkatan performa peralatan elektromekanis di berbagai sektor industri."
+            )}
           </p>
           <p className="mt-4 text-base leading-relaxed text-muted">
-            Dengan mengutamakan kualitas pekerjaan, ketepatan waktu, dan
-            kepuasan pelanggan, kami berkomitmen menjadi mitra teknik yang
-            dapat diandalkan untuk menjaga performa dan efisiensi
-            operasional mesin industri Anda.
+            {t(
+              "Dengan mengutamakan kualitas pekerjaan, ketepatan waktu, dan kepuasan pelanggan, kami berkomitmen menjadi mitra teknik yang dapat diandalkan untuk menjaga performa dan efisiensi operasional mesin industri Anda."
+            )}
           </p>
           <div className="mt-10 flex items-center gap-4 border-t border-line pt-8">
-            <span className="eyebrow text-xs text-muted">Anggota</span>
+            <span className="eyebrow text-xs text-muted">{t("Anggota")}</span>
             <span className="font-display text-lg font-semibold text-ink">
               EASA
             </span>
             <span className="text-sm text-muted">
-              — Electrical Apparatus Service Association
+              — {t("Electrical Apparatus Service Association")}
             </span>
           </div>
         </div>

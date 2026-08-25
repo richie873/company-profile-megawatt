@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslation } from "@/components/TranslationProvider";
+
 const INDUSTRIES = [
   "Pembangkit Listrik",
   "Manufaktur",
@@ -8,16 +12,17 @@ const INDUSTRIES = [
 ];
 
 export default function IndustriesStrip() {
+  const { t } = useTranslation();
   return (
     <section id="industri" className="mx-auto max-w-7xl bg-paper px-6 py-28 lg:px-10">
       <div className="flex flex-col justify-between gap-6 border-b border-line pb-10 md:flex-row md:items-end">
         <div>
           <p className="eyebrow flex items-center gap-2 text-xs text-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-blue" aria-hidden="true" />
-            Industri yang Kami Layani
+            {t("Industri yang Kami Layani")}
           </p>
           <h2 className="mt-4 max-w-lg font-display text-4xl font-semibold tracking-tight text-ink">
-            Dipercaya lintas sektor industri berat.
+            {t("Dipercaya lintas sektor industri berat.")}
           </h2>
         </div>
       </div>
@@ -32,7 +37,7 @@ export default function IndustriesStrip() {
               {String(i + 1).padStart(2, "0")}
             </span>
             <span className="font-display text-base font-semibold leading-tight text-ink transition-colors group-hover:text-blue">
-              {industry}
+              {t(industry)}
             </span>
           </div>
         ))}

@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useTranslation } from "@/components/TranslationProvider";
 
 const COLUMNS = [
   {
@@ -33,6 +36,7 @@ const WORKSHOPS = [
 ];
 
 export default function Footer() {
+  const { t } = useTranslation();
   return (
     <footer className="mt-auto bg-navy pt-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
@@ -46,8 +50,9 @@ export default function Footer() {
               className="h-8 w-auto object-contain opacity-95 brightness-0 invert"
             />
             <p className="mt-4 max-w-[32ch] text-sm leading-relaxed text-muted-invert">
-              Mitra terpercaya untuk layanan penggulungan ulang, perbaikan,
-              dan pemeliharaan motor listrik industri di seluruh Indonesia.
+              {t(
+                "Mitra terpercaya untuk layanan penggulungan ulang, perbaikan, dan pemeliharaan motor listrik industri di seluruh Indonesia."
+              )}
             </p>
             <div className="mt-6 space-y-1 text-sm text-white/80">
               <p>0813 8855 605</p>
@@ -57,7 +62,7 @@ export default function Footer() {
 
           {COLUMNS.map((col) => (
             <div key={col.title}>
-              <h4 className="eyebrow text-xs text-muted-invert">{col.title}</h4>
+              <h4 className="eyebrow text-xs text-muted-invert">{t(col.title)}</h4>
               <ul className="mt-4 space-y-3">
                 {col.links.map((link) => (
                   <li key={link}>
@@ -65,7 +70,7 @@ export default function Footer() {
                       href="#"
                       className="text-sm text-white/80 transition-colors hover:text-white"
                     >
-                      {link}
+                      {t(link)}
                     </a>
                   </li>
                 ))}
@@ -74,13 +79,13 @@ export default function Footer() {
           ))}
 
           <div>
-            <h4 className="eyebrow text-xs text-muted-invert">Workshop</h4>
+            <h4 className="eyebrow text-xs text-muted-invert">{t("Workshop")}</h4>
             <ul className="mt-4 space-y-4">
               {WORKSHOPS.map((w) => (
                 <li key={w.city}>
                   <p className="text-sm font-medium text-white">{w.city}</p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-invert">
-                    {w.address}
+                    {t(w.address)}
                   </p>
                 </li>
               ))}
@@ -90,7 +95,7 @@ export default function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-4 py-8 text-xs text-muted-invert md:flex-row">
           <span>
-            © {new Date().getFullYear()} PT. Megawatt Power Listrindo.
+            © {new Date().getFullYear()} {t("PT. Megawatt Power Listrindo.")}
           </span>
           <span className="font-data">Tangerang · Bekasi · Mojokerto</span>
         </div>
