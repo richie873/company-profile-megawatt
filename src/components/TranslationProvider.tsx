@@ -21,6 +21,35 @@ const TranslationContext = createContext<TranslationContextType | null>(null);
 // Module-level cache so translations persist across component remounts
 // within the same page session. Key: `${lang}::${originalText}`.
 const cache = new Map<string, string>();
+const STORAGE_KEY = "mp-translation-cache-v1";
+
+function loadPersistedCache() {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const parsed: Record<string, string> = JSON.parse(raw);
+    Object.entries(parsed).forEach(([key, value]) => cache.set(key, value));
+  } catch {
+    // corrupted cache — ignore and start fresh
+  }
+}
+
+function persistCache() {
+  if (typeof window === "undefined") return;
+  try {
+    const obj = Object.fromEntries(cache);
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+  } catch {
+    // storage full or unavailable — translations still work, just not cached
+  }
+}
+
+loadPersistedCache();
+
+// Providing a contact email bumps MyMemory's free daily limit
+// from 5,000 to 50,000 characters — no signup required.
+const CONTACT_EMAIL = "megawattpower.listrindo@yahoo.com";
 
 async function translateOne(text: string, target: string): Promise<string> {
   const key = `${target}::${text}`;
@@ -32,12 +61,19 @@ async function translateOne(text: string, target: string): Promise<string> {
     const res = await fetch(
       `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
         text
-      )}&langpair=id|${target}`
+      )}&langpair=id|${target}&de=${encodeURIComponent(CONTACT_EMAIL)}`
     );
     const data = await res.json();
     const translated: unknown = data?.responseData?.translatedText;
-    if (typeof translated === "string" && translated.trim()) {
+    const isQuotaWarning =
+      typeof translated === "string" &&
+      (translated.includes("MYMEMORY WARNING") ||
+        translated.includes("QUERY LENGTH LIMIT") ||
+        data?.responseStatus === 403);
+
+    if (typeof translated === "string" && translated.trim() && !isQuotaWarning) {
       cache.set(key, translated);
+      persistCache();
       return translated;
     }
   } catch {
