@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { TranslationProvider } from "@/components/TranslationProvider";
+import CookieConsent from "@/components/CookieConsent";
+import AnalyticsScripts from "@/components/AnalyticsScripts";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -18,7 +20,7 @@ const inter = Inter({
 const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -34,7 +36,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${spaceGrotesk.variable} ${inter.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-body bg-paper text-ink">
-        <TranslationProvider>{children}</TranslationProvider>
+        <TranslationProvider>
+          {children}
+          <CookieConsent />
+        </TranslationProvider>
+        <AnalyticsScripts />
       </body>
     </html>
   );

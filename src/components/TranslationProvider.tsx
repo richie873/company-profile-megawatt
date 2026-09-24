@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { getConsent } from "@/lib/consent";
 
 type TranslationContextType = {
   lang: string;
@@ -37,6 +38,8 @@ function loadPersistedCache() {
 
 function persistCache() {
   if (typeof window === "undefined") return;
+  // Cache terjemahan hanya disimpan permanen jika pengunjung menyetujui cookie fungsional
+  if (!getConsent()?.functional) return;
   try {
     const obj = Object.fromEntries(cache);
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));

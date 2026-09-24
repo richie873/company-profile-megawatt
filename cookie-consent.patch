@@ -1,0 +1,618 @@
+diff --git a/src/app/kebijakan-privasi/PrivacyContent.tsx b/src/app/kebijakan-privasi/PrivacyContent.tsx
+new file mode 100644
+index 0000000..7d4ec9f
+--- /dev/null
++++ b/src/app/kebijakan-privasi/PrivacyContent.tsx
+@@ -0,0 +1,63 @@
++"use client";
++
++import { useTranslation } from "@/components/TranslationProvider";
++import { openCookieSettings } from "@/lib/consent";
++
++// CATATAN: ini template dasar. Sesuaikan isinya dengan praktik perusahaan
++// dan minta tinjauan pihak legal sebelum dipublikasikan.
++const SECTIONS = [
++  {
++    title: "Informasi yang kami kumpulkan",
++    body: "Situs ini tidak meminta Anda membuat akun. Kami hanya menerima data pribadi yang Anda kirimkan sendiri, misalnya saat menghubungi kami melalui WhatsApp, telepon, atau email. Jika Anda menyetujui cookie analitik, kami juga mengumpulkan statistik kunjungan yang bersifat anonim.",
++  },
++  {
++    title: "Penggunaan cookie",
++    body: "Kami menggunakan cookie wajib agar situs berfungsi, cookie fungsional untuk menyimpan hasil terjemahan halaman, dan cookie analitik untuk memahami penggunaan situs. Cookie fungsional dan analitik hanya aktif setelah Anda menyetujuinya, dan Anda dapat mengubah pilihan kapan saja.",
++  },
++  {
++    title: "Layanan pihak ketiga",
++    body: "Fitur terjemahan situs mengirimkan teks halaman (bukan data pribadi Anda) ke layanan MyMemory. Jika cookie analitik disetujui, data kunjungan anonim diproses oleh Google Analytics.",
++  },
++  {
++    title: "Hak Anda",
++    body: "Sesuai Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi, Anda berhak meminta akses, perbaikan, atau penghapusan data pribadi yang Anda berikan kepada kami, serta menarik persetujuan yang telah diberikan.",
++  },
++  {
++    title: "Hubungi kami",
++    body: "Untuk pertanyaan tentang kebijakan ini, hubungi PT. Megawatt Power Listrindo melalui megawattpower.listrindo@yahoo.com atau 0813 8855 605.",
++  },
++];
++
++export default function PrivacyContent() {
++  const { t } = useTranslation();
++  return (
++    <article className="mx-auto max-w-3xl px-6 lg:px-10">
++      <h1 className="font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
++        {t("Kebijakan Privasi")}
++      </h1>
++      <p className="mt-4 text-sm text-muted">
++        {t("Terakhir diperbarui: September 2026")}
++      </p>
++
++      <div className="mt-12 space-y-10">
++        {SECTIONS.map((s) => (
++          <section key={s.title}>
++            <h2 className="font-display text-xl font-semibold text-ink">
++              {t(s.title)}
++            </h2>
++            <p className="mt-3 text-base leading-relaxed text-muted">
++              {t(s.body)}
++            </p>
++          </section>
++        ))}
++      </div>
++
++      <button
++        onClick={openCookieSettings}
++        className="mt-12 border border-ink/15 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-blue hover:text-blue"
++      >
++        {t("Ubah pengaturan cookie")}
++      </button>
++    </article>
++  );
++}
+diff --git a/src/app/kebijakan-privasi/page.tsx b/src/app/kebijakan-privasi/page.tsx
+new file mode 100644
+index 0000000..96e14d3
+--- /dev/null
++++ b/src/app/kebijakan-privasi/page.tsx
+@@ -0,0 +1,22 @@
++import type { Metadata } from "next";
++import Navbar from "@/components/Navbar";
++import Footer from "@/components/Footer";
++import PrivacyContent from "./PrivacyContent";
++
++export const metadata: Metadata = {
++  title: "Kebijakan Privasi — Megawatt Power Listrindo",
++  description:
++    "Kebijakan privasi dan penggunaan cookie di situs PT. Megawatt Power Listrindo.",
++};
++
++export default function KebijakanPrivasiPage() {
++  return (
++    <>
++      <Navbar />
++      <main className="pt-32 pb-24">
++        <PrivacyContent />
++      </main>
++      <Footer />
++    </>
++  );
++}
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index 04d6b59..9677f4b 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -2,6 +2,8 @@ import type { Metadata } from "next";
+ import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
+ import "./globals.css";
+ import { TranslationProvider } from "@/components/TranslationProvider";
++import CookieConsent from "@/components/CookieConsent";
++import AnalyticsScripts from "@/components/AnalyticsScripts";
+ 
+ const spaceGrotesk = Space_Grotesk({
+   variable: "--font-space-grotesk",
+@@ -34,7 +36,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
+       className={`${spaceGrotesk.variable} ${inter.variable} ${plexMono.variable} h-full antialiased`}
+     >
+       <body className="min-h-full flex flex-col font-body bg-paper text-ink">
+-        <TranslationProvider>{children}</TranslationProvider>
++        <TranslationProvider>
++          {children}
++          <CookieConsent />
++        </TranslationProvider>
++        <AnalyticsScripts />
+       </body>
+     </html>
+   );
+diff --git a/src/components/AnalyticsScripts.tsx b/src/components/AnalyticsScripts.tsx
+new file mode 100644
+index 0000000..e73e96e
+--- /dev/null
++++ b/src/components/AnalyticsScripts.tsx
+@@ -0,0 +1,29 @@
++"use client";
++
++import Script from "next/script";
++import { useConsent } from "@/lib/consent";
++
++// Isi di Vercel → Settings → Environment Variables, contoh: G-XXXXXXXXXX
++const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
++
++export default function AnalyticsScripts() {
++  const consent = useConsent();
++
++  // Script analitik hanya dimuat setelah pengunjung menyetujui cookie analitik
++  if (!GA_ID || !consent?.analytics) return null;
++
++  return (
++    <>
++      <Script
++        src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
++        strategy="afterInteractive"
++      />
++      <Script id="ga-init" strategy="afterInteractive">
++        {`window.dataLayer = window.dataLayer || [];
++function gtag(){dataLayer.push(arguments);}
++gtag('js', new Date());
++gtag('config', '${GA_ID}', { anonymize_ip: true });`}
++      </Script>
++    </>
++  );
++}
+diff --git a/src/components/CookieConsent.tsx b/src/components/CookieConsent.tsx
+new file mode 100644
+index 0000000..1002c33
+--- /dev/null
++++ b/src/components/CookieConsent.tsx
+@@ -0,0 +1,343 @@
++"use client";
++
++import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
++import { createPortal } from "react-dom";
++import Link from "next/link";
++import { useTranslation } from "@/components/TranslationProvider";
++import {
++  OPEN_SETTINGS_EVENT,
++  getConsent,
++  saveConsent,
++  useConsent,
++  type ConsentChoices,
++} from "@/lib/consent";
++
++// Semua teks dikumpulkan di sini supaya didaftarkan ke sistem terjemahan
++// sejak awal, termasuk teks panel pengaturan yang belum terbuka.
++const TEXT = {
++  bannerTitle: "Kami menghargai privasi Anda",
++  bannerBody:
++    "Kami menggunakan cookie agar situs ini berfungsi dengan baik. Dengan persetujuan Anda, kami juga menggunakan cookie untuk mengingat preferensi Anda dan memahami bagaimana situs ini digunakan. Anda dapat menerima semua, menolak, atau memilih sendiri.",
++  privacyLink: "Kebijakan Privasi",
++  settings: "Pengaturan cookie",
++  rejectAll: "Tolak semua",
++  acceptAll: "Terima semua cookie",
++  centerTitle: "Pusat Preferensi Privasi",
++  close: "Tutup",
++  alwaysActive: "Selalu aktif",
++  confirm: "Konfirmasi pilihan saya",
++  allowAll: "Izinkan semua",
++  reopen: "Buka pengaturan cookie",
++  privacyTab: "Privasi Anda",
++  privacyBody:
++    "Saat Anda mengunjungi situs web, situs tersebut dapat menyimpan atau mengambil informasi di browser Anda, biasanya dalam bentuk cookie. Informasi ini dapat berkaitan dengan Anda, preferensi Anda, atau perangkat Anda, dan umumnya dipakai agar situs bekerja sesuai harapan. Informasi ini biasanya tidak mengidentifikasi Anda secara langsung. Pilih kategori di samping untuk mempelajari lebih lanjut dan mengubah pengaturan. Menonaktifkan beberapa jenis cookie dapat memengaruhi pengalaman Anda di situs ini.",
++  necessaryTab: "Cookie wajib",
++  necessaryBody:
++    "Cookie ini diperlukan agar situs berfungsi dan tidak dapat dinonaktifkan. Cookie ini hanya diatur sebagai respons atas tindakan Anda, seperti menyimpan pilihan privasi ini. Cookie ini tidak menyimpan informasi yang mengidentifikasi Anda secara pribadi.",
++  functionalTab: "Cookie fungsional",
++  functionalBody:
++    "Cookie ini menyimpan hasil terjemahan halaman di browser Anda, sehingga saat Anda berganti bahasa, halaman tampil lebih cepat dan tidak perlu diterjemahkan ulang setiap kali berkunjung. Jika dinonaktifkan, terjemahan tetap berfungsi tetapi dimuat ulang setiap kunjungan.",
++  analyticsTab: "Cookie analitik",
++  analyticsBody:
++    "Cookie ini membantu kami menghitung kunjungan dan sumber lalu lintas agar kami dapat mengukur dan meningkatkan kinerja situs. Semua informasi yang dikumpulkan bersifat agregat dan anonim. Jika dinonaktifkan, kunjungan Anda tidak akan tercatat dalam statistik kami.",
++};
++
++type TabId = "privacy" | "necessary" | "functional" | "analytics";
++
++function CookieIcon({ className }: { className?: string }) {
++  return (
++    <svg
++      viewBox="0 0 24 24"
++      className={className}
++      fill="none"
++      stroke="currentColor"
++      strokeWidth="1.6"
++      aria-hidden="true"
++    >
++      <path d="M12 3a9 9 0 1 0 9 9 3 3 0 0 1-3.5-3A3 3 0 0 1 14 5.5 3 3 0 0 1 12 3Z" />
++      <circle cx="8.5" cy="10.5" r="1" fill="currentColor" stroke="none" />
++      <circle cx="10" cy="15.5" r="1" fill="currentColor" stroke="none" />
++      <circle cx="15" cy="14" r="1" fill="currentColor" stroke="none" />
++    </svg>
++  );
++}
++
++function Switch({
++  checked,
++  onChange,
++  label,
++}: {
++  checked: boolean;
++  onChange: (v: boolean) => void;
++  label: string;
++}) {
++  return (
++    <button
++      type="button"
++      role="switch"
++      aria-checked={checked}
++      aria-label={label}
++      onClick={() => onChange(!checked)}
++      className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue ${
++        checked ? "bg-blue" : "bg-ink/20"
++      }`}
++    >
++      <span
++        className={`inline-block h-5 w-5 rounded-full bg-paper shadow transition-transform ${
++          checked ? "translate-x-[22px]" : "translate-x-0.5"
++        }`}
++      />
++    </button>
++  );
++}
++
++export default function CookieConsent() {
++  const { t } = useTranslation();
++  const tx = Object.fromEntries(
++    Object.entries(TEXT).map(([k, v]) => [k, t(v)])
++  ) as typeof TEXT;
++
++  const consent = useConsent();
++  const [modalOpen, setModalOpen] = useState(false);
++  const [activeTab, setActiveTab] = useState<TabId>("privacy");
++  const [draft, setDraft] = useState<ConsentChoices>({
++    functional: false,
++    analytics: false,
++  });
++  const dialogRef = useRef<HTMLDivElement>(null);
++
++  const openSettings = useCallback(() => {
++    const saved = getConsent();
++    setDraft({
++      functional: saved?.functional ?? false,
++      analytics: saved?.analytics ?? false,
++    });
++    setActiveTab("privacy");
++    setModalOpen(true);
++  }, []);
++
++  // Memungkinkan tombol lain (footer, halaman kebijakan privasi) membuka panel ini
++  useEffect(() => {
++    window.addEventListener(OPEN_SETTINGS_EVENT, openSettings);
++    return () => window.removeEventListener(OPEN_SETTINGS_EVENT, openSettings);
++  }, [openSettings]);
++
++  useEffect(() => {
++    if (!modalOpen) return;
++    const onKey = (e: KeyboardEvent) => {
++      if (e.key === "Escape") setModalOpen(false);
++    };
++    document.addEventListener("keydown", onKey);
++    document.body.style.overflow = "hidden";
++    dialogRef.current?.focus();
++    return () => {
++      document.removeEventListener("keydown", onKey);
++      document.body.style.overflow = "";
++    };
++  }, [modalOpen]);
++
++  function decide(choices: ConsentChoices) {
++    saveConsent(choices);
++    setModalOpen(false);
++  }
++
++  if (consent === undefined) return null; // belum ter-hydrate
++
++  const showBanner = consent === null && !modalOpen;
++
++  const tabs: { id: TabId; label: string }[] = [
++    { id: "privacy", label: tx.privacyTab },
++    { id: "necessary", label: tx.necessaryTab },
++    { id: "functional", label: tx.functionalTab },
++    { id: "analytics", label: tx.analyticsTab },
++  ];
++
++  const panel: Record<TabId, { body: string; control: ReactNode }> = {
++    privacy: { body: tx.privacyBody, control: null },
++    necessary: {
++      body: tx.necessaryBody,
++      control: (
++        <span className="text-sm font-semibold text-blue">{tx.alwaysActive}</span>
++      ),
++    },
++    functional: {
++      body: tx.functionalBody,
++      control: (
++        <Switch
++          label={tx.functionalTab}
++          checked={draft.functional}
++          onChange={(v) => setDraft((d) => ({ ...d, functional: v }))}
++        />
++      ),
++    },
++    analytics: {
++      body: tx.analyticsBody,
++      control: (
++        <Switch
++          label={tx.analyticsTab}
++          checked={draft.analytics}
++          onChange={(v) => setDraft((d) => ({ ...d, analytics: v }))}
++        />
++      ),
++    },
++  };
++
++  const activeLabel = tabs.find((x) => x.id === activeTab)!.label;
++
++  const btnOutline =
++    "border border-ink/15 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-blue hover:text-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue";
++  const btnPrimary =
++    "bg-blue px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue";
++
++  const modal = modalOpen ? (
++    <div
++      className="fixed inset-0 z-[70] flex items-center justify-center bg-ink/40 p-4"
++      onClick={(e) => e.target === e.currentTarget && setModalOpen(false)}
++    >
++      <div
++        ref={dialogRef}
++        tabIndex={-1}
++        role="dialog"
++        aria-modal="true"
++        aria-labelledby="cookie-center-title"
++        className="flex max-h-[88vh] w-full max-w-4xl flex-col bg-paper shadow-xl outline-none"
++      >
++        <div className="flex items-start justify-between gap-6 border-b border-line px-6 py-6 lg:px-8">
++          <h2
++            id="cookie-center-title"
++            className="font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl"
++          >
++            {tx.centerTitle}
++          </h2>
++          <button
++            onClick={() => setModalOpen(false)}
++            aria-label={tx.close}
++            className="text-3xl font-light leading-none text-ink transition-colors hover:text-blue"
++          >
++            ×
++          </button>
++        </div>
++
++        <div className="grid min-h-0 flex-1 grid-cols-1 md:grid-cols-[240px_1fr]">
++          <ul className="flex overflow-x-auto border-b border-line md:block md:overflow-visible md:border-b-0 md:border-r">
++            {tabs.map((tab) => (
++              <li key={tab.id} className="shrink-0">
++                <button
++                  onClick={() => setActiveTab(tab.id)}
++                  className={`w-full border-b-2 px-5 py-4 text-left text-sm font-medium transition-colors md:border-b-0 md:border-l-2 ${
++                    activeTab === tab.id
++                      ? "border-blue bg-panel text-ink"
++                      : "border-transparent text-muted hover:text-ink"
++                  }`}
++                >
++                  {tab.label}
++                </button>
++              </li>
++            ))}
++          </ul>
++
++          <div className="min-h-0 overflow-y-auto px-6 py-6 lg:px-8">
++            <div className="flex items-center justify-between gap-4">
++              <h3 className="font-display text-lg font-semibold text-ink">
++                {activeLabel}
++              </h3>
++              {panel[activeTab].control}
++            </div>
++            <p className="mt-4 max-w-[65ch] text-sm leading-relaxed text-muted">
++              {panel[activeTab].body}
++            </p>
++            {activeTab === "privacy" && (
++              <Link
++                href="/kebijakan-privasi"
++                className="mt-4 inline-block text-sm font-medium text-blue underline underline-offset-4 hover:text-navy"
++              >
++                {tx.privacyLink}
++              </Link>
++            )}
++          </div>
++        </div>
++
++        <div className="flex flex-col-reverse gap-3 border-t border-line px-6 py-5 sm:flex-row sm:justify-end lg:px-8">
++          <button
++            className={btnOutline}
++            onClick={() => decide({ functional: false, analytics: false })}
++          >
++            {tx.rejectAll}
++          </button>
++          <button className={btnOutline} onClick={() => decide(draft)}>
++            {tx.confirm}
++          </button>
++          <button
++            className={btnPrimary}
++            onClick={() => decide({ functional: true, analytics: true })}
++          >
++            {tx.allowAll}
++          </button>
++        </div>
++      </div>
++    </div>
++  ) : null;
++
++  return (
++    <>
++      {showBanner && (
++        <div
++          role="region"
++          aria-label={tx.bannerTitle}
++          className="fixed inset-x-0 bottom-0 z-[65] border-t border-line bg-paper shadow-[0_-8px_30px_rgba(15,30,61,0.12)] pb-[env(safe-area-inset-bottom)]"
++        >
++          <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-6 lg:flex-row lg:items-center lg:gap-12 lg:px-10">
++            <div className="flex-1">
++              <h2 className="font-display text-lg font-semibold text-ink">
++                {tx.bannerTitle}
++              </h2>
++              <p className="mt-2 max-w-[80ch] text-sm leading-relaxed text-muted">
++                {tx.bannerBody}{" "}
++                <Link
++                  href="/kebijakan-privasi"
++                  className="font-medium text-blue underline underline-offset-4 hover:text-navy"
++                >
++                  {tx.privacyLink}
++                </Link>
++              </p>
++            </div>
++            <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:shrink-0">
++              <button
++                onClick={openSettings}
++                className="px-2 py-3 text-sm font-medium text-ink underline underline-offset-4 transition-colors hover:text-blue"
++              >
++                {tx.settings}
++              </button>
++              <button
++                className={btnOutline}
++                onClick={() => decide({ functional: false, analytics: false })}
++              >
++                {tx.rejectAll}
++              </button>
++              <button
++                className={btnPrimary}
++                onClick={() => decide({ functional: true, analytics: true })}
++              >
++                {tx.acceptAll}
++              </button>
++            </div>
++          </div>
++        </div>
++      )}
++
++      {consent !== null && !modalOpen && (
++        <button
++          onClick={openSettings}
++          aria-label={tx.reopen}
++          title={tx.reopen}
++          className="fixed bottom-5 left-5 z-[65] flex h-11 w-11 items-center justify-center border border-line bg-paper text-ink shadow-md transition-colors hover:border-blue hover:text-blue"
++          style={{ marginBottom: "env(safe-area-inset-bottom)" }}
++        >
++          <CookieIcon className="h-5 w-5" />
++        </button>
++      )}
++
++      {modal ? createPortal(modal, document.body) : null}
++    </>
++  );
++}
+diff --git a/src/components/TranslationProvider.tsx b/src/components/TranslationProvider.tsx
+index 478e647..b38d0a1 100644
+--- a/src/components/TranslationProvider.tsx
++++ b/src/components/TranslationProvider.tsx
+@@ -8,6 +8,7 @@ import {
+   useState,
+   type ReactNode,
+ } from "react";
++import { getConsent } from "@/lib/consent";
+ 
+ type TranslationContextType = {
+   lang: string;
+@@ -37,6 +38,8 @@ function loadPersistedCache() {
+ 
+ function persistCache() {
+   if (typeof window === "undefined") return;
++  // Cache terjemahan hanya disimpan permanen jika pengunjung menyetujui cookie fungsional
++  if (!getConsent()?.functional) return;
+   try {
+     const obj = Object.fromEntries(cache);
+     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+diff --git a/src/lib/consent.ts b/src/lib/consent.ts
+new file mode 100644
+index 0000000..aa3fa38
+--- /dev/null
++++ b/src/lib/consent.ts
+@@ -0,0 +1,84 @@
++// src/lib/consent.ts
++import { useSyncExternalStore } from "react";
++// Menyimpan pilihan cookie pengunjung dan memberi tahu komponen lain saat berubah.
++
++export type ConsentChoices = {
++  functional: boolean;
++  analytics: boolean;
++};
++
++export type Consent = ConsentChoices & {
++  necessary: true; // selalu aktif
++  updatedAt: string;
++};
++
++// Naikkan versi key ini jika kategori cookie atau kebijakan privasi berubah,
++// supaya semua pengunjung ditanya ulang.
++const KEY = "mp-cookie-consent-v1";
++
++export const CONSENT_EVENT = "mp-cookie-consent-change";
++export const OPEN_SETTINGS_EVENT = "mp-cookie-settings-open";
++
++let current: Consent | null = null;
++let loaded = false;
++
++function load() {
++  try {
++    const raw = window.localStorage.getItem(KEY);
++    current = raw ? (JSON.parse(raw) as Consent) : null;
++  } catch {
++    current = null;
++  }
++  loaded = true;
++}
++
++export function getConsent(): Consent | null {
++  if (typeof window === "undefined") return null;
++  if (!loaded) load();
++  return current;
++}
++
++function subscribe(onChange: () => void) {
++  const onStorage = (e: StorageEvent) => {
++    if (e.key === KEY) {
++      load();
++      onChange();
++    }
++  };
++  window.addEventListener(CONSENT_EVENT, onChange);
++  window.addEventListener("storage", onStorage); // sinkron antar-tab
++  return () => {
++    window.removeEventListener(CONSENT_EVENT, onChange);
++    window.removeEventListener("storage", onStorage);
++  };
++}
++
++/**
++ * Pilihan cookie saat ini.
++ * `undefined` = belum ter-hydrate (render server), `null` = belum memilih.
++ */
++export function useConsent(): Consent | null | undefined {
++  return useSyncExternalStore(subscribe, getConsent, () => undefined);
++}
++
++export function saveConsent(choices: ConsentChoices): Consent {
++  const value: Consent = {
++    necessary: true,
++    ...choices,
++    updatedAt: new Date().toISOString(),
++  };
++  current = value;
++  loaded = true;
++  try {
++    window.localStorage.setItem(KEY, JSON.stringify(value));
++  } catch {
++    // storage tidak tersedia — pilihan tetap berlaku untuk sesi ini
++  }
++  window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: value }));
++  return value;
++}
++
++/** Buka panel pengaturan cookie dari mana saja (mis. tautan di footer). */
++export function openCookieSettings() {
++  window.dispatchEvent(new Event(OPEN_SETTINGS_EVENT));
++}

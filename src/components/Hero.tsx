@@ -1,197 +1,123 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "@/components/TranslationProvider";
 
-const PARTICLE_ORBIT =
-  "M 1000 260 A 190 190 0 1 1 999.9 260 A 190 190 0 1 1 1000 260";
+/*
+ * Video latar hero.
+ * 1. Simpan video (tanpa watermark) di: public/hero/hero.mp4
+ * 2. (Opsional) simpan satu frame sebagai gambar di: public/hero/hero-poster.jpg
+ *    — tampil selama video dimuat, dan untuk pengunjung yang mematikan animasi.
+ * Rekomendasi file: landscape 16:9, 1920×1080, 10–20 detik, tanpa suara, < 8 MB.
+ */
+
+const HERO_VIDEO = "/hero/hero.mp4";
+const HERO_POSTER: string | undefined = undefined; // mis. "/hero/hero-poster.jpg"
+
+// Titik fokus saat video dipotong otomatis oleh layar (mis. "50% 40%").
+// Geser nilai kedua lebih kecil agar bagian atas video lebih banyak terlihat.
+const FOCUS = "50% 50%";
 
 export default function Hero() {
   const { t } = useTranslation();
-  const [reduceMotion, setReduceMotion] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(true);
 
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduceMotion(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setReduceMotion(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
+  const togglePlay = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) v.play();
+    else v.pause();
+  };
 
   return (
     <section
       id="top"
       className="relative isolate flex min-h-screen items-center overflow-hidden bg-navy pt-24 text-white"
     >
-      {/* Signature "video": animated 3-phase electromotor — rotor spin, current flow, copper windings */}
-      <div className="absolute inset-0 hero-kenburns">
-        <svg
-          className="h-full w-full"
-          viewBox="0 0 1440 900"
-          preserveAspectRatio="xMidYMid slice"
-          aria-hidden="true"
-        >
-          <defs>
-            <radialGradient id="motorGlow" cx="50%" cy="50%" r="60%">
-              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.08" />
-              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
-            </radialGradient>
-            <radialGradient id="rotorFace" cx="40%" cy="35%" r="70%">
-              <stop offset="0%" stopColor="#233A5E" />
-              <stop offset="100%" stopColor="#0F1E3D" />
-            </radialGradient>
-          </defs>
+      {/* Video latar */}
+      <video
+        ref={videoRef}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        className="absolute inset-0 -z-10 h-full w-full object-cover motion-reduce:hidden"
+        style={{ objectPosition: FOCUS }}
+        src={HERO_VIDEO}
+        poster={HERO_POSTER}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+      />
+      {HERO_POSTER && (
+        // Pengunjung dengan "kurangi animasi": tampilkan gambar diam saja
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={HERO_POSTER}
+          alt=""
+          className="absolute inset-0 -z-10 hidden h-full w-full object-cover motion-reduce:block"
+          style={{ objectPosition: FOCUS }}
+        />
+      )}
 
-          <circle cx="1000" cy="450" r="340" fill="url(#motorGlow)" />
+      {/* Overlay gelap tipis merata di seluruh video (gaya abb.com).
+          Naikkan /35 menjadi /45 jika teks kurang terbaca, turunkan jika video terlalu gelap. */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-black/35" />
 
-          {/* Stator assembly — ring + copper windings, rotates continuously */}
-          <g>
-            {!reduceMotion && (
-              <animateTransform
-                attributeName="transform"
-                type="rotate"
-                from="0 1000 450"
-                to="360 1000 450"
-                dur="18s"
-                repeatCount="indefinite"
-              />
-            )}
-
-            {/* Laminated ring */}
-            <circle
-              cx="1000"
-              cy="450"
-              r="260"
-              fill="none"
-              stroke="#3A5C86"
-              strokeWidth="2"
-              strokeDasharray="6 7"
-            />
-
-            {/* Three copper winding groups — 3-phase motor, staggered pulse */}
-            {[0, 120, 240].map((angle, i) => (
-              <g
-                key={angle}
-                transform={`rotate(${angle} 1000 450)`}
-                className="coil-pulse"
-                style={{ animationDelay: `${i * 0.5}s` }}
-              >
-                <path
-                  d="M 1000 190 C 1120 200, 1160 260, 1150 330"
-                  fill="none"
-                  stroke="#C9762E"
-                  strokeWidth="10"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M 1000 190 C 1120 200, 1160 260, 1150 330"
-                  fill="none"
-                  stroke="#E0A15E"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  opacity="0.8"
-                />
-              </g>
-            ))}
-          </g>
-
-          {/* Rotor — stays fixed as visual anchor while stator spins around it */}
-          <g>
-            <circle cx="1000" cy="450" r="150" fill="url(#rotorFace)" />
-            {Array.from({ length: 10 }).map((_, i) => {
-              const a = (i / 10) * 360;
-              return (
-                <line
-                  key={i}
-                  x1="1000"
-                  y1="450"
-                  x2="1000"
-                  y2="320"
-                  stroke="#5C88BE"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  transform={`rotate(${a} 1000 450)`}
-                  opacity="0.6"
-                />
-              );
-            })}
-            <circle cx="1000" cy="450" r="34" fill="#0A1830" />
-            <circle
-              cx="1000"
-              cy="450"
-              r="34"
-              fill="none"
-              stroke="#7C93B4"
-              strokeWidth="1.5"
-              opacity="0.6"
-            />
-          </g>
-
-          {/* Current-flow particles orbiting the winding */}
-          {[0, 2.2, 4.4].map((delay, i) => (
-            <circle key={i} r="5" fill="#4BBEE9">
-              <animateMotion
-                dur="6s"
-                repeatCount="indefinite"
-                begin={`${delay}s`}
-                path={PARTICLE_ORBIT}
-              />
-              {!reduceMotion && (
-                <animate
-                  attributeName="opacity"
-                  values="0;1;1;0"
-                  keyTimes="0;0.1;0.9;1"
-                  dur="6s"
-                  begin={`${delay}s`}
-                  repeatCount="indefinite"
-                />
-              )}
-            </circle>
-          ))}
-        </svg>
-      </div>
-
-      {/* Legibility gradient over the visual */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-navy via-navy/75 to-navy/10" />
-
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-10">
-        <p className="eyebrow flex items-center gap-2 text-xs text-white/70">
-          <span className="h-1.5 w-1.5 rounded-full bg-blue-bright" aria-hidden="true" />
-          {t("Professional Electromotor Rewinding & Engineering Services")}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 [text-shadow:0_1px_12px_rgb(0_0_0/0.35)] lg:px-10">
+        <p className="eyebrow font-bold flex items-center gap-2 text-5xl text-white">
+          {/* <span className="h-1.5 w-1.5 rounded-full bg-blue-bright" aria-hidden="true" /> */}
+          {t("Professional Electromotor")}
+          <br />
+          {t("Rewinding & Engineering ")}
+          <br />
+          {t("Services")}
         </p>
 
-        <h1 className="mt-6 max-w-4xl font-display text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-          {t("Motor listrik industri")}
-          <br />
-          {t("Anda, kembali andal.")}
-        </h1>
+        {/* <h1 className="mt-6 max-w-4xl font-display text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-5xl">
+          {t("Solusi terpercaya untuk perbaikan, rewinding, dan maintenance electromotor tegangan rendah hingga tinggi untuk berbagai kebutuhan industri.")}
+        </h1> */}
 
-        <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted-invert">
+        <p className="mt-5 max-w-xl text-xl leading-relaxed text-white">
           {t(
-            "PT. Megawatt Power Listrindo melayani perbaikan, rewinding, dan perawatan electromotor tegangan rendah hingga tinggi — solusi menyeluruh untuk peralatan elektromekanis di sektor energi, manufaktur, dan pertambangan."
+            "Menjaga motor industri tetap berputar."
           )}
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <a
             href="#kontak"
-            className="bg-white px-7 py-3.5 text-sm font-semibold text-navy transition-transform hover:-translate-y-0.5"
+            className="group inline-flex items-center gap-2 bg-blue px-7 py-3.5 text-sm font-semibold text-white [text-shadow:none] transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {t("Request Konsultasi")}
           </a>
           <a
             href="#layanan"
-            className="border border-white/25 px-7 py-3.5 text-sm font-medium text-white transition-colors hover:border-white/60"
+            className="inline-flex items-center border border-white/70 px-7 py-3.5 text-sm font-medium text-white transition-colors hover:border-white hover:bg-white hover:text-navy hover:[text-shadow:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {t("Lihat Layanan Kami")}
           </a>
         </div>
       </div>
-
-      <div className="absolute bottom-10 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted-invert md:flex">
-        <span className="eyebrow text-[10px]">{t("Scroll")}</span>
-        <span className="h-10 w-px bg-white/25" />
-      </div>
+      <button
+        type="button"
+        onClick={togglePlay}
+        aria-label={playing ? t("Jeda video") : t("Putar video")}
+        className="absolute bottom-6 right-6 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:bg-white hover:text-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:hidden lg:bottom-10 lg:right-10"
+      >
+        {playing ? (
+          <svg viewBox="0 0 16 16" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+            <rect x="3" y="2" width="3.5" height="12" />
+            <rect x="9.5" y="2" width="3.5" height="12" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 16 16" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+            <path d="M4 2l10 6-10 6z" />
+          </svg>
+        )}
+      </button>
     </section>
   );
 }
