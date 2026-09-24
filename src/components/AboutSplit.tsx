@@ -1,60 +1,62 @@
 "use client";
 
+import Image from "next/image";
 import { useTranslation } from "@/components/TranslationProvider";
+import Reveal from "@/components/Reveal";
+import SectionHeading from "@/components/SectionHeading";
+import ArrowIcon from "@/components/ArrowIcon";
+import { IMAGES } from "@/lib/site-images";
 
 export default function AboutSplit() {
   const { t } = useTranslation();
   return (
-    <section id="tentang" className="mx-auto max-w-7xl bg-paper px-6 py-28 lg:px-10">
-      <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
-        <div>
-          <p className="eyebrow flex items-center gap-2 text-xs text-muted">
-            <span className="h-1.5 w-1.5 rounded-full bg-blue" aria-hidden="true" />
-            {t("Tentang Kami")}
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-tight text-ink">
-            {t("Spesialis perbaikan & penggulungan ulang motor listrik.")}
-          </h2>
-          <p className="mt-6 text-base leading-relaxed text-muted">
+    <section id="tentang" className="bg-paper py-24 lg:py-32">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-6 lg:grid-cols-12 lg:gap-16 lg:px-10">
+        <Reveal className="lg:col-span-6">
+          <div className="relative aspect-[4/5] w-full overflow-hidden bg-navy sm:aspect-[5/4] lg:aspect-[4/5]">
+            {IMAGES.about && (
+              <Image
+                src={IMAGES.about}
+                alt={t("Teknisi Megawatt memeriksa motor listrik di workshop")}
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
+              />
+            )}
+            {/* Kartu keanggotaan EASA */}
+            <div className="absolute bottom-0 left-0 max-w-xs bg-paper p-6 lg:p-8">
+              <p className="eyebrow text-[11px] text-muted">{t("Anggota")}</p>
+              <p className="mt-2 font-display text-3xl font-semibold text-ink">EASA</p>
+              <p className="mt-1 text-sm leading-snug text-muted">
+                {t("Electrical Apparatus Service Association")}
+              </p>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={120} className="lg:col-span-6">
+          <SectionHeading
+            eyebrow="Tentang Kami"
+            title="Spesialis perbaikan & penggulungan ulang motor listrik."
+          />
+          <p className="mt-8 text-lg leading-relaxed text-ink/80">
             {t(
               "PT. Megawatt Power Listrindo bergerak di bidang jasa perbaikan dan rewinding electromotor, dari tegangan rendah hingga tegangan tinggi. Kami menghadirkan solusi menyeluruh untuk perawatan, perbaikan, dan peningkatan performa peralatan elektromekanis di berbagai sektor industri."
             )}
           </p>
-          <p className="mt-4 text-base leading-relaxed text-muted">
+          <p className="mt-5 text-base leading-relaxed text-muted">
             {t(
               "Dengan mengutamakan kualitas pekerjaan, ketepatan waktu, dan kepuasan pelanggan, kami berkomitmen menjadi mitra teknik yang dapat diandalkan untuk menjaga performa dan efisiensi operasional mesin industri Anda."
             )}
           </p>
-          <div className="mt-10 flex items-center gap-4 border-t border-line pt-8">
-            <span className="eyebrow text-xs text-muted">{t("Anggota")}</span>
-            <span className="font-display text-lg font-semibold text-ink">
-              EASA
-            </span>
-            <span className="text-sm text-muted">
-              — {t("Electrical Apparatus Service Association")}
-            </span>
-          </div>
-        </div>
-
-        <div className="relative aspect-[4/5] w-full border border-line">
-          <svg viewBox="0 0 400 500" className="h-full w-full" aria-hidden="true">
-            <rect width="400" height="500" fill="#F3F5F7" />
-            <g stroke="#D9E2EC" strokeWidth="1">
-              <line x1="0" y1="125" x2="400" y2="125" />
-              <line x1="0" y1="250" x2="400" y2="250" />
-              <line x1="0" y1="375" x2="400" y2="375" />
-              <line x1="100" y1="0" x2="100" y2="500" />
-              <line x1="200" y1="0" x2="200" y2="500" />
-              <line x1="300" y1="0" x2="300" y2="500" />
-            </g>
-            {/* Coil / winding motif — copper wire, blue only as spark accents */}
-            <g stroke="#B5773A" strokeWidth="2.5" fill="none" strokeLinecap="round">
-              <path d="M 90 380 Q 130 340 90 300 Q 50 260 90 220 Q 130 180 90 140 Q 50 100 90 60" />
-            </g>
-            <circle cx="90" cy="380" r="5" fill="#1B9AD6" />
-            <circle cx="90" cy="60" r="5" fill="#1B9AD6" />
-          </svg>
-        </div>
+          <a
+            href="#kontak"
+            className="group mt-10 inline-flex items-center gap-2 border-b border-ink pb-1 text-sm font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
+          >
+            {t("Diskusikan kebutuhan Anda")}
+            <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </a>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,0 +1,919 @@
+diff --git a/next.config.ts b/next.config.ts
+index e9ffa30..0427276 100644
+--- a/next.config.ts
++++ b/next.config.ts
+@@ -1,7 +1,11 @@
+ import type { NextConfig } from "next";
+ 
+ const nextConfig: NextConfig = {
+-  /* config options here */
++  images: {
++    // Sementara: foto dari Pexels (lihat src/lib/site-images.ts).
++    // Hapus jika semua foto sudah disimpan di /public.
++    remotePatterns: [{ protocol: "https", hostname: "images.pexels.com" }],
++  },
+ };
+ 
+ export default nextConfig;
+diff --git a/src/app/globals.css b/src/app/globals.css
+index 12ff40c..be7b2fe 100644
+--- a/src/app/globals.css
++++ b/src/app/globals.css
+@@ -8,6 +8,7 @@
+   --blue: #1b9ad6;
+   --blue-bright: #4bbee9;
+   --blue-soft: #eaf5fb;
++  --blue-deep: #0e6ea3; /* biru gelap: teks putih tetap kontras */
+   --muted: #5b6773;
+   --muted-invert: #a6b3c4;
+   --line: #e5e8ec;
+@@ -22,6 +23,7 @@
+   --color-blue: var(--blue);
+   --color-blue-bright: var(--blue-bright);
+   --color-blue-soft: var(--blue-soft);
++  --color-blue-deep: var(--blue-deep);
+   --color-muted: var(--muted);
+   --color-muted-invert: var(--muted-invert);
+   --color-line: var(--line);
+@@ -123,3 +125,25 @@ body {
+     opacity: 0.85;
+   }
+ }
++
++/* Scroll reveal — halus, gaya abb.com / sulzer.com */
++.reveal {
++  opacity: 0;
++  transform: translateY(24px);
++  transition:
++    opacity 0.7s ease-out,
++    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
++}
++
++.reveal.is-visible {
++  opacity: 1;
++  transform: none;
++}
++
++@media (prefers-reduced-motion: reduce) {
++  .reveal {
++    opacity: 1;
++    transform: none;
++    transition: none;
++  }
++}
+diff --git a/src/app/page.tsx b/src/app/page.tsx
+index 04f42fb..9fbbab2 100644
+--- a/src/app/page.tsx
++++ b/src/app/page.tsx
+@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
+ import StatsBar from "@/components/StatsBar";
+ import AboutSplit from "@/components/AboutSplit";
+ import ServicesGrid from "@/components/ServicesGrid";
++import ProcessSection from "@/components/ProcessSection";
+ import WhyUs from "@/components/WhyUs";
+ import IndustriesStrip from "@/components/IndustriesStrip";
+ import CTASection from "@/components/CTASection";
+@@ -17,6 +18,7 @@ export default function Home() {
+         <StatsBar />
+         <AboutSplit />
+         <ServicesGrid />
++        <ProcessSection />
+         <WhyUs />
+         <IndustriesStrip />
+         <CTASection />
+diff --git a/src/components/AboutSplit.tsx b/src/components/AboutSplit.tsx
+index b3d368a..7fb0b05 100644
+--- a/src/components/AboutSplit.tsx
++++ b/src/components/AboutSplit.tsx
+@@ -1,60 +1,62 @@
+ "use client";
+ 
++import Image from "next/image";
+ import { useTranslation } from "@/components/TranslationProvider";
++import Reveal from "@/components/Reveal";
++import SectionHeading from "@/components/SectionHeading";
++import ArrowIcon from "@/components/ArrowIcon";
++import { IMAGES } from "@/lib/site-images";
+ 
+ export default function AboutSplit() {
+   const { t } = useTranslation();
+   return (
+-    <section id="tentang" className="mx-auto max-w-7xl bg-paper px-6 py-28 lg:px-10">
+-      <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
+-        <div>
+-          <p className="eyebrow flex items-center gap-2 text-xs text-muted">
+-            <span className="h-1.5 w-1.5 rounded-full bg-blue" aria-hidden="true" />
+-            {t("Tentang Kami")}
+-          </p>
+-          <h2 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-tight text-ink">
+-            {t("Spesialis perbaikan & penggulungan ulang motor listrik.")}
+-          </h2>
+-          <p className="mt-6 text-base leading-relaxed text-muted">
++    <section id="tentang" className="bg-paper py-24 lg:py-32">
++      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-6 lg:grid-cols-12 lg:gap-16 lg:px-10">
++        <Reveal className="lg:col-span-6">
++          <div className="relative aspect-[4/5] w-full overflow-hidden bg-navy sm:aspect-[5/4] lg:aspect-[4/5]">
++            {IMAGES.about && (
++              <Image
++                src={IMAGES.about}
++                alt={t("Teknisi Megawatt memeriksa motor listrik di workshop")}
++                fill
++                sizes="(min-width: 1024px) 50vw, 100vw"
++                className="object-cover"
++              />
++            )}
++            {/* Kartu keanggotaan EASA */}
++            <div className="absolute bottom-0 left-0 max-w-xs bg-paper p-6 lg:p-8">
++              <p className="eyebrow text-[11px] text-muted">{t("Anggota")}</p>
++              <p className="mt-2 font-display text-3xl font-semibold text-ink">EASA</p>
++              <p className="mt-1 text-sm leading-snug text-muted">
++                {t("Electrical Apparatus Service Association")}
++              </p>
++            </div>
++          </div>
++        </Reveal>
++
++        <Reveal delay={120} className="lg:col-span-6">
++          <SectionHeading
++            eyebrow="Tentang Kami"
++            title="Spesialis perbaikan & penggulungan ulang motor listrik."
++          />
++          <p className="mt-8 text-lg leading-relaxed text-ink/80">
+             {t(
+               "PT. Megawatt Power Listrindo bergerak di bidang jasa perbaikan dan rewinding electromotor, dari tegangan rendah hingga tegangan tinggi. Kami menghadirkan solusi menyeluruh untuk perawatan, perbaikan, dan peningkatan performa peralatan elektromekanis di berbagai sektor industri."
+             )}
+           </p>
+-          <p className="mt-4 text-base leading-relaxed text-muted">
++          <p className="mt-5 text-base leading-relaxed text-muted">
+             {t(
+               "Dengan mengutamakan kualitas pekerjaan, ketepatan waktu, dan kepuasan pelanggan, kami berkomitmen menjadi mitra teknik yang dapat diandalkan untuk menjaga performa dan efisiensi operasional mesin industri Anda."
+             )}
+           </p>
+-          <div className="mt-10 flex items-center gap-4 border-t border-line pt-8">
+-            <span className="eyebrow text-xs text-muted">{t("Anggota")}</span>
+-            <span className="font-display text-lg font-semibold text-ink">
+-              EASA
+-            </span>
+-            <span className="text-sm text-muted">
+-              — {t("Electrical Apparatus Service Association")}
+-            </span>
+-          </div>
+-        </div>
+-
+-        <div className="relative aspect-[4/5] w-full border border-line">
+-          <svg viewBox="0 0 400 500" className="h-full w-full" aria-hidden="true">
+-            <rect width="400" height="500" fill="#F3F5F7" />
+-            <g stroke="#D9E2EC" strokeWidth="1">
+-              <line x1="0" y1="125" x2="400" y2="125" />
+-              <line x1="0" y1="250" x2="400" y2="250" />
+-              <line x1="0" y1="375" x2="400" y2="375" />
+-              <line x1="100" y1="0" x2="100" y2="500" />
+-              <line x1="200" y1="0" x2="200" y2="500" />
+-              <line x1="300" y1="0" x2="300" y2="500" />
+-            </g>
+-            {/* Coil / winding motif — copper wire, blue only as spark accents */}
+-            <g stroke="#B5773A" strokeWidth="2.5" fill="none" strokeLinecap="round">
+-              <path d="M 90 380 Q 130 340 90 300 Q 50 260 90 220 Q 130 180 90 140 Q 50 100 90 60" />
+-            </g>
+-            <circle cx="90" cy="380" r="5" fill="#1B9AD6" />
+-            <circle cx="90" cy="60" r="5" fill="#1B9AD6" />
+-          </svg>
+-        </div>
++          <a
++            href="#kontak"
++            className="group mt-10 inline-flex items-center gap-2 border-b border-ink pb-1 text-sm font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
++          >
++            {t("Diskusikan kebutuhan Anda")}
++            <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
++          </a>
++        </Reveal>
+       </div>
+     </section>
+   );
+diff --git a/src/components/ArrowIcon.tsx b/src/components/ArrowIcon.tsx
+new file mode 100644
+index 0000000..d85a473
+--- /dev/null
++++ b/src/components/ArrowIcon.tsx
+@@ -0,0 +1,14 @@
++export default function ArrowIcon({ className = "h-4 w-4" }: { className?: string }) {
++  return (
++    <svg
++      viewBox="0 0 16 16"
++      className={className}
++      fill="none"
++      stroke="currentColor"
++      strokeWidth="1.8"
++      aria-hidden="true"
++    >
++      <path d="M3 8h10M9 4l4 4-4 4" />
++    </svg>
++  );
++}
+diff --git a/src/components/CTASection.tsx b/src/components/CTASection.tsx
+index 3bc581b..d3af6d1 100644
+--- a/src/components/CTASection.tsx
++++ b/src/components/CTASection.tsx
+@@ -1,38 +1,72 @@
+ "use client";
+ 
+ import { useTranslation } from "@/components/TranslationProvider";
++import Reveal from "@/components/Reveal";
++import ArrowIcon from "@/components/ArrowIcon";
++
++const WA_LINK =
++  "https://wa.me/628138855605?text=Halo%20Megawatt%2C%20saya%20ingin%20berkonsultasi%20mengenai%20perbaikan%20motor.";
+ 
+ export default function CTASection() {
+   const { t } = useTranslation();
++
++  const contacts = [
++    { label: "WhatsApp", value: "0813 8855 605", href: WA_LINK, external: true },
++    { label: t("Telepon"), value: "0813 8855 605", href: "tel:+628138855605", external: false },
++    {
++      label: "Email",
++      value: "megawattpower.listrindo@yahoo.com",
++      href: "mailto:megawattpower.listrindo@yahoo.com",
++      external: false,
++    },
++  ];
++
+   return (
+-    <section id="kontak" className="border-y border-line bg-navy py-28">
+-      <div className="mx-auto max-w-4xl px-6 text-center lg:px-10">
+-        <p className="eyebrow flex items-center justify-center gap-2 text-xs text-muted-invert">
+-          <span className="h-1.5 w-1.5 rounded-full bg-blue-bright" aria-hidden="true" />
+-          {t("Butuh Layanan?")}
+-        </p>
+-        <h2 className="mt-4 font-display text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+-          {t("Butuh layanan perbaikan motor listrik yang andal?")}
+-        </h2>
+-        <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-muted-invert">
+-          {t(
+-            "Percayakan kebutuhan perbaikan dan perawatan electromotor Anda kepada tim profesional kami."
+-          )}
+-        </p>
+-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
++    <section id="kontak" className="bg-blue-deep py-24 text-white lg:py-28">
++      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-12 lg:items-end lg:px-10">
++        <Reveal className="lg:col-span-7">
++          <p className="eyebrow flex items-center gap-2 text-xs text-white/85">
++            <span className="h-1.5 w-1.5 rounded-full bg-white" aria-hidden="true" />
++            {t("Butuh Layanan?")}
++          </p>
++          <h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
++            {t("Motor bermasalah? Tim kami siap membantu, 24 jam.")}
++          </h2>
++          <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/90">
++            {t(
++              "Ceritakan kondisi motor Anda. Kami akan membantu menentukan langkah perbaikan yang tepat, termasuk penjemputan unit."
++            )}
++          </p>
+           <a
+-            href="https://wa.me/628138855605"
+-            className="bg-white px-7 py-3.5 text-sm font-semibold text-navy transition-transform hover:-translate-y-0.5"
++            href={WA_LINK}
++            target="_blank"
++            rel="noopener noreferrer"
++            className="group mt-10 inline-flex items-center gap-2 bg-white px-7 py-4 text-sm font-semibold text-navy transition-colors hover:bg-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+           >
+-            {t("WhatsApp Kami")}
++            {t("Konsultasi via WhatsApp")}
++            <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+           </a>
+-          <a
+-            href="tel:+628138855605"
+-            className="border border-white/25 px-7 py-3.5 text-sm font-medium text-white transition-colors hover:border-white/60"
+-          >
+-            0813 8855 605
+-          </a>
+-        </div>
++        </Reveal>
++
++        <Reveal delay={120} className="lg:col-span-5">
++          <ul className="border-t border-white/35">
++            {contacts.map((c) => (
++              <li key={c.label} className="border-b border-white/35">
++                <a
++                  href={c.href}
++                  {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
++                  className="group flex items-center justify-between gap-4 py-5"
++                >
++                  <span>
++                    <span className="eyebrow block text-[11px] text-white/85">{c.label}</span>
++                    <span className="mt-1 block break-all text-base font-medium sm:text-lg">{c.value}</span>
++                  </span>
++                  <ArrowIcon className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" />
++                </a>
++              </li>
++            ))}
++          </ul>
++        </Reveal>
+       </div>
+     </section>
+   );
+diff --git a/src/components/IndustriesStrip.tsx b/src/components/IndustriesStrip.tsx
+index b46a10c..14ded3c 100644
+--- a/src/components/IndustriesStrip.tsx
++++ b/src/components/IndustriesStrip.tsx
+@@ -1,46 +1,63 @@
+ "use client";
+ 
++import Image from "next/image";
+ import { useTranslation } from "@/components/TranslationProvider";
++import Reveal from "@/components/Reveal";
++import SectionHeading from "@/components/SectionHeading";
++import { IMAGES } from "@/lib/site-images";
+ 
+ const INDUSTRIES = [
+-  "Pembangkit Listrik",
+-  "Manufaktur",
+-  "Pertambangan",
+-  "Minyak & Gas",
+-  "Marinir",
+-  "Utilitas",
++  { name: "Pembangkit Listrik", desc: "Motor pompa, fan, dan peralatan bantu pembangkit." },
++  { name: "Pertambangan", desc: "Motor conveyor, crusher, dan alat berat di area tambang." },
++  { name: "Manufaktur", desc: "Motor lini produksi, kompresor, dan mesin proses." },
++  { name: "Minyak & Gas", desc: "Motor pompa dan kompresor di fasilitas hulu hingga hilir." },
++  { name: "Maritim", desc: "Motor dan generator untuk kapal serta pelabuhan." },
++  { name: "Utilitas", desc: "Motor dan transformator untuk air, listrik, dan infrastruktur." },
+ ];
+ 
+ export default function IndustriesStrip() {
+   const { t } = useTranslation();
+   return (
+-    <section id="industri" className="mx-auto max-w-7xl bg-paper px-6 py-28 lg:px-10">
+-      <div className="flex flex-col justify-between gap-6 border-b border-line pb-10 md:flex-row md:items-end">
+-        <div>
+-          <p className="eyebrow flex items-center gap-2 text-xs text-muted">
+-            <span className="h-1.5 w-1.5 rounded-full bg-blue" aria-hidden="true" />
+-            {t("Industri yang Kami Layani")}
+-          </p>
+-          <h2 className="mt-4 max-w-lg font-display text-4xl font-semibold tracking-tight text-ink">
+-            {t("Dipercaya lintas sektor industri berat.")}
+-          </h2>
+-        </div>
+-      </div>
++    <section id="industri" className="bg-panel py-24 lg:py-32">
++      <div className="mx-auto max-w-7xl px-6 lg:px-10">
++        <Reveal>
++          <SectionHeading eyebrow="Industri yang Kami Layani" title="Dipercaya lintas sektor industri berat." />
++        </Reveal>
+ 
+-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+-        {INDUSTRIES.map((industry, i) => (
+-          <div
+-            key={industry}
+-            className="group flex aspect-square flex-col justify-between border-b border-r border-line p-5 first:border-l lg:first:border-l"
+-          >
+-            <span className="font-data text-xs text-muted">
+-              {String(i + 1).padStart(2, "0")}
+-            </span>
+-            <span className="font-display text-base font-semibold leading-tight text-ink transition-colors group-hover:text-blue">
+-              {t(industry)}
+-            </span>
+-          </div>
+-        ))}
++        <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
++          <Reveal className="lg:col-span-5">
++            <div className="relative aspect-[4/3] overflow-hidden bg-navy lg:aspect-auto lg:h-full lg:min-h-[480px]">
++              {IMAGES.industries && (
++                <Image
++                  src={IMAGES.industries}
++                  alt=""
++                  fill
++                  sizes="(min-width: 1024px) 40vw, 100vw"
++                  className="object-cover"
++                />
++              )}
++            </div>
++          </Reveal>
++
++          <ul className="lg:col-span-7">
++            {INDUSTRIES.map((ind, i) => (
++              <Reveal
++                as="li"
++                key={ind.name}
++                delay={i * 60}
++                className="group grid grid-cols-[3rem_1fr] items-baseline gap-x-4 border-t border-line py-6 last:border-b sm:grid-cols-[3rem_14rem_1fr]"
++              >
++                  <span className="font-data text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
++                  <h3 className="font-display text-xl font-semibold text-ink transition-colors group-hover:text-blue">
++                    {t(ind.name)}
++                  </h3>
++                  <p className="col-start-2 mt-1 text-sm leading-relaxed text-muted sm:col-start-3 sm:mt-0">
++                    {t(ind.desc)}
++                  </p>
++              </Reveal>
++            ))}
++          </ul>
++        </div>
+       </div>
+     </section>
+   );
+diff --git a/src/components/ProcessSection.tsx b/src/components/ProcessSection.tsx
+index b0cca1b..6fd7747 100644
+--- a/src/components/ProcessSection.tsx
++++ b/src/components/ProcessSection.tsx
+@@ -1,56 +1,57 @@
++"use client";
++
++import { useTranslation } from "@/components/TranslationProvider";
++import Reveal from "@/components/Reveal";
++import SectionHeading from "@/components/SectionHeading";
++
++// Alur disusun dari layanan yang sudah Anda sebutkan di situs
++// (antar-jemput, pemeriksaan, pengujian, garansi). Sesuaikan jika praktiknya berbeda.
+ const STEPS = [
+   {
+-    num: "01",
+-    title: "Kajian & Rekayasa Dasar",
+-    desc: "Studi kelayakan teknis dan desain awal disusun bersama tim engineering klien.",
++    title: "Penjemputan Unit",
++    desc: "Tim kami menjemput motor dari lokasi Anda, tanpa biaya antar-jemput.",
++  },
++  {
++    title: "Inspeksi & Diagnosis",
++    desc: "Pemeriksaan menyeluruh untuk menemukan sumber kerusakan dan menentukan lingkup perbaikan.",
+   },
+   {
+-    num: "02",
+-    title: "Rekayasa Detail",
+-    desc: "Spesifikasi sistem, simulasi proses, dan dokumen konstruksi diselesaikan.",
++    title: "Rewinding & Perbaikan",
++    desc: "Penggulungan ulang dan perbaikan komponen elektrikal maupun mekanikal oleh teknisi berpengalaman.",
+   },
+   {
+-    num: "03",
+-    title: "Instalasi & Commissioning",
+-    desc: "Pemasangan di lapangan dengan pengujian bertahap sebelum serah terima.",
++    title: "Pengujian",
++    desc: "Setiap unit diuji sebelum dikembalikan untuk memastikan performa sesuai standar.",
+   },
+   {
+-    num: "04",
+-    title: "Operasional & Perawatan",
+-    desc: "Pemantauan berkelanjutan dan dukungan teknis sepanjang masa pakai sistem.",
++    title: "Pengiriman & Garansi",
++    desc: "Unit dikirim kembali siap pakai, dengan garansi yang disesuaikan jenis pekerjaan.",
+   },
+ ];
+ 
+ export default function ProcessSection() {
++  const { t } = useTranslation();
+   return (
+-    <section id="proses" className="bg-panel py-28">
++    <section id="proses" className="bg-navy py-24 text-white lg:py-32">
+       <div className="mx-auto max-w-7xl px-6 lg:px-10">
+-        <p className="eyebrow text-xs text-blue">Cara Kami Bekerja</p>
+-        <h2 className="mt-4 max-w-lg font-display text-4xl font-semibold tracking-tight text-ink">
+-          Satu alur kerja dari konsep hingga operasional.
+-        </h2>
++        <Reveal>
++          <SectionHeading invert eyebrow="Cara Kami Bekerja" title="Dari penjemputan hingga motor kembali berputar." />
++        </Reveal>
+ 
+-        <ol className="mt-16 grid grid-cols-1 gap-0 md:grid-cols-4">
++        <ol className="mt-16 grid grid-cols-1 gap-y-10 md:grid-cols-5 md:gap-x-0">
+           {STEPS.map((step, i) => (
+-            <li
+-              key={step.num}
+-              className="relative border-t border-line pt-6 md:pr-8"
+-            >
+-              <span
+-                className="absolute -top-px left-0 h-px bg-blue transition-all duration-700"
+-                style={{ width: i === 0 ? "100%" : "0%" }}
+-                aria-hidden="true"
+-              />
+-              <span className="font-data text-sm text-muted">
+-                {step.num}
+-              </span>
+-              <h3 className="mt-4 font-display text-lg font-semibold text-ink">
+-                {step.title}
+-              </h3>
+-              <p className="mt-2 text-sm leading-relaxed text-muted">
+-                {step.desc}
+-              </p>
+-            </li>
++            <Reveal as="li" key={step.title} delay={i * 100} className="relative md:pr-8">
++                <div className="flex items-center gap-4">
++                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-blue-bright font-data text-sm text-blue-bright">
++                    {String(i + 1).padStart(2, "0")}
++                  </span>
++                  {i < STEPS.length - 1 && (
++                    <span className="hidden h-px flex-1 bg-line-invert md:block" aria-hidden="true" />
++                  )}
++                </div>
++                <h3 className="mt-6 font-display text-lg font-semibold text-white">{t(step.title)}</h3>
++                <p className="mt-2 text-sm leading-relaxed text-muted-invert">{t(step.desc)}</p>
++            </Reveal>
+           ))}
+         </ol>
+       </div>
+diff --git a/src/components/Reveal.tsx b/src/components/Reveal.tsx
+new file mode 100644
+index 0000000..d77790f
+--- /dev/null
++++ b/src/components/Reveal.tsx
+@@ -0,0 +1,44 @@
++"use client";
++
++import { useEffect, useRef, type ReactNode, type RefObject } from "react";
++
++/** Memunculkan konten dengan fade-up halus saat di-scroll ke layar. */
++export default function Reveal({
++  children,
++  className = "",
++  delay = 0,
++  as: Tag = "div",
++}: {
++  children: ReactNode;
++  className?: string;
++  delay?: number;
++  as?: "div" | "li";
++}) {
++  const ref = useRef<HTMLElement>(null);
++
++  useEffect(() => {
++    const el = ref.current;
++    if (!el) return;
++    const io = new IntersectionObserver(
++      ([entry]) => {
++        if (entry.isIntersecting) {
++          el.classList.add("is-visible");
++          io.disconnect();
++        }
++      },
++      { rootMargin: "0px 0px -10% 0px" }
++    );
++    io.observe(el);
++    return () => io.disconnect();
++  }, []);
++
++  return (
++    <Tag
++      ref={ref as RefObject<HTMLDivElement & HTMLLIElement>}
++      className={`reveal ${className}`}
++      style={{ transitionDelay: `${delay}ms` }}
++    >
++      {children}
++    </Tag>
++  );
++}
+diff --git a/src/components/SectionHeading.tsx b/src/components/SectionHeading.tsx
+new file mode 100644
+index 0000000..8aa63dd
+--- /dev/null
++++ b/src/components/SectionHeading.tsx
+@@ -0,0 +1,39 @@
++"use client";
++
++import { useTranslation } from "@/components/TranslationProvider";
++
++export default function SectionHeading({
++  eyebrow,
++  title,
++  invert = false,
++  className = "",
++}: {
++  eyebrow: string;
++  title: string;
++  invert?: boolean;
++  className?: string;
++}) {
++  const { t } = useTranslation();
++  return (
++    <div className={className}>
++      <p
++        className={`eyebrow flex items-center gap-2 text-xs ${
++          invert ? "text-muted-invert" : "text-muted"
++        }`}
++      >
++        <span
++          className={`h-1.5 w-1.5 rounded-full ${invert ? "bg-blue-bright" : "bg-blue"}`}
++          aria-hidden="true"
++        />
++        {t(eyebrow)}
++      </p>
++      <h2
++        className={`mt-4 max-w-2xl font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl ${
++          invert ? "text-white" : "text-ink"
++        }`}
++      >
++        {t(title)}
++      </h2>
++    </div>
++  );
++}
+diff --git a/src/components/ServicesGrid.tsx b/src/components/ServicesGrid.tsx
+index 78911f4..f38e941 100644
+--- a/src/components/ServicesGrid.tsx
++++ b/src/components/ServicesGrid.tsx
+@@ -1,67 +1,89 @@
+ "use client";
+ 
++import Image from "next/image";
+ import { useTranslation } from "@/components/TranslationProvider";
++import Reveal from "@/components/Reveal";
++import SectionHeading from "@/components/SectionHeading";
++import ArrowIcon from "@/components/ArrowIcon";
++import { IMAGES } from "@/lib/site-images";
+ 
+ const SERVICES = [
+   {
+     code: "01",
+     title: "Electrical Motor Rewinding",
+     desc: "Perbaikan dan rewinding untuk berbagai jenis motor dan peralatan listrik industri, dari low voltage hingga high voltage.",
++    image: IMAGES.services.rewinding,
+   },
+   {
+     code: "02",
+     title: "Mechanical Services",
+     desc: "Layanan perbaikan dan pemeliharaan komponen mekanikal untuk mendukung performa mesin industri Anda.",
++    image: IMAGES.services.mechanical,
+   },
+   {
+     code: "03",
+     title: "Transformer Maintenance",
+     desc: "Perawatan dan pemeriksaan transformator untuk memastikan performa optimal dan keamanan operasional.",
++    image: IMAGES.services.transformer,
+   },
+ ];
+ 
+ export default function ServicesGrid() {
+   const { t } = useTranslation();
+   return (
+-    <section id="layanan" className="mx-auto max-w-7xl bg-paper px-6 py-28 lg:px-10">
+-      <div className="flex flex-col justify-between gap-6 border-b border-line pb-10 md:flex-row md:items-end">
+-        <div>
+-          <p className="eyebrow flex items-center gap-2 text-xs text-muted">
+-            <span className="h-1.5 w-1.5 rounded-full bg-blue" aria-hidden="true" />
+-            {t("Layanan Kami")}
++    <section id="layanan" className="bg-panel py-24 lg:py-32">
++      <div className="mx-auto max-w-7xl px-6 lg:px-10">
++        <Reveal className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
++          <SectionHeading eyebrow="Layanan Kami" title="Tiga layanan inti, satu standar kualitas." />
++          <p className="max-w-sm text-base leading-relaxed text-muted">
++            {t(
++              "Setiap pekerjaan melalui pemeriksaan dan pengujian sebelum unit dikembalikan ke pelanggan."
++            )}
+           </p>
+-          <h2 className="mt-4 max-w-lg font-display text-4xl font-semibold tracking-tight text-ink">
+-            {t("Tiga layanan inti, satu standar kualitas.")}
+-          </h2>
+-        </div>
+-        <p className="max-w-sm text-sm leading-relaxed text-muted">
+-          {t(
+-            "Setiap pekerjaan melalui pemeriksaan dan pengujian sebelum unit dikembalikan ke pelanggan."
+-          )}
+-        </p>
+-      </div>
++        </Reveal>
+ 
+-      <div className="grid grid-cols-1 sm:grid-cols-3">
+-        {SERVICES.map((service) => (
+-          <div
+-            key={service.code}
+-            className="group border-b border-r border-line px-6 py-10 first:border-l"
+-          >
+-            <span className="eyebrow text-xs text-muted">{service.code}</span>
+-            <h3 className="mt-6 font-display text-xl font-semibold text-ink">
+-              {t(service.title)}
+-            </h3>
+-            <p className="mt-3 text-sm leading-relaxed text-muted">
+-              {t(service.desc)}
+-            </p>
+-            <a
+-              href="#kontak"
+-              className="mt-6 inline-block text-sm font-medium text-ink transition-colors hover:text-blue"
+-            >
+-              {t("Lebih Detail")} →
+-            </a>
+-          </div>
+-        ))}
++        <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-3">
++          {SERVICES.map((s, i) => (
++            <Reveal key={s.code} delay={i * 100}>
++              <a
++                href="#kontak"
++                className="group flex h-full flex-col bg-paper transition-shadow hover:shadow-[0_20px_50px_-20px_rgba(15,30,61,0.35)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue"
++              >
++                <div className="relative aspect-[4/3] overflow-hidden bg-navy">
++                  {s.image ? (
++                    <Image
++                      src={s.image}
++                      alt=""
++                      fill
++                      sizes="(min-width: 768px) 33vw, 100vw"
++                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
++                    />
++                  ) : (
++                    <span
++                      className="absolute inset-0 flex items-center justify-center font-display text-7xl font-semibold text-white/10"
++                      aria-hidden="true"
++                    >
++                      {s.code}
++                    </span>
++                  )}
++                  <span className="absolute left-0 top-0 bg-paper px-3 py-2 font-data text-xs text-ink">
++                    {s.code}
++                  </span>
++                </div>
++                <div className="flex flex-1 flex-col p-7 lg:p-8">
++                  <h3 className="font-display text-2xl font-semibold leading-tight text-ink">
++                    {t(s.title)}
++                  </h3>
++                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{t(s.desc)}</p>
++                  <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-ink transition-colors group-hover:text-blue">
++                    {t("Lebih Detail")}
++                    <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
++                  </span>
++                </div>
++              </a>
++            </Reveal>
++          ))}
++        </div>
+       </div>
+     </section>
+   );
+diff --git a/src/components/StatsBar.tsx b/src/components/StatsBar.tsx
+index 465eedd..6ef6def 100644
+--- a/src/components/StatsBar.tsx
++++ b/src/components/StatsBar.tsx
+@@ -1,33 +1,38 @@
+ "use client";
+ 
+ import { useTranslation } from "@/components/TranslationProvider";
++import Reveal from "@/components/Reveal";
+ 
+ const STATS = [
+-  { value: "10+", unit: "tahun", label: "Pengalaman rewinding & perbaikan" },
++  { value: "10+", unit: "tahun", label: "Pengalaman rewinding & perbaikan motor listrik" },
+   { value: "3", unit: "workshop", label: "Tangerang, Bekasi & Mojokerto" },
+   { value: "6", unit: "sektor", label: "Industri yang kami layani" },
+-  { value: "24/7", unit: "", label: "Layanan darurat & antar-jemput" },
++  { value: "24/7", unit: "", label: "Layanan darurat & antar-jemput unit" },
+ ];
+ 
+ export default function StatsBar() {
+   const { t } = useTranslation();
+   return (
+-    <section className="relative z-10 border-y border-line bg-panel">
+-      <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-line px-6 lg:grid-cols-4 lg:px-10">
+-        {STATS.map((stat) => (
+-          <div key={stat.label} className="px-6 py-10 first:pl-0">
+-            <div className="flex items-baseline gap-1 font-data">
+-              <span className="text-3xl font-medium text-ink lg:text-4xl">
++    <section aria-label={t("Megawatt dalam angka")} className="border-b border-line bg-paper">
++      <div className="mx-auto grid max-w-7xl grid-cols-2 px-6 lg:grid-cols-4 lg:px-10">
++        {STATS.map((stat, i) => (
++          <Reveal
++            key={stat.label}
++            delay={i * 80}
++            className={`py-12 lg:py-16 ${i % 2 === 1 ? "pl-6" : "pr-6"} lg:px-8 lg:first:pl-0 ${
++              i > 0 ? "lg:border-l lg:border-line" : ""
++            } ${i % 2 === 1 ? "border-l border-line lg:border-l" : ""} ${
++              i >= 2 ? "border-t border-line lg:border-t-0" : ""
++            }`}
++          >
++            <div className="flex items-baseline gap-2">
++              <span className="font-display text-5xl font-semibold tracking-tight text-ink lg:text-6xl">
+                 {stat.value}
+               </span>
+-              {stat.unit && (
+-                <span className="text-sm text-muted">{t(stat.unit)}</span>
+-              )}
++              {stat.unit && <span className="text-base text-muted">{t(stat.unit)}</span>}
+             </div>
+-            <p className="mt-2 max-w-[16ch] text-sm leading-snug text-muted">
+-              {t(stat.label)}
+-            </p>
+-          </div>
++            <p className="mt-3 max-w-[24ch] text-sm leading-snug text-muted">{t(stat.label)}</p>
++          </Reveal>
+         ))}
+       </div>
+     </section>
+diff --git a/src/components/WhyUs.tsx b/src/components/WhyUs.tsx
+index df90ccd..78e30a7 100644
+--- a/src/components/WhyUs.tsx
++++ b/src/components/WhyUs.tsx
+@@ -1,35 +1,31 @@
+ "use client";
+ 
+ import { useTranslation } from "@/components/TranslationProvider";
++import Reveal from "@/components/Reveal";
++import SectionHeading from "@/components/SectionHeading";
+ 
+ const REASONS = [
+   {
+-    num: "01",
+     title: "Pelayanan 24 Jam",
+     desc: "Layanan tersedia 24 jam untuk memastikan operasional industri Anda tetap berjalan tanpa hambatan.",
+   },
+   {
+-    num: "02",
+     title: "Gratis Antar-Jemput",
+     desc: "Layanan antar-jemput unit gratis untuk kemudahan dan efisiensi pelanggan.",
+   },
+   {
+-    num: "03",
+     title: "Layanan Pemeriksaan",
+     desc: "Didukung fasilitas pemeriksaan lengkap untuk hasil kerja yang akurat dan terpercaya.",
+   },
+   {
+-    num: "04",
+     title: "Harga & Kualitas",
+     desc: "Kombinasi kualitas pekerjaan tinggi dengan harga yang kompetitif.",
+   },
+   {
+-    num: "05",
+     title: "Fleksibilitas Garansi",
+     desc: "Garansi layanan yang fleksibel, disesuaikan dengan kebutuhan dan jenis pekerjaan.",
+   },
+   {
+-    num: "06",
+     title: "Layanan Servis",
+     desc: "Layanan servis profesional untuk perbaikan dan perawatan berbagai peralatan elektromekanis.",
+   },
+@@ -38,29 +34,26 @@ const REASONS = [
+ export default function WhyUs() {
+   const { t } = useTranslation();
+   return (
+-    <section id="keunggulan" className="bg-panel py-28">
+-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+-        <p className="eyebrow flex items-center gap-2 text-xs text-muted">
+-          <span className="h-1.5 w-1.5 rounded-full bg-blue" aria-hidden="true" />
+-          {t("Keunggulan")}
+-        </p>
+-        <h2 className="mt-4 max-w-lg font-display text-4xl font-semibold tracking-tight text-ink">
+-          {t("Mengapa memilih Megawatt Power Listrindo?")}
+-        </h2>
++    <section id="keunggulan" className="bg-paper py-24 lg:py-32">
++      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-12 lg:gap-16 lg:px-10">
++        <div className="lg:col-span-4">
++          <Reveal className="lg:sticky lg:top-32">
++            <SectionHeading eyebrow="Keunggulan" title="Mengapa memilih Megawatt?" />
++            <p className="mt-6 max-w-sm text-base leading-relaxed text-muted">
++              {t(
++                "Motor yang berhenti berarti produksi yang berhenti. Karena itu kami membangun layanan di sekitar satu tujuan: mengembalikan peralatan Anda secepat dan seandal mungkin."
++              )}
++            </p>
++          </Reveal>
++        </div>
+ 
+-        <div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+-          {REASONS.map((reason) => (
+-            <div key={reason.num} className="border-t border-line pt-6">
+-              <span className="font-data text-sm text-muted">
+-                {reason.num}
+-              </span>
+-              <h3 className="mt-4 font-display text-lg font-semibold text-ink">
+-                {t(reason.title)}
+-              </h3>
+-              <p className="mt-2 text-sm leading-relaxed text-muted">
+-                {t(reason.desc)}
+-              </p>
+-            </div>
++        <div className="grid grid-cols-1 gap-x-10 sm:grid-cols-2 lg:col-span-8">
++          {REASONS.map((r, i) => (
++            <Reveal key={r.title} delay={(i % 2) * 100} className="border-t border-line py-8">
++              <span className="font-data text-xs text-blue">{String(i + 1).padStart(2, "0")}</span>
++              <h3 className="mt-4 font-display text-xl font-semibold text-ink">{t(r.title)}</h3>
++              <p className="mt-2 text-sm leading-relaxed text-muted">{t(r.desc)}</p>
++            </Reveal>
+           ))}
+         </div>
+       </div>
+diff --git a/src/lib/site-images.ts b/src/lib/site-images.ts
+new file mode 100644
+index 0000000..e2ff9e0
+--- /dev/null
++++ b/src/lib/site-images.ts
+@@ -0,0 +1,25 @@
++// src/lib/site-images.ts
++// Semua foto di halaman depan dikumpulkan di sini supaya mudah diganti.
++//
++// SEMENTARA: foto dari Pexels (gratis untuk komersial, tanpa atribusi).
++// Ganti dengan foto asli workshop Megawatt: simpan di /public/images/...
++// lalu ubah nilainya, mis. "/images/rewinding.jpg".
++// Nilai null = belum ada foto; komponen akan menampilkan panel navy sebagai pengganti.
++
++const pexels = (id: number) =>
++  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=1600`;
++
++export const IMAGES = {
++  // Teknisi menguji kabel motor — idealnya: tim Megawatt di workshop
++  about: pexels(33531832) as string | null,
++  services: {
++    // Idealnya: gulungan tembaga / stator yang sedang di-rewind
++    rewinding: pexels(34194564) as string | null,
++    // Idealnya: pekerjaan bearing, shaft, balancing, atau machining
++    mechanical: null as string | null,
++    // Gardu dengan transformator — idealnya: trafo yang sedang dirawat tim Anda
++    transformer: pexels(236089) as string | null,
++  },
++  // Tambang terbuka — idealnya: foto di lokasi pelanggan (dengan izin)
++  industries: pexels(2566850) as string | null,
++};

@@ -8,6 +8,7 @@
   --blue: #1b9ad6;
   --blue-bright: #4bbee9;
   --blue-soft: #eaf5fb;
+  --blue-deep: #0e6ea3; /* biru gelap: teks putih tetap kontras */
   --muted: #5b6773;
   --muted-invert: #a6b3c4;
   --line: #e5e8ec;
@@ -22,6 +23,7 @@
   --color-blue: var(--blue);
   --color-blue-bright: var(--blue-bright);
   --color-blue-soft: var(--blue-soft);
+  --color-blue-deep: var(--blue-deep);
   --color-muted: var(--muted);
   --color-muted-invert: var(--muted-invert);
   --color-line: var(--line);
@@ -121,5 +123,27 @@ body {
   .coil-pulse {
     animation: none;
     opacity: 0.85;
+  }
+}
+
+/* Scroll reveal — halus, gaya abb.com / sulzer.com */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

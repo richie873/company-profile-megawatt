@@ -1,46 +1,63 @@
 "use client";
 
+import Image from "next/image";
 import { useTranslation } from "@/components/TranslationProvider";
+import Reveal from "@/components/Reveal";
+import SectionHeading from "@/components/SectionHeading";
+import { IMAGES } from "@/lib/site-images";
 
 const INDUSTRIES = [
-  "Pembangkit Listrik",
-  "Manufaktur",
-  "Pertambangan",
-  "Minyak & Gas",
-  "Marinir",
-  "Utilitas",
+  { name: "Pembangkit Listrik", desc: "Motor pompa, fan, dan peralatan bantu pembangkit." },
+  { name: "Pertambangan", desc: "Motor conveyor, crusher, dan alat berat di area tambang." },
+  { name: "Manufaktur", desc: "Motor lini produksi, kompresor, dan mesin proses." },
+  { name: "Minyak & Gas", desc: "Motor pompa dan kompresor di fasilitas hulu hingga hilir." },
+  { name: "Maritim", desc: "Motor dan generator untuk kapal serta pelabuhan." },
+  { name: "Utilitas", desc: "Motor dan transformator untuk air, listrik, dan infrastruktur." },
 ];
 
 export default function IndustriesStrip() {
   const { t } = useTranslation();
   return (
-    <section id="industri" className="mx-auto max-w-7xl bg-paper px-6 py-28 lg:px-10">
-      <div className="flex flex-col justify-between gap-6 border-b border-line pb-10 md:flex-row md:items-end">
-        <div>
-          <p className="eyebrow flex items-center gap-2 text-xs text-muted">
-            <span className="h-1.5 w-1.5 rounded-full bg-blue" aria-hidden="true" />
-            {t("Industri yang Kami Layani")}
-          </p>
-          <h2 className="mt-4 max-w-lg font-display text-4xl font-semibold tracking-tight text-ink">
-            {t("Dipercaya lintas sektor industri berat.")}
-          </h2>
-        </div>
-      </div>
+    <section id="industri" className="bg-panel py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <Reveal>
+          <SectionHeading eyebrow="Industri yang Kami Layani" title="Dipercaya lintas sektor industri berat." />
+        </Reveal>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
-        {INDUSTRIES.map((industry, i) => (
-          <div
-            key={industry}
-            className="group flex aspect-square flex-col justify-between border-b border-r border-line p-5 first:border-l lg:first:border-l"
-          >
-            <span className="font-data text-xs text-muted">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <span className="font-display text-base font-semibold leading-tight text-ink transition-colors group-hover:text-blue">
-              {t(industry)}
-            </span>
-          </div>
-        ))}
+        <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
+          <Reveal className="lg:col-span-5">
+            <div className="relative aspect-[4/3] overflow-hidden bg-navy lg:aspect-auto lg:h-full lg:min-h-[480px]">
+              {IMAGES.industries && (
+                <Image
+                  src={IMAGES.industries}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover"
+                />
+              )}
+            </div>
+          </Reveal>
+
+          <ul className="lg:col-span-7">
+            {INDUSTRIES.map((ind, i) => (
+              <Reveal
+                as="li"
+                key={ind.name}
+                delay={i * 60}
+                className="group grid grid-cols-[3rem_1fr] items-baseline gap-x-4 border-t border-line py-6 last:border-b sm:grid-cols-[3rem_14rem_1fr]"
+              >
+                  <span className="font-data text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="font-display text-xl font-semibold text-ink transition-colors group-hover:text-blue">
+                    {t(ind.name)}
+                  </h3>
+                  <p className="col-start-2 mt-1 text-sm leading-relaxed text-muted sm:col-start-3 sm:mt-0">
+                    {t(ind.desc)}
+                  </p>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );
