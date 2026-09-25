@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Company Profile — PT. Megawatt Power Listrindo
 
-## Getting Started
+Situs company profile berbasis Next.js (App Router), Tailwind CSS v4, dan TypeScript.
 
-First, run the development server:
+## Menjalankan di laptop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # buka http://localhost:3000
+npm run build   # cek sebelum push
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Di mana mengubah isi situs
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Yang ingin diubah | File |
+| --- | --- |
+| Layanan, industri, keunggulan, kontak, alamat workshop, portofolio, berita, fasilitas | `src/content/site.ts` |
+| Foto di halaman depan & halaman lain | `src/lib/site-images.ts` (simpan foto di `public/images/`) |
+| Video hero | `public/hero/hero.mp4` (lihat komentar di `src/components/Hero.tsx`) |
+| Warna & font | `src/app/globals.css`, `src/app/layout.tsx` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Halaman
 
-## Learn More
+`/` · `/tentang-kami` · `/layanan` · `/layanan/[slug]` · `/industri` · `/fasilitas` · `/portofolio` · `/berita` · `/kontak` · `/kebijakan-privasi`
 
-To learn more about Next.js, take a look at the following resources:
+Menu Portofolio dan Berita otomatis muncul setelah datanya diisi di `src/content/site.ts`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Belum diisi
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [ ] Alamat workshop (`WORKSHOP` di `src/content/site.ts`) — selama kosong, muncul kotak pengingat saat `npm run dev`
+- [ ] Portofolio, berita, dan daftar peralatan fasilitas
+- [ ] Periksa teks bertanda `DRAFT` di `src/content/site.ts`
+- [ ] Ganti foto Pexels sementara dengan foto asli workshop
+- [ ] Video hero tanpa watermark
 
-## Deploy on Vercel
+## Environment variables (Vercel)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `NEXT_PUBLIC_SITE_URL` — domain final, mis. `https://megawattpowerlistrindo.com`
+- `NEXT_PUBLIC_GA_ID` — opsional, ID Google Analytics (hanya dimuat jika pengunjung menyetujui cookie analitik)

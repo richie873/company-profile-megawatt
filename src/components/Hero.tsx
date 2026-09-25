@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { useTranslation } from "@/components/TranslationProvider";
 
 /*
@@ -67,14 +68,14 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-0 -z-10 bg-black/35" />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 [text-shadow:0_1px_12px_rgb(0_0_0/0.35)] lg:px-10">
-        <p className="eyebrow font-bold flex items-center gap-2 text-5xl text-white">
+        <h1 className="eyebrow font-bold flex items-center gap-2 text-5xl text-white">
           {/* <span className="h-1.5 w-1.5 rounded-full bg-blue-bright" aria-hidden="true" /> */}
           {t("Professional Electromotor")}
           <br />
           {t("Rewinding & Engineering ")}
           <br />
           {t("Services")}
-        </p>
+        </h1>
 
         {/* <h1 className="mt-6 max-w-4xl font-display text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-5xl">
           {t("Solusi terpercaya untuk perbaikan, rewinding, dan maintenance electromotor tegangan rendah hingga tinggi untuk berbagai kebutuhan industri.")}
@@ -87,18 +88,18 @@ export default function Hero() {
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-4">
-          <a
-            href="#kontak"
+          <Link
+            href="/kontak"
             className="group inline-flex items-center gap-2 bg-blue px-7 py-3.5 text-sm font-semibold text-white [text-shadow:none] transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {t("Request Konsultasi")}
-          </a>
-          <a
-            href="#layanan"
+          </Link>
+          <Link
+            href="/layanan"
             className="inline-flex items-center border border-white/70 px-7 py-3.5 text-sm font-medium text-white transition-colors hover:border-white hover:bg-white hover:text-navy hover:[text-shadow:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {t("Lihat Layanan Kami")}
-          </a>
+          </Link>
         </div>
       </div>
       <button

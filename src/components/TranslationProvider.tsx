@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useRef,
   useState,
   type ReactNode,
@@ -113,14 +114,36 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
     bump((n) => n + 1);
   }, []);
 
+  // Teks yang baru muncul setelah bahasa diganti (mis. saat pindah halaman)
+  // dikumpulkan di sini lalu diterjemahkan setelah render.
+  const pending = useRef<Set<string>>(new Set());
+  const attempted = useRef<Set<string>>(new Set());
+  const inflight = useRef(false);
+
   const t = useCallback(
     (text: string) => {
       registered.current.add(text);
       if (lang === "id") return text;
-      return cache.get(`${lang}::${text}`) ?? text;
+      const key = `${lang}::${text}`;
+      const hit = cache.get(key);
+      if (hit) return hit;
+      if (!attempted.current.has(key)) pending.current.add(text);
+      return text;
     },
     [lang]
   );
+
+  useEffect(() => {
+    if (lang === "id" || loading || inflight.current || pending.current.size === 0) return;
+    const batch = Array.from(pending.current);
+    pending.current.clear();
+    batch.forEach((text) => attempted.current.add(`${lang}::${text}`));
+    inflight.current = true;
+    translateBatch(batch, lang).then(() => {
+      inflight.current = false;
+      bump((n) => n + 1);
+    });
+  });
 
   return (
     <TranslationContext.Provider value={{ lang, loading, setLang, t }}>

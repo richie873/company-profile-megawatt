@@ -1,37 +1,26 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { openCookieSettings } from "@/lib/consent";
+import { COMPANY, NEWS, PROJECTS, SERVICES, WORKSHOP, hasWorkshop } from "@/content/site";
 import { useTranslation } from "@/components/TranslationProvider";
 
 const COLUMNS = [
   {
     title: "Layanan",
-    links: [
-      "Electrical Motor Rewinding",
-      "Mechanical Services",
-      "Transformer Maintenance",
-    ],
+    links: SERVICES.map((svc) => ({ label: svc.title, href: `/layanan/${svc.slug}` })),
   },
   {
     title: "Perusahaan",
-    links: ["Tentang Kami", "Fasilitas", "Portofolio", "Berita"],
-  },
-];
-
-const WORKSHOPS = [
-  {
-    city: "Tangerang",
-    address:
-      "Pergudangan Surya Grand Cisoka, Sentra Bumi Niaga Blok E/08, Jl. Raya Cisoka, Balaraja, Tangerang, Banten 15730",
-  },
-  {
-    city: "Bekasi",
-    address:
-      "Jl. Raya Pilar Sukatani KM 4, Desa Sukaraya No. 9, Cikarang, Bekasi, Jawa Barat 17823",
-  },
-  {
-    city: "Mojokerto",
-    address: "Jl. Raya Sidorejo No. 89, Jetis, Mojokerto, Jawa Timur 61352",
+    links: [
+      { label: "Tentang Kami", href: "/tentang-kami" },
+      { label: "Industri", href: "/industri" },
+      { label: "Fasilitas", href: "/fasilitas" },
+      ...(PROJECTS.length ? [{ label: "Portofolio", href: "/portofolio" }] : []),
+      ...(NEWS.length ? [{ label: "Berita", href: "/berita" }] : []),
+      { label: "Kontak", href: "/kontak" },
+    ],
   },
 ];
 
@@ -55,8 +44,12 @@ export default function Footer() {
               )}
             </p>
             <div className="mt-6 space-y-1 text-sm text-white/80">
-              <p>0813 8855 605</p>
-              <p>megawattpower.listrindo@yahoo.com</p>
+              <p>
+                <a href={COMPANY.phoneHref} className="hover:text-white">{COMPANY.phoneDisplay}</a>
+              </p>
+              <p>
+                <a href={`mailto:${COMPANY.email}`} className="break-all hover:text-white">{COMPANY.email}</a>
+              </p>
             </div>
           </div>
 
@@ -65,39 +58,41 @@ export default function Footer() {
               <h4 className="eyebrow text-xs text-muted-invert">{t(col.title)}</h4>
               <ul className="mt-4 space-y-3">
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
                       className="text-sm text-white/80 transition-colors hover:text-white"
                     >
-                      {t(link)}
-                    </a>
+                      {t(link.label)}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
 
-          <div>
-            <h4 className="eyebrow text-xs text-muted-invert">{t("Workshop")}</h4>
-            <ul className="mt-4 space-y-4">
-              {WORKSHOPS.map((w) => (
-                <li key={w.city}>
-                  <p className="text-sm font-medium text-white">{w.city}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-invert">
-                    {t(w.address)}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {hasWorkshop() && (
+            <div>
+              <h4 className="eyebrow text-xs text-muted-invert">{t("Workshop")}</h4>
+              <p className="mt-4 text-sm font-medium text-white">{WORKSHOP.city}</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted-invert">{t(WORKSHOP.address)}</p>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col items-center justify-between gap-4 py-8 text-xs text-muted-invert md:flex-row">
           <span>
             © {new Date().getFullYear()} {t("PT. Megawatt Power Listrindo.")}
           </span>
-          <span className="font-data">Tangerang · Bekasi · Mojokerto</span>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <Link href="/kebijakan-privasi" className="hover:text-white">
+              {t("Kebijakan Privasi")}
+            </Link>
+            <button type="button" onClick={openCookieSettings} className="hover:text-white">
+              {t("Pengaturan Cookie")}
+            </button>
+            {hasWorkshop() && <span className="font-data">{WORKSHOP.city}</span>}
+          </div>
         </div>
       </div>
     </footer>

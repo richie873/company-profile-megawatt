@@ -4,24 +4,25 @@ import Image from "next/image";
 import { useTranslation } from "@/components/TranslationProvider";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
+import Link from "next/link";
+import ArrowIcon from "@/components/ArrowIcon";
 import { IMAGES } from "@/lib/site-images";
-
-const INDUSTRIES = [
-  { name: "Pembangkit Listrik", desc: "Motor pompa, fan, dan peralatan bantu pembangkit." },
-  { name: "Pertambangan", desc: "Motor conveyor, crusher, dan alat berat di area tambang." },
-  { name: "Manufaktur", desc: "Motor lini produksi, kompresor, dan mesin proses." },
-  { name: "Minyak & Gas", desc: "Motor pompa dan kompresor di fasilitas hulu hingga hilir." },
-  { name: "Maritim", desc: "Motor dan generator untuk kapal serta pelabuhan." },
-  { name: "Utilitas", desc: "Motor dan transformator untuk air, listrik, dan infrastruktur." },
-];
+import { INDUSTRIES } from "@/content/site";
 
 export default function IndustriesStrip() {
   const { t } = useTranslation();
   return (
     <section id="industri" className="bg-panel py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <Reveal>
+        <Reveal className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <SectionHeading eyebrow="Industri yang Kami Layani" title="Dipercaya lintas sektor industri berat." />
+          <Link
+            href="/industri"
+            className="group inline-flex shrink-0 items-center gap-2 border-b border-ink pb-1 text-sm font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
+          >
+            {t("Lihat semua industri")}
+            <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
         </Reveal>
 
         <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">

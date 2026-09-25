@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useTranslation } from "@/components/TranslationProvider";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
@@ -49,13 +50,13 @@ export default function AboutSplit() {
               "Dengan mengutamakan kualitas pekerjaan, ketepatan waktu, dan kepuasan pelanggan, kami berkomitmen menjadi mitra teknik yang dapat diandalkan untuk menjaga performa dan efisiensi operasional mesin industri Anda."
             )}
           </p>
-          <a
-            href="#kontak"
+          <Link
+            href="/tentang-kami"
             className="group mt-10 inline-flex items-center gap-2 border-b border-ink pb-1 text-sm font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
           >
-            {t("Diskusikan kebutuhan Anda")}
+            {t("Selengkapnya tentang kami")}
             <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
+          </Link>
         </Reveal>
       </div>
     </section>

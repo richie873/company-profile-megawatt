@@ -3,6 +3,8 @@ import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { TranslationProvider } from "@/components/TranslationProvider";
 import CookieConsent from "@/components/CookieConsent";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import AnalyticsScripts from "@/components/AnalyticsScripts";
 
 const spaceGrotesk = Space_Grotesk({
@@ -24,7 +26,11 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Megawatt Power Listrindo — Electromotor Rewinding & Engineering",
+  title: {
+    default: "Megawatt Power Listrindo — Electromotor Rewinding & Engineering",
+    template: "%s — Megawatt Power Listrindo",
+  },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://megawattpowerlistrindo.com"),
   description:
     "PT. Megawatt Power Listrindo melayani perbaikan, rewinding, dan perawatan electromotor tegangan rendah hingga tinggi untuk industri energi, manufaktur, dan pertambangan di seluruh Indonesia.",
 };
@@ -37,7 +43,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col font-body bg-paper text-ink">
         <TranslationProvider>
-          {children}
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
           <CookieConsent />
         </TranslationProvider>
         <AnalyticsScripts />

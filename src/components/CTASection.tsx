@@ -3,26 +3,21 @@
 import { useTranslation } from "@/components/TranslationProvider";
 import Reveal from "@/components/Reveal";
 import ArrowIcon from "@/components/ArrowIcon";
+import { COMPANY, waLink } from "@/content/site";
 
-const WA_LINK =
-  "https://wa.me/628138855605?text=Halo%20Megawatt%2C%20saya%20ingin%20berkonsultasi%20mengenai%20perbaikan%20motor.";
+const WA_LINK = waLink();
 
 export default function CTASection() {
   const { t } = useTranslation();
 
   const contacts = [
-    { label: "WhatsApp", value: "0813 8855 605", href: WA_LINK, external: true },
-    { label: t("Telepon"), value: "0813 8855 605", href: "tel:+628138855605", external: false },
-    {
-      label: "Email",
-      value: "megawattpower.listrindo@yahoo.com",
-      href: "mailto:megawattpower.listrindo@yahoo.com",
-      external: false,
-    },
+    { label: "WhatsApp", value: COMPANY.phoneDisplay, href: WA_LINK, external: true },
+    { label: t("Telepon"), value: COMPANY.phoneDisplay, href: COMPANY.phoneHref, external: false },
+    { label: "Email", value: COMPANY.email, href: `mailto:${COMPANY.email}`, external: false },
   ];
 
   return (
-    <section id="kontak" className="bg-blue-deep py-24 text-white lg:py-28">
+    <section className="bg-blue-deep py-24 text-white lg:py-28">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-12 lg:items-end lg:px-10">
         <Reveal className="lg:col-span-7">
           <p className="eyebrow flex items-center gap-2 text-xs text-white/85">

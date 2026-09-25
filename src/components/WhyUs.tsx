@@ -3,33 +3,7 @@
 import { useTranslation } from "@/components/TranslationProvider";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
-
-const REASONS = [
-  {
-    title: "Pelayanan 24 Jam",
-    desc: "Layanan tersedia 24 jam untuk memastikan operasional industri Anda tetap berjalan tanpa hambatan.",
-  },
-  {
-    title: "Gratis Antar-Jemput",
-    desc: "Layanan antar-jemput unit gratis untuk kemudahan dan efisiensi pelanggan.",
-  },
-  {
-    title: "Layanan Pemeriksaan",
-    desc: "Didukung fasilitas pemeriksaan lengkap untuk hasil kerja yang akurat dan terpercaya.",
-  },
-  {
-    title: "Harga & Kualitas",
-    desc: "Kombinasi kualitas pekerjaan tinggi dengan harga yang kompetitif.",
-  },
-  {
-    title: "Fleksibilitas Garansi",
-    desc: "Garansi layanan yang fleksibel, disesuaikan dengan kebutuhan dan jenis pekerjaan.",
-  },
-  {
-    title: "Layanan Servis",
-    desc: "Layanan servis profesional untuk perbaikan dan perawatan berbagai peralatan elektromekanis.",
-  },
-];
+import { REASONS } from "@/content/site";
 
 export default function WhyUs() {
   const { t } = useTranslation();
