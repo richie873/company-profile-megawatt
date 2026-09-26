@@ -23,7 +23,7 @@ export default function PageHero({
   const trail: Crumb[] = [{ label: "Beranda", href: "/" }, ...crumbs];
 
   return (
-    <section className="relative isolate overflow-hidden bg-navy pt-36 pb-20 text-white lg:pt-44 lg:pb-28">
+    <section className="relative isolate overflow-hidden bg-navy pt-28 pb-14 text-white sm:pt-36 sm:pb-20 lg:pt-44 lg:pb-28">
       {image && (
         <>
           <Image src={image} alt="" fill priority sizes="100vw" className="-z-20 object-cover" />
@@ -50,15 +50,15 @@ export default function PageHero({
           </ol>
         </nav>
 
-        <p className="eyebrow mt-10 flex items-center gap-2 text-xs text-white/80">
+        <p className="eyebrow mt-8 flex sm:mt-10 items-center gap-2 text-xs text-white/80">
           <span className="h-1.5 w-1.5 rounded-full bg-blue-bright" aria-hidden="true" />
           {t(eyebrow)}
         </p>
-        <h1 className="mt-4 max-w-4xl font-display text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+        <h1 className="mt-4 max-w-4xl font-display text-3xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
           {t(title)}
         </h1>
         {intro && (
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">{t(intro)}</p>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/85 sm:mt-6 sm:text-lg">{t(intro)}</p>
         )}
       </div>
     </section>

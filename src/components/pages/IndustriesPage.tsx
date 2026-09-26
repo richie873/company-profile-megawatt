@@ -19,7 +19,7 @@ export default function IndustriesPage() {
         image={IMAGES.industries}
       />
 
-      <section className="bg-paper py-20 lg:py-28">
+      <section className="bg-paper py-14 sm:py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <div className="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
             {INDUSTRIES.map((ind, i) => (

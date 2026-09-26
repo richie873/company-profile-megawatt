@@ -75,7 +75,7 @@ export default function PortfolioPage() {
         crumbs={[{ label: "Portofolio" }]}
         image="/foto1.jpeg"
       />
-      <section className="bg-panel py-20 lg:py-28">
+      <section className="bg-panel py-14 sm:py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           {PROJECTS.length === 0 ? (
             <EmptyState
@@ -84,7 +84,7 @@ export default function PortfolioPage() {
             />
           ) : (
             <>
-              <div className="flex flex-wrap gap-2" role="tablist" aria-label={t("Filter layanan")}>
+              <div className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-2 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0" role="tablist" aria-label={t("Filter layanan")}>
                 {available.map((f) => (
                   <button
                     key={f.id}
@@ -95,7 +95,7 @@ export default function PortfolioPage() {
                       setFilter(f.id);
                       setVisible(PAGE_SIZE);
                     }}
-                    className={`border px-4 py-2 text-sm transition-colors ${
+                    className={`shrink-0 whitespace-nowrap border px-4 py-2 text-sm transition-colors ${
                       filter === f.id
                         ? "border-navy bg-navy text-white"
                         : "border-line bg-paper text-ink hover:border-blue hover:text-blue"
@@ -122,7 +122,7 @@ export default function PortfolioPage() {
                   <button
                     type="button"
                     onClick={() => setVisible((v) => v + PAGE_SIZE)}
-                    className="border border-navy px-7 py-3.5 text-sm font-semibold text-navy transition-colors hover:bg-navy hover:text-white"
+                    className="border border-navy px-5 py-2.5 text-[13px] sm:px-7 sm:py-3.5 sm:text-sm font-semibold text-navy transition-colors hover:bg-navy hover:text-white"
                   >
                     {t("Tampilkan lebih banyak")}
                   </button>

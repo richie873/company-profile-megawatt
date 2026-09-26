@@ -87,7 +87,7 @@ export default function ContactForm() {
           type="button"
           onClick={send}
           disabled={!valid}
-          className="group inline-flex shrink-0 items-center justify-center gap-2 bg-blue px-7 py-4 text-sm font-semibold text-white transition-colors hover:bg-navy disabled:cursor-not-allowed disabled:bg-ink/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+          className="group inline-flex shrink-0 items-center justify-center gap-2 self-start bg-blue px-5 py-3 text-[13px] sm:self-auto sm:px-7 sm:py-4 sm:text-sm font-semibold text-white transition-colors hover:bg-navy disabled:cursor-not-allowed disabled:bg-ink/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
         >
           {t("Kirim via WhatsApp")}
           <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />

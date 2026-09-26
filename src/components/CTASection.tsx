@@ -20,7 +20,7 @@ export default function CTASection() {
     <section className="bg-paper py-24 text-black lg:py-28">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-12 lg:items-end lg:px-10">
         <Reveal className="lg:col-span-7">
-          <h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
+          <h2 className="mt-4 max-w-2xl font-display text-3xl font-semibold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
             {t("Motor bermasalah? Tim kami siap membantu, 24 jam.")}
           </h2>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-black/90">
@@ -32,7 +32,7 @@ export default function CTASection() {
             href={WA_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="group mt-10 inline-flex items-center gap-2 rounded-full border border-black/70 px-7 py-4 text-sm font-semibold text-navy transition-colors hover:bg-blue hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            className="group mt-8 inline-flex items-center gap-2 rounded-full border border-black/70 px-5 py-2.5 text-[13px] sm:mt-10 sm:px-7 sm:py-4 sm:text-sm font-semibold text-navy transition-colors hover:bg-blue hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
             {t("Konsultasi via WhatsApp")}
             <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />

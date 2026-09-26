@@ -11,7 +11,7 @@ import { IMAGES } from "@/lib/site-images";
 export default function AboutSplit() {
   const { t } = useTranslation();
   return (
-    <section id="tentang" className="bg-paper py-24 lg:py-32">
+    <section id="tentang" className="bg-paper py-16 sm:py-24 lg:py-32">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-6 lg:grid-cols-12 lg:gap-16 lg:px-10">
         <Reveal className="lg:col-span-6">
           <div className="relative aspect-[4/5] w-full overflow-hidden bg-navy sm:aspect-[5/4] lg:aspect-[4/5]">

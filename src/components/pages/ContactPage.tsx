@@ -26,7 +26,7 @@ export default function ContactPage() {
         crumbs={[{ label: "Kontak" }]}
       />
 
-      <section className="bg-paper py-20 lg:py-28">
+      <section className="bg-paper py-14 sm:py-20 lg:py-28">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 lg:grid-cols-12 lg:px-10">
           <Reveal className="lg:col-span-7">
             <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("Kirim pesan")}</h2>
@@ -39,7 +39,7 @@ export default function ContactPage() {
           </Reveal>
 
           <Reveal delay={120} className="lg:col-span-5">
-            <div className="bg-navy p-8 text-white lg:p-10">
+            <div className="bg-navy p-6 text-white sm:p-8 lg:p-10">
               <p className="eyebrow text-[11px] text-white/70">{t("Hubungi langsung")}</p>
               <ul className="mt-6 border-t border-white/20">
                 {channels.map((c) => (
@@ -51,7 +51,7 @@ export default function ContactPage() {
                     >
                       <span>
                         <span className="eyebrow block text-[11px] text-white/70">{t(c.label)}</span>
-                        <span className="mt-1 block break-all text-lg font-medium">{c.value}</span>
+                        <span className="mt-1 block break-all text-base font-medium sm:text-lg">{c.value}</span>
                       </span>
                       <ArrowIcon className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" />
                     </a>
@@ -71,7 +71,7 @@ export default function ContactPage() {
       </section>
 
       {hasWorkshop() ? (
-        <section className="bg-panel py-20 lg:py-28">
+        <section className="bg-panel py-14 sm:py-20 lg:py-28">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <Reveal>
               <SectionHeading eyebrow="Workshop" title="Kunjungi workshop kami." />

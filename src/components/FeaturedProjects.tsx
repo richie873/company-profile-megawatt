@@ -25,7 +25,7 @@ export default function FeaturedProjects() {
   const [main, ...side] = items;
 
   return (
-    <section id="proyek" className="bg-paper py-24 lg:py-32">
+    <section id="proyek" className="bg-paper py-16 sm:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <Reveal className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <SectionHeading eyebrow="Proyek Terpilih" title="Hasil kerja nyata, di lapangan." />

@@ -61,12 +61,12 @@ function CountUp({ value, duration = 1600 }: { value: string; duration?: number 
 export default function StatsBar() {
   const { t } = useTranslation();
   return (
-    <section aria-label={t("Megawatt dalam angka")} className="relative z-10 bg-paper py-16 lg:py-5">
+    <section aria-label={t("Megawatt dalam angka")} className="relative z-10 bg-paper py-6 sm:py-10 lg:py-5">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-6 sm:gap-6 lg:grid-cols-4 lg:px-10">
         {STATS.map((stat, i) => (
           <Reveal key={stat.label} delay={i * 100} className="h-full">
-            <div className="group relative flex h-full flex-col justify-between overflow-hidden p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue/40 hover:shadow-[0_24px_50px_-24px_rgba(15,30,61,0.35)] sm:p-8">
-              <div className="mt-8 sm:mt-10">
+            <div className="group relative flex h-full flex-col justify-between overflow-hidden px-2 py-4 transition-all sm:p-6 duration-300 hover:-translate-y-1 hover:border-blue/40 hover:shadow-[0_24px_50px_-24px_rgba(15,30,61,0.35)] sm:p-8">
+              <div className="sm:mt-6 lg:mt-10">
                 <p className="font-display text-4xl font-black tracking-tight text-ink sm:text-5xl lg:text-6xl">
                   <CountUp value={stat.value} />
                 </p>

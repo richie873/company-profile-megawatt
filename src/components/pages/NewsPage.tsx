@@ -51,7 +51,7 @@ export default function NewsPage() {
         image="/foto2.jpg"
       />
 
-      <section className="bg-paper py-20 lg:py-28">
+      <section className="bg-paper py-14 sm:py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           {!featured ? (
             <EmptyState title="Belum ada berita." body="Nantikan kabar terbaru dari kami di halaman ini." />

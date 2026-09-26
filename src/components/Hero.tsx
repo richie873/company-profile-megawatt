@@ -34,7 +34,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative isolate flex min-h-screen items-center overflow-hidden bg-navy pt-24 text-white"
+      className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-navy pt-24 pb-20 text-white"
     >
       {/* Video latar */}
       <video
@@ -68,12 +68,13 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-0 -z-10 bg-black/35" />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 [text-shadow:0_1px_12px_rgb(0_0_0/0.35)] lg:px-10">
-        <h1 className="eyebrow font-bold flex items-center gap-2 text-5xl text-white">
+        <h1 className="font-data text-2xl font-bold uppercase leading-[1.2] tracking-[0.08em] text-white sm:text-3xl sm:tracking-[0.14em] md:text-4xl lg:text-5xl lg:tracking-[0.18em]">
           {/* <span className="h-1.5 w-1.5 rounded-full bg-blue-bright" aria-hidden="true" /> */}
           {t("Professional Electromotor")}
-          <br />
+          {/* Di HP baris dibiarkan mengalir; di layar lebih besar dipotong per baris */}
+          <br className="hidden sm:block" />{" "}
           {t("Rewinding & Engineering ")}
-          <br />
+          <br className="hidden sm:block" />{" "}
           {t("Services")}
         </h1>
 
@@ -81,22 +82,22 @@ export default function Hero() {
           {t("Solusi terpercaya untuk perbaikan, rewinding, dan maintenance electromotor tegangan rendah hingga tinggi untuk berbagai kebutuhan industri.")}
         </h1> */}
 
-        <p className="mt-5 max-w-xl text-xl leading-relaxed text-white">
+        <p className="mt-5 max-w-xl text-lg leading-relaxed text-white sm:text-xl">
           {t(
             "Menjaga motor industri tetap berputar."
           )}
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4">
+        <div className="mt-8 flex flex-wrap items-center gap-2 sm:mt-10 sm:gap-4">
           <Link
             href="/kontak"
-            className="group inline-flex items-center rounded-full gap-2 bg-blue px-7 py-3.5 text-sm font-semibold text-white [text-shadow:none] transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="group inline-flex items-center justify-center rounded-full gap-2 bg-blue px-4 py-2.5 text-[13px] sm:px-7 sm:py-3.5 sm:text-sm font-semibold text-white [text-shadow:none] transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {t("Request Konsultasi")}
           </Link>
           <Link
             href="/layanan"
-            className="inline-flex items-center rounded-full border border-white/70 px-7 py-3.5 text-sm font-medium text-white transition-colors hover:border-white hover:bg-white hover:text-navy hover:[text-shadow:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="inline-flex items-center justify-center rounded-full border border-white/70 px-4 py-2.5 text-[13px] sm:px-7 sm:py-3.5 sm:text-sm font-medium text-white transition-colors hover:border-white hover:bg-white hover:text-navy hover:[text-shadow:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {t("Lihat Layanan Kami")}
           </Link>
@@ -106,7 +107,7 @@ export default function Hero() {
         type="button"
         onClick={togglePlay}
         aria-label={playing ? t("Jeda video") : t("Putar video")}
-        className="absolute bottom-6 right-6 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:bg-white hover:text-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:hidden lg:bottom-10 lg:right-10"
+        className="absolute bottom-5 right-5 z-20 flex h-10 w-10 sm:bottom-6 sm:right-6 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-white/70 text-white transition-colors hover:bg-white hover:text-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:hidden lg:bottom-10 lg:right-10"
       >
         {playing ? (
           <svg viewBox="0 0 16 16" className="h-4 w-4" fill="currentColor" aria-hidden="true">

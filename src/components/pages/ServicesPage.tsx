@@ -21,7 +21,7 @@ export default function ServicesPage() {
         crumbs={[{ label: "Layanan" }]}
       />
 
-      <section className="bg-paper py-20 lg:py-28">
+      <section className="bg-paper py-14 sm:py-20 lg:py-28">
         <div className="mx-auto max-w-7xl space-y-20 px-6 lg:space-y-28 lg:px-10">
           {SERVICES.map((s, i) => (
             <Reveal key={s.slug}>
@@ -63,7 +63,7 @@ export default function ServicesPage() {
                   </ul>
                   <Link
                     href={`/layanan/${s.slug}`}
-                    className="group mt-10 inline-flex items-center gap-2 bg-navy px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-blue"
+                    className="group mt-8 inline-flex items-center gap-2 bg-navy px-5 py-2.5 text-[13px] sm:mt-10 sm:px-6 sm:py-3.5 sm:text-sm font-semibold text-white transition-colors hover:bg-blue"
                   >
                     {t("Lihat detail layanan")}
                     <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />

@@ -33,7 +33,7 @@ export default function WorkshopList() {
             href={mapsLink(WORKSHOP.address)}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 bg-navy px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-blue"
+            className="group inline-flex items-center gap-2 bg-navy px-5 py-2.5 text-[13px] sm:px-6 sm:py-3.5 sm:text-sm font-semibold text-white transition-colors hover:bg-blue"
           >
             {t("Lihat di Google Maps")}
             <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />

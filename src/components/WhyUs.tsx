@@ -8,7 +8,7 @@ import { REASONS } from "@/content/site";
 export default function WhyUs() {
   const { t } = useTranslation();
   return (
-    <section id="keunggulan" className="bg-paper py-24 lg:py-32">
+    <section id="keunggulan" className="bg-paper py-16 sm:py-24 lg:py-32">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-12 lg:gap-16 lg:px-10">
         <div className="lg:col-span-4">
           <Reveal className="lg:sticky lg:top-32">

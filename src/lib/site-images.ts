@@ -13,7 +13,7 @@ export const IMAGES = {
     // Gulungan stator motor slipring 2.800 kW
     rewinding: p("rewinding-motor-slipring-2800kw.jpg") as string | null,
     // Rotor di mesin balancing
-    mechanical: p("balancing-shaft-rotor-110kw.jpg") as string | null,
+    mechanical: p("balancing-screw.jpg") as string | null,
     // Rewinding trafo 2.800 kVA di workshop
     transformer: p("rewinding-trafo-2800kva.jpg") as string | null,
   },

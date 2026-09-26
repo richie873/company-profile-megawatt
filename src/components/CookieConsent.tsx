@@ -185,9 +185,9 @@ export default function CookieConsent() {
   const activeLabel = tabs.find((x) => x.id === activeTab)!.label;
 
   const btnOutline =
-    "border border-ink/15 px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-blue hover:text-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue";
+    "border border-ink/15 px-4 py-2.5 text-[13px] font-medium sm:px-5 sm:py-3 sm:text-sm text-ink transition-colors hover:border-blue hover:text-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue";
   const btnPrimary =
-    "bg-blue px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue";
+    "bg-blue px-4 py-2.5 text-[13px] font-semibold sm:px-5 sm:py-3 sm:text-sm text-white transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue";
 
   const modal = modalOpen ? (
     <div
@@ -301,10 +301,10 @@ export default function CookieConsent() {
                 </Link>
               </p>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:shrink-0">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 lg:shrink-0">
               <button
                 onClick={openSettings}
-                className="px-2 py-3 text-sm font-medium text-ink underline underline-offset-4 transition-colors hover:text-blue"
+                className="px-1 py-2.5 text-[13px] font-medium text-ink underline underline-offset-4 sm:px-2 sm:py-3 sm:text-sm transition-colors hover:text-blue"
               >
                 {tx.settings}
               </button>
@@ -330,7 +330,7 @@ export default function CookieConsent() {
           onClick={openSettings}
           aria-label={tx.reopen}
           title={tx.reopen}
-          className="fixed bottom-5 left-5 z-[65] flex h-11 w-11 items-center justify-center border border-line bg-paper text-ink shadow-md transition-colors hover:border-blue hover:text-blue"
+          className="fixed bottom-4 left-4 z-[65] flex h-10 w-10 sm:bottom-5 sm:left-5 sm:h-11 sm:w-11 items-center justify-center border border-line bg-paper text-ink shadow-md transition-colors hover:border-blue hover:text-blue"
           style={{ marginBottom: "env(safe-area-inset-bottom)" }}
         >
           <CookieIcon className="h-5 w-5" />

@@ -28,7 +28,7 @@ export default function SectionHeading({
         {t(eyebrow)}
       </p>
       <h2
-        className={`mt-4 max-w-2xl font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl ${
+        className={`mt-4 max-w-2xl font-display text-3xl font-semibold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl ${
           invert ? "text-white" : "text-ink"
         }`}
       >

@@ -25,7 +25,7 @@ export default function AboutPage() {
 
       <StatsBar />
 
-      <section className="bg-paper py-24 lg:py-32">
+      <section className="bg-paper py-16 sm:py-24 lg:py-32">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-12 lg:gap-16 lg:px-10">
           <Reveal className="lg:col-span-5">
             <SectionHeading eyebrow="Profil Perusahaan" title="Siapa kami." />
@@ -55,7 +55,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-panel py-24 lg:py-32">
+      <section className="bg-panel py-16 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <Reveal>
             <SectionHeading eyebrow="Nilai Kami" title="Yang kami janjikan kepada setiap pelanggan." />
@@ -73,7 +73,7 @@ export default function AboutPage() {
       </section>
 
       {hasWorkshop() ? (
-        <section className="bg-paper py-24 lg:py-32">
+        <section className="bg-paper py-16 sm:py-24 lg:py-32">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <Reveal>
               <SectionHeading eyebrow="Lokasi" title="Workshop kami." />

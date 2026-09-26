@@ -17,7 +17,7 @@ export default function NewsDetailPage({ article }: { article: NewsItem }) {
   return (
     <>
       <article>
-        <header className="bg-navy pt-36 pb-16 text-white lg:pt-44 lg:pb-20">
+        <header className="bg-navy pt-28 pb-12 text-white sm:pt-36 sm:pb-16 lg:pt-44 lg:pb-20">
           <div className="mx-auto max-w-3xl px-6">
             <nav aria-label="Breadcrumb" className="text-xs text-white/70">
               <Link href="/" className="hover:text-white">{t("Beranda")}</Link>
@@ -30,7 +30,7 @@ export default function NewsDetailPage({ article }: { article: NewsItem }) {
                 {formatDate(article.date, lang)}
               </time>
             </p>
-            <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
+            <h1 className="mt-4 font-display text-3xl font-semibold leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
               {t(article.title)}
             </h1>
           </div>
@@ -44,8 +44,8 @@ export default function NewsDetailPage({ article }: { article: NewsItem }) {
           </div>
         )}
 
-        <div className="mx-auto max-w-3xl px-6 py-16 lg:py-20">
-          <div className="space-y-6 text-lg leading-relaxed text-ink/85">
+        <div className="mx-auto max-w-3xl px-6 py-12 sm:py-16 lg:py-20">
+          <div className="space-y-5 text-base leading-relaxed sm:space-y-6 sm:text-lg text-ink/85">
             {article.body?.map((block, i) =>
               block.startsWith("## ") ? (
                 <h2 key={i} className="!mt-12 font-display text-2xl font-semibold tracking-tight text-ink">

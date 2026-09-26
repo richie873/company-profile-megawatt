@@ -23,11 +23,11 @@ export default function ServiceDetailPage({ service }: { service: Service }) {
         image={service.image}
       />
 
-      <section className="bg-paper py-20 lg:py-28">
+      <section className="bg-paper py-14 sm:py-20 lg:py-28">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-12 lg:gap-16 lg:px-10">
           <div className="lg:col-span-8">
             <Reveal>
-              <p className="text-xl leading-relaxed text-ink lg:text-2xl">{t(service.intro)}</p>
+              <p className="text-lg leading-relaxed text-ink sm:text-xl lg:text-2xl">{t(service.intro)}</p>
             </Reveal>
 
             <Reveal className="mt-16">
@@ -56,7 +56,7 @@ export default function ServiceDetailPage({ service }: { service: Service }) {
 
           <aside className="lg:col-span-4">
             <div className="space-y-6 lg:sticky lg:top-32">
-              <div className="bg-navy p-8 text-white">
+              <div className="bg-navy p-6 text-white sm:p-8">
                 <p className="eyebrow text-[11px] text-white/70">{t("Butuh layanan ini?")}</p>
                 <p className="mt-3 font-display text-2xl font-semibold leading-snug">
                   {t("Konsultasikan kondisi peralatan Anda dengan tim kami.")}
@@ -79,7 +79,7 @@ export default function ServiceDetailPage({ service }: { service: Service }) {
                 </a>
               </div>
 
-              <div className="border border-line p-8">
+              <div className="border border-line p-6 sm:p-8">
                 <p className="eyebrow text-[11px] text-muted">{t("Layanan lainnya")}</p>
                 <ul className="mt-4">
                   {others.map((o) => (

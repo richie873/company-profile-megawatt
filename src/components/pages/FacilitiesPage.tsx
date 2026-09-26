@@ -21,7 +21,7 @@ export default function FacilitiesPage() {
       />
 
       {hasWorkshop() ? (
-        <section className="bg-panel py-20 lg:py-28">
+        <section className="bg-panel py-14 sm:py-20 lg:py-28">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <Reveal>
               <SectionHeading eyebrow="Lokasi Workshop" title="Kunjungi workshop kami." />
@@ -38,7 +38,7 @@ export default function FacilitiesPage() {
       )}
 
       {FACILITIES.length > 0 && (
-        <section className="bg-paper py-20 lg:py-28">
+        <section className="bg-paper py-14 sm:py-20 lg:py-28">
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <Reveal>
               <SectionHeading eyebrow="Peralatan" title="Fasilitas pemeriksaan dan pengerjaan." />
