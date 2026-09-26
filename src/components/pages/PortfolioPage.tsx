@@ -73,6 +73,7 @@ export default function PortfolioPage() {
         title="Pekerjaan yang telah kami selesaikan."
         intro="Sebagian proyek rewinding, overhaul, dan perbaikan yang kami kerjakan untuk pelanggan industri."
         crumbs={[{ label: "Portofolio" }]}
+        image="/foto1.jpeg"
       />
       <section className="bg-panel py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">

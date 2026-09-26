@@ -12,7 +12,7 @@ import { INDUSTRIES } from "@/content/site";
 export default function IndustriesStrip() {
   const { t } = useTranslation();
   return (
-    <section id="industri" className="bg-panel py-24 lg:py-32">
+    <section id="industri" className="bg-paper py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <Reveal className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <SectionHeading eyebrow="Industri yang Kami Layani" title="Dipercaya lintas sektor industri berat." />

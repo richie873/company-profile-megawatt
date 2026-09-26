@@ -27,7 +27,7 @@ export default function PageHero({
       {image && (
         <>
           <Image src={image} alt="" fill priority sizes="100vw" className="-z-20 object-cover" />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy via-navy/85 to-navy/40" />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy/85 via-navy/60 to-navy/20" />
         </>
       )}
       <div className="mx-auto max-w-7xl px-6 lg:px-10">

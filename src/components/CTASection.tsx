@@ -20,10 +20,6 @@ export default function CTASection() {
     <section className="bg-paper py-24 text-black lg:py-28">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-12 lg:items-end lg:px-10">
         <Reveal className="lg:col-span-7">
-          <p className="eyebrow flex items-center gap-2 text-xs text-black/85">
-            <span className="h-1.5 w-1.5 rounded-full bg-black" aria-hidden="true" />
-            {t("Butuh Layanan?")}
-          </p>
           <h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
             {t("Motor bermasalah? Tim kami siap membantu, 24 jam.")}
           </h2>

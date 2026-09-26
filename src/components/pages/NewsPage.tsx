@@ -48,6 +48,7 @@ export default function NewsPage() {
         title="Wawasan & kabar terbaru."
         intro="Artikel teknis seputar perawatan motor listrik dan transformator, serta kabar terbaru dari Megawatt."
         crumbs={[{ label: "Berita" }]}
+        image="/foto2.jpg"
       />
 
       <section className="bg-paper py-20 lg:py-28">
