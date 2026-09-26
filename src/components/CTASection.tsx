@@ -17,17 +17,17 @@ export default function CTASection() {
   ];
 
   return (
-    <section className="bg-blue-deep py-24 text-white lg:py-28">
+    <section className="bg-paper py-24 text-black lg:py-28">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-12 lg:items-end lg:px-10">
         <Reveal className="lg:col-span-7">
-          <p className="eyebrow flex items-center gap-2 text-xs text-white/85">
-            <span className="h-1.5 w-1.5 rounded-full bg-white" aria-hidden="true" />
+          <p className="eyebrow flex items-center gap-2 text-xs text-black/85">
+            <span className="h-1.5 w-1.5 rounded-full bg-black" aria-hidden="true" />
             {t("Butuh Layanan?")}
           </p>
           <h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
             {t("Motor bermasalah? Tim kami siap membantu, 24 jam.")}
           </h2>
-          <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/90">
+          <p className="mt-6 max-w-lg text-lg leading-relaxed text-black/90">
             {t(
               "Ceritakan kondisi motor Anda. Kami akan membantu menentukan langkah perbaikan yang tepat, termasuk penjemputan unit."
             )}
@@ -36,7 +36,7 @@ export default function CTASection() {
             href={WA_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="group mt-10 inline-flex items-center gap-2 bg-white px-7 py-4 text-sm font-semibold text-navy transition-colors hover:bg-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="group mt-10 inline-flex items-center gap-2 rounded-full border border-black/70 px-7 py-4 text-sm font-semibold text-navy transition-colors hover:bg-blue hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
             {t("Konsultasi via WhatsApp")}
             <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -44,16 +44,16 @@ export default function CTASection() {
         </Reveal>
 
         <Reveal delay={120} className="lg:col-span-5">
-          <ul className="border-t border-white/35">
+          <ul className="border-t border-black/35">
             {contacts.map((c) => (
-              <li key={c.label} className="border-b border-white/35">
+              <li key={c.label} className="border-b border-black/35">
                 <a
                   href={c.href}
                   {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   className="group flex items-center justify-between gap-4 py-5"
                 >
                   <span>
-                    <span className="eyebrow block text-[11px] text-white/85">{c.label}</span>
+                    <span className="eyebrow block text-[11px] text-black/85">{c.label}</span>
                     <span className="mt-1 block break-all text-base font-medium sm:text-lg">{c.value}</span>
                   </span>
                   <ArrowIcon className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" />

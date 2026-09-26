@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { NEWS, PROJECTS, SERVICES } from "@/content/site";
+import { NEWS, PROJECTS, SERVICES, hasBody } from "@/content/site";
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://megawattpowerlistrindo.com";
 
@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/fasilitas",
     ...(PROJECTS.length ? ["/portofolio"] : []),
     ...(NEWS.length ? ["/berita"] : []),
+    ...NEWS.filter(hasBody).map((n) => `/berita/${n.slug}`),
     "/kontak",
     "/kebijakan-privasi",
   ];
