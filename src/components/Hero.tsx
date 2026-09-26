@@ -90,13 +90,13 @@ export default function Hero() {
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <Link
             href="/kontak"
-            className="group inline-flex items-center gap-2 bg-blue px-7 py-3.5 text-sm font-semibold text-white [text-shadow:none] transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="group inline-flex items-center rounded-full gap-2 bg-blue px-7 py-3.5 text-sm font-semibold text-white [text-shadow:none] transition-colors hover:bg-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {t("Request Konsultasi")}
           </Link>
           <Link
             href="/layanan"
-            className="inline-flex items-center border border-white/70 px-7 py-3.5 text-sm font-medium text-white transition-colors hover:border-white hover:bg-white hover:text-navy hover:[text-shadow:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="inline-flex items-center rounded-full border border-white/70 px-7 py-3.5 text-sm font-medium text-white transition-colors hover:border-white hover:bg-white hover:text-navy hover:[text-shadow:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {t("Lihat Layanan Kami")}
           </Link>

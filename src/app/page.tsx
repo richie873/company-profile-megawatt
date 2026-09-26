@@ -4,6 +4,7 @@ import AboutSplit from "@/components/AboutSplit";
 import ServicesGrid from "@/components/ServicesGrid";
 import ProcessSection from "@/components/ProcessSection";
 import WhyUs from "@/components/WhyUs";
+import FeaturedProjects from "@/components/FeaturedProjects";
 import IndustriesStrip from "@/components/IndustriesStrip";
 import CTASection from "@/components/CTASection";
 
@@ -15,6 +16,7 @@ export default function Home() {
       <StatsBar />
       <ServicesGrid />
       <ProcessSection />
+      <FeaturedProjects />
       <WhyUs />
       <IndustriesStrip />
       <CTASection />

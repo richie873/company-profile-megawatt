@@ -2,7 +2,9 @@
 
 import { useTranslation } from "@/components/TranslationProvider";
 import Reveal from "@/components/Reveal";
+import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
+import { IMAGES } from "@/lib/site-images";
 
 // Alur disusun dari layanan yang sudah Anda sebutkan di situs
 // (antar-jemput, pemeriksaan, pengujian, garansi). Sesuaikan jika praktiknya berbeda.
@@ -32,7 +34,14 @@ const STEPS = [
 export default function ProcessSection() {
   const { t } = useTranslation();
   return (
-    <section id="proses" className="bg-navy py-24 text-white lg:py-32">
+    <section id="proses" className="relative isolate overflow-hidden bg-navy py-24 text-white lg:py-32">
+      {IMAGES.process && (
+        <>
+          <Image src={IMAGES.process} alt="" fill sizes="100vw" className="-z-20 object-cover" />
+          {/* Lapisan gelap agar teks putih tetap terbaca di atas foto */}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-navy/90 via-navy/80 to-navy/90" />
+        </>
+      )}
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <Reveal>
           <SectionHeading invert eyebrow="Cara Kami Bekerja" title="Dari penjemputan hingga motor kembali berputar." />
@@ -50,7 +59,7 @@ export default function ProcessSection() {
                   )}
                 </div>
                 <h3 className="mt-6 font-display text-lg font-semibold text-white">{t(step.title)}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-invert">{t(step.desc)}</p>
+                <p className="mt-2 text-sm leading-relaxed text-white/80">{t(step.desc)}</p>
             </Reveal>
           ))}
         </ol>

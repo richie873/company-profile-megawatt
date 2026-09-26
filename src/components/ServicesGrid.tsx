@@ -27,7 +27,7 @@ export default function ServicesGrid() {
             <Reveal key={s.code} delay={i * 100}>
               <Link
                 href={`/layanan/${s.slug}`}
-                className="group flex h-full flex-col bg-paper transition-shadow hover:shadow-[0_20px_50px_-20px_rgba(15,30,61,0.35)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue"
+                className="group flex h-full flex-col border border-line bg-paper transition-shadow hover:shadow-[0_20px_50px_-20px_rgba(15,30,61,0.35)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-navy">
                   {s.image ? (
