@@ -45,7 +45,7 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
           </span>
         )}
       </button>
-      <div className="flex flex-1 flex-col border-x border-b border-line p-6">
+      <div className="flex flex-1 flex-col p-6">
         {meta && <p className="eyebrow text-[11px] text-blue">{meta}</p>}
         <h2 className="mt-2 font-display text-xl font-semibold leading-snug text-ink">{t(p.title)}</h2>
         {p.client && <p className="mt-2 text-sm text-muted">{p.client}</p>}
@@ -75,7 +75,7 @@ export default function PortfolioPage() {
         crumbs={[{ label: "Portofolio" }]}
         image="/foto1.jpeg"
       />
-      <section className="bg-panel py-14 sm:py-20 lg:py-28">
+      <section className="bg-paper py-14 sm:py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           {PROJECTS.length === 0 ? (
             <EmptyState
