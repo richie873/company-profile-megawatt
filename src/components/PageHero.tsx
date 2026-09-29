@@ -36,7 +36,7 @@ export default function PageHero({
             {trail.map((c, i) => (
               <li key={c.label} className="flex items-center gap-2">
                 {c.href && i < trail.length - 1 ? (
-                  <Link href={c.href} className="transition-colors hover:text-white">
+                  <Link href={c.href} className="inline-block py-1 transition-colors hover:text-white">
                     {t(c.label)}
                   </Link>
                 ) : (

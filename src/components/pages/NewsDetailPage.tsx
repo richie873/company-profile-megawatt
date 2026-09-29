@@ -20,9 +20,9 @@ export default function NewsDetailPage({ article }: { article: NewsItem }) {
         <header className="bg-navy pt-28 pb-12 text-white sm:pt-36 sm:pb-16 lg:pt-44 lg:pb-20">
           <div className="mx-auto max-w-3xl px-6">
             <nav aria-label="Breadcrumb" className="text-xs text-white/70">
-              <Link href="/" className="hover:text-white">{t("Beranda")}</Link>
+              <Link href="/" className="inline-block py-1 hover:text-white">{t("Beranda")}</Link>
               <span className="mx-2" aria-hidden="true">/</span>
-              <Link href="/berita" className="hover:text-white">{t("Berita")}</Link>
+              <Link href="/berita" className="inline-block py-1 hover:text-white">{t("Berita")}</Link>
             </nav>
             <p className="mt-10 flex flex-wrap items-center gap-x-3 text-xs">
               {article.category && <span className="eyebrow text-[11px] text-blue-bright">{t(article.category)}</span>}

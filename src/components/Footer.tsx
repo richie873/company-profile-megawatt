@@ -85,10 +85,10 @@ export default function Footer() {
             © {new Date().getFullYear()} {t("PT. Megawatt Power Listrindo.")}
           </span>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            <Link href="/kebijakan-privasi" className="hover:text-white">
+            <Link href="/kebijakan-privasi" className="inline-block py-1 hover:text-white">
               {t("Kebijakan Privasi")}
             </Link>
-            <button type="button" onClick={openCookieSettings} className="hover:text-white">
+            <button type="button" onClick={openCookieSettings} className="py-1 hover:text-white">
               {t("Pengaturan Cookie")}
             </button>
             {hasWorkshop() && <span className="font-data">{WORKSHOP.city}</span>}

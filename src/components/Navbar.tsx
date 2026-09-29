@@ -92,7 +92,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+      className={`fixed top-0 w-full ${mobileOpen ? "z-[70]" : "z-50"} transition-all duration-300 ${
         scrolled || mobileOpen
           ? "border-b border-line bg-paper/95 backdrop-blur"
           : "border-b border-transparent bg-paper"
@@ -111,7 +111,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop */}
-        <ul className="hidden items-center gap-7 lg:flex">
+        <ul className="hidden items-center gap-5 whitespace-nowrap lg:flex xl:gap-7">
           {NAV.map((item) =>
             item.children ? (
               <li
@@ -182,7 +182,7 @@ export default function Navbar() {
           <LanguageSelector />
           <Link
             href="/kontak"
-            className="hidden border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-blue hover:text-blue lg:inline-block"
+            className="hidden whitespace-nowrap border border-ink/15 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-blue hover:text-blue xl:inline-block"
           >
             {t("Request Konsultasi")}
           </Link>
