@@ -76,7 +76,7 @@ export const SERVICES: Service[] = [
       "Penggantian Shaft",
       "Perbaikan Housing Bearing",
       "Perbaikan Journal Bearing",
-      "Rebabbitting Bearing",
+      "Rebabite Bearing",
       "Repair & Refurbishment",
       "Machining",
       "Welding",
