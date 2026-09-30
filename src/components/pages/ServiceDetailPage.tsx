@@ -31,7 +31,7 @@ export default function ServiceDetailPage({ service }: { service: Service }) {
             </Reveal>
 
             <Reveal className="mt-16">
-              <h2 className="font-display text-2xl font-semibold text-ink">{t("Lingkup pekerjaan")}</h2>
+              <h2 className="font-display text-2xl font-semibold text-ink">{t("Lingkup pekerjaan")} {t(service.lingkup)}</h2>
               <ol className="mt-8 border-t border-line">
                 {service.scope.map((item, i) => (
                   <li key={item} className="grid grid-cols-[3rem_1fr] items-baseline border-b border-line py-5">

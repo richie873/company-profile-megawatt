@@ -20,6 +20,7 @@ export type Service = {
   slug: string;
   code: string;
   title: string;
+  lingkup: string;
   summary: string;
   intro: string;
   image: string | null;
@@ -32,6 +33,7 @@ export const SERVICES: Service[] = [
     slug: "electrical-motor-rewinding",
     code: "01",
     title: "Electrical Motor Rewinding",
+    lingkup: "Electrical",
     summary:
       "Perbaikan dan rewinding untuk berbagai jenis motor dan peralatan listrik industri, dari low voltage hingga high voltage.",
     intro:
@@ -57,17 +59,28 @@ export const SERVICES: Service[] = [
     slug: "mechanical-services",
     code: "02",
     title: "Mechanical Services",
+    lingkup: "Mechanical",
     summary:
       "Layanan perbaikan dan pemeliharaan komponen mekanikal untuk mendukung performa mesin industri Anda.",
     intro:
-      "Banyak kerusakan motor berawal dari sisi mekanikal: bearing yang aus, shaft yang tidak lurus, atau housing yang rusak. Tim kami menangani perbaikan mekanikal agar motor kembali bekerja halus dan tahan lama.",
+      "Banyak kerusakan motor berawal dari sisi mekanikal seperti bearing yang aus, shaft yang tidak lurus, atau housing yang rusak. Tim kami menangani perbaikan mekanikal agar motor kembali bekerja halus dan tahan lama.",
     image: IMAGES.services.mechanical,
     // DRAFT
     scope: [
-      "Pemeriksaan getaran dan kondisi mekanikal",
-      "Penggantian bearing dan seal",
-      "Perbaikan shaft dan housing",
-      "Perbaikan komponen mekanikal pendukung",
+      "Pemeriksaan vibrasi / getaran",
+      "Balancing Onsite dan Insite",
+      "Pemeriksaan keretakan pada material besi",
+      "Balancing",
+      "Penyelarasan Laser",
+      "Perbaikan Shaft",
+      "Penggantian Shaft",
+      "Perbaikan Housing Bearing",
+      "Perbaikan Journal Bearing",
+      "Rebabbitting Bearing",
+      "Repair & Refurbishment",
+      "Machining",
+      "Welding",
+      "Pengantian Mechanical Seal",
     ],
     // DRAFT
     equipment: ["Motor listrik", "Pompa", "Gearbox", "Fan & blower"],
@@ -76,6 +89,7 @@ export const SERVICES: Service[] = [
     slug: "transformer-maintenance",
     code: "03",
     title: "Transformer Maintenance",
+    lingkup: "Transformer",
     summary:
       "Perawatan dan pemeriksaan transformator untuk memastikan performa optimal dan keamanan operasional.",
     intro:
