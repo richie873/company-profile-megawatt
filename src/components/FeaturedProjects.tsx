@@ -17,9 +17,10 @@ const FEATURED = [
 
 export default function FeaturedProjects() {
   const { t } = useTranslation();
-  const items = FEATURED.map((title) => PROJECTS.find((p) => p.title === title)).filter(
-    (p): p is (typeof PROJECTS)[number] => Boolean(p?.image)
-  );
+  // Pakai foto berlatar asli (photo) bila ada — lebih hidup sebagai foto besar dengan teks di atasnya
+  const items = FEATURED.map((title) => PROJECTS.find((p) => p.title === title))
+    .filter((p): p is (typeof PROJECTS)[number] => Boolean(p?.photo ?? p?.image))
+    .map((p) => ({ ...p, image: p.photo ?? p.image }));
   if (items.length === 0) return null;
 
   const [main, ...side] = items;

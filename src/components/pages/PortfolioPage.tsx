@@ -11,6 +11,19 @@ import { PROJECTS, SERVICES, type Project } from "@/content/site";
 
 const PAGE_SIZE = 12;
 
+// Penyeragaman ukuran foto berlatar putih (fit: "contain").
+// Objek memanjang (mis. genset) mengisi penuh lebar kartu, objek kotak terlihat lebih besar,
+// objek tinggi terlihat kecil. Supaya semuanya tampak "sama besar", tiap objek diskalakan
+// agar luasnya kira-kira TARGET_AREA dari bidang foto — dihitung otomatis dari bentuk fotonya.
+const TILE_RATIO = 4 / 3;
+const TARGET_AREA = 0.58;
+
+function containScale(ratio: number | null) {
+  if (!ratio) return 1;
+  const fill = ratio > TILE_RATIO ? TILE_RATIO / ratio : ratio / TILE_RATIO; // luas objek bila dipaskan penuh
+  return Math.min(1, Math.sqrt(TARGET_AREA / fill));
+}
+
 const FILTERS = [
   { id: "all", label: "Semua" },
   ...SERVICES.map((s) => ({ id: s.slug, label: s.title })),
@@ -18,6 +31,8 @@ const FILTERS = [
 
 function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
   const { t } = useTranslation();
+  const [ratio, setRatio] = useState<number | null>(null);
+  const contain = p.fit === "contain";
   const service = SERVICES.find((s) => s.slug === p.service);
   const meta = [p.industry && t(p.industry), p.year].filter(Boolean).join(" · ");
 
@@ -28,21 +43,32 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
         onClick={onOpen}
         disabled={!p.image}
         className={`relative block aspect-[4/3] w-full overflow-hidden disabled:cursor-default ${
-          p.fit === "contain" ? "bg-white" : "bg-navy"
+          contain ? "bg-white" : "bg-navy"
         }`}
         aria-label={`${t("Lihat foto")}: ${t(p.title)}`}
       >
         {p.image && (
-          <Image
-            src={p.image}
-            alt={t(p.title)}
-            fill
-            sizes="(min-width: 1280px) 300px, (min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 480px) 50vw, 100vw"
-            className={`transition-transform duration-700 ease-out group-hover:scale-105 ${
-              p.fit === "contain" ? "object-contain p-3 sm:p-4" : "object-cover"
-            }`}
-            style={{ objectPosition: p.focus ?? "center" }}
-          />
+          <div
+            className={`absolute inset-0 transition-[transform,opacity] duration-500 ${
+              contain ? "m-3 sm:m-4" : ""
+            } ${contain && !ratio ? "opacity-0" : "opacity-100"}`}
+            style={contain ? { transform: `scale(${containScale(ratio)})` } : undefined}
+          >
+            <Image
+              src={p.image}
+              alt={t(p.title)}
+              fill
+              sizes="(min-width: 1280px) 300px, (min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 480px) 50vw, 100vw"
+              className={`transition-transform duration-700 ease-out group-hover:scale-105 ${
+                contain ? "object-contain" : "object-cover"
+              }`}
+              style={{ objectPosition: p.focus ?? "center" }}
+              onLoad={(e) => {
+                const img = e.currentTarget;
+                if (img.naturalHeight) setRatio(img.naturalWidth / img.naturalHeight);
+              }}
+            />
+          </div>
         )}
         {service && (
           <span className="absolute left-0 top-0 bg-paper px-2.5 py-1.5 text-[10px] font-medium text-ink sm:text-[11px]">

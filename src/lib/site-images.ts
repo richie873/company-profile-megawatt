@@ -1,10 +1,12 @@
 // src/lib/site-images.ts
 // Semua foto utama situs dikumpulkan di sini supaya mudah diganti.
-// Semuanya foto asli pekerjaan Megawatt (dari portofolio) di public/images/portofolio/.
+// Foto asli pekerjaan Megawatt DENGAN latar bengkel, disimpan di public/images/situs/.
+// (Foto di public/images/portofolio/ sudah berlatar putih untuk halaman Portofolio —
+//  untuk latar section & kartu di halaman lain, foto berlatar asli terlihat lebih hidup.)
 // Untuk mengganti: simpan foto baru di /public/images/... lalu ubah path-nya.
 // Nilai null = belum ada foto; komponen akan menampilkan panel navy sebagai pengganti.
 
-const p = (file: string) => `/images/portofolio/${file}`;
+const p = (file: string) => `/images/situs/${file}`;
 
 export const IMAGES = {
   // Teknisi bekerja di dalam stator motor slipring 1.550 kW
