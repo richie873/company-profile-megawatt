@@ -27,7 +27,9 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
         type="button"
         onClick={onOpen}
         disabled={!p.image}
-        className="relative block aspect-[4/3] w-full overflow-hidden bg-navy disabled:cursor-default"
+        className={`relative block aspect-[4/3] w-full overflow-hidden disabled:cursor-default ${
+          p.fit === "contain" ? "bg-white" : "bg-navy"
+        }`}
         aria-label={`${t("Lihat foto")}: ${t(p.title)}`}
       >
         {p.image && (
@@ -35,21 +37,24 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
             src={p.image}
             alt={t(p.title)}
             fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            sizes="(min-width: 1280px) 300px, (min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 480px) 50vw, 100vw"
+            className={`transition-transform duration-700 ease-out group-hover:scale-105 ${
+              p.fit === "contain" ? "object-contain p-3 sm:p-4" : "object-cover"
+            }`}
+            style={{ objectPosition: p.focus ?? "center" }}
           />
         )}
         {service && (
-          <span className="absolute left-0 top-0 bg-paper px-3 py-2 text-[11px] font-medium text-ink">
+          <span className="absolute left-0 top-0 bg-paper px-2.5 py-1.5 text-[10px] font-medium text-ink sm:text-[11px]">
             {t(service.title)}
           </span>
         )}
       </button>
-      <div className="flex flex-1 flex-col p-6">
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
         {meta && <p className="eyebrow text-[11px] text-blue">{meta}</p>}
-        <h2 className="mt-2 font-display text-xl font-semibold leading-snug text-ink">{t(p.title)}</h2>
-        {p.client && <p className="mt-2 text-sm text-muted">{p.client}</p>}
-        {p.summary && <p className="mt-3 text-sm leading-relaxed text-muted">{t(p.summary)}</p>}
+        <h2 className="mt-1.5 font-display text-base font-semibold leading-snug text-ink sm:text-lg">{t(p.title)}</h2>
+        {p.client && <p className="mt-1.5 text-xs text-muted sm:text-sm">{p.client}</p>}
+        {p.summary && <p className="mt-2 text-sm leading-relaxed text-muted">{t(p.summary)}</p>}
       </div>
     </article>
   );
@@ -106,9 +111,9 @@ export default function PortfolioPage() {
                 ))}
               </div>
 
-              <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-8 grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 sm:mt-10 sm:gap-5 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
                 {items.slice(0, visible).map((p, i) => (
-                  <Reveal key={p.title} delay={(i % 3) * 80} className="h-full">
+                  <Reveal key={p.title} delay={(i % 4) * 70} className="h-full">
                     <ProjectCard p={p} onOpen={() => setOpen(p)} />
                   </Reveal>
                 ))}
