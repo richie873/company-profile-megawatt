@@ -6,7 +6,7 @@
 // Untuk mengganti: simpan foto baru di /public/images/... lalu ubah path-nya.
 // Nilai null = belum ada foto; komponen akan menampilkan panel navy sebagai pengganti.
 
-const p = (file: string) => `/images/situs/${file}`;
+const p = (file: string) => `/images/portofolio/${file}`;
 
 export const IMAGES = {
   // Teknisi bekerja di dalam stator motor slipring 1.550 kW
