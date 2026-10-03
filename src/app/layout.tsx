@@ -35,8 +35,8 @@ const plexMono = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Megawatt Power Listrindo — Electromotor Rewinding & Engineering",
-    template: "%s — Megawatt Power Listrindo",
+    default: "Megawatt Power Listrindo - Electromotor Rewinding & Engineering",
+    template: "%s - Megawatt Power Listrindo",
   },
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://megawattpowerlistrindo.com"),
   description:

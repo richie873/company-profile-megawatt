@@ -89,11 +89,11 @@ export default function AboutPage() {
         </div>
       )}
 
-      {IMAGES.industries && (
+      {/* {IMAGES.industries && (
         <div className="relative h-[40vh] min-h-72 w-full">
           <Image src={IMAGES.industries} alt="" fill sizes="100vw" className="object-cover" />
         </div>
-      )}
+      )} */}
 
       <CTASection />
     </>
