@@ -24,7 +24,7 @@ const MOTOR_VIDEO_DESKTOP =
   "/hero/animasi-motor-gabungan.mp4";
 
 const MOTOR_VIDEO_MOBILE =
-  "/hero/animasi-motor-mobile-9x16.mp4";
+  "/hero/animasi-motor-mobile.mp4";
 
 const HERO_POSTER: string | undefined = undefined;
 
