@@ -13,6 +13,7 @@ import { useTranslation } from "@/components/TranslationProvider";
  */
 
 const HERO_VIDEO = "/hero/hero.mp4";
+const MOTOR_VIDEO = "/hero/animasi-motor-gabungan.mp4";
 const HERO_POSTER: string | undefined = undefined; // mis. "/hero/hero-poster.jpg"
 
 // Titik fokus saat video dipotong otomatis oleh layar (mis. "50% 40%").
@@ -22,13 +23,27 @@ const FOCUS = "50% 50%";
 export default function Hero() {
   const { t } = useTranslation();
   const videoRef = useRef<HTMLVideoElement>(null);
+
   const [playing, setPlaying] = useState(true);
+  const [currentVideo, setCurrentVideo] = useState(HERO_VIDEO);
 
   const togglePlay = () => {
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) v.play();
-    else v.pause();
+
+    if (v.paused) {
+      v.play();
+    } else {
+      v.pause();
+    }
+  };
+
+  const handleVideoEnded = () => {
+    if (currentVideo === HERO_VIDEO) {
+      setCurrentVideo(MOTOR_VIDEO);
+    } else {
+      setCurrentVideo(HERO_VIDEO);
+    }
   };
 
   return (
@@ -41,13 +56,13 @@ export default function Hero() {
         ref={videoRef}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
+        onEnded={handleVideoEnded}
         className="absolute inset-0 -z-10 h-full w-full object-cover motion-reduce:hidden"
         style={{ objectPosition: FOCUS }}
-        src={HERO_VIDEO}
+        src={currentVideo}
         poster={HERO_POSTER}
         autoPlay
         muted
-        loop
         playsInline
         preload="metadata"
         aria-hidden="true"
