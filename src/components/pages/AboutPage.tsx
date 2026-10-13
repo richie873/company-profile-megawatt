@@ -9,7 +9,7 @@ import StatsBar from "@/components/StatsBar";
 import WorkshopList, { WorkshopReminder } from "@/components/WorkshopList";
 import CTASection from "@/components/CTASection";
 import { REASONS, hasWorkshop } from "@/content/site";
-import { IMAGES } from "@/lib/site-images";
+import { HERO_IMAGES } from "@/lib/site-images";
 
 export default function AboutPage() {
   const { t } = useTranslation();
@@ -20,7 +20,7 @@ export default function AboutPage() {
         title="Mitra teknik untuk motor listrik industri Indonesia."
         intro="Spesialis perbaikan, rewinding, dan perawatan electromotor tegangan rendah hingga tinggi untuk berbagai sektor industri."
         crumbs={[{ label: "Tentang Kami" }]}
-        image={IMAGES.about}
+        image={HERO_IMAGES.about}
       />
 
       <StatsBar />

@@ -30,6 +30,8 @@ export const IMAGES = {
 const h = (file: string) => `/images/hero/${file}`;
 
 export const HERO_IMAGES = {
+  about: h("tentang-kami.jpg"), // suasana workshop dengan rotor besar
+  servicesIndex: h("layanan.jpg"), // rotor dimasukkan kembali ke stator
   // Per layanan, kunci = slug layanan di src/content/site.ts
   services: {
     "electrical-motor-rewinding": h("layanan-rewinding.jpg"), // stator saat proses penggulungan

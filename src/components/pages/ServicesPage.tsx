@@ -9,6 +9,7 @@ import ArrowIcon from "@/components/ArrowIcon";
 import ProcessSection from "@/components/ProcessSection";
 import CTASection from "@/components/CTASection";
 import { SERVICES } from "@/content/site";
+import { HERO_IMAGES } from "@/lib/site-images";
 
 export default function ServicesPage() {
   const { t } = useTranslation();
@@ -19,6 +20,7 @@ export default function ServicesPage() {
         title="Tiga layanan inti, satu standar kualitas."
         intro="Setiap pekerjaan melalui pemeriksaan dan pengujian sebelum unit dikembalikan ke pelanggan."
         crumbs={[{ label: "Layanan" }]}
+        image={HERO_IMAGES.servicesIndex}
       />
 
       <section className="bg-paper py-14 sm:py-20 lg:py-28">
