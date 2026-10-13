@@ -7,6 +7,7 @@ import Reveal from "@/components/Reveal";
 import ArrowIcon from "@/components/ArrowIcon";
 import ProcessSection from "@/components/ProcessSection";
 import CTASection from "@/components/CTASection";
+import { HERO_IMAGES } from "@/lib/site-images";
 import { COMPANY, SERVICES, waLink, type Service } from "@/content/site";
 
 export default function ServiceDetailPage({ service }: { service: Service }) {
@@ -20,7 +21,7 @@ export default function ServiceDetailPage({ service }: { service: Service }) {
         title={service.title}
         intro={service.summary}
         crumbs={[{ label: "Layanan", href: "/layanan" }, { label: service.title }]}
-        image={service.image}
+        image={HERO_IMAGES.services[service.slug] ?? service.image}
       />
 
       <section className="bg-paper py-14 sm:py-20 lg:py-28">

@@ -24,3 +24,20 @@ export const IMAGES = {
   // Latar section "Cara Kami Bekerja"
   process: p("rewinding-lifting-magnet.webp") as string | null,
 };
+
+// Foto latar PageHero (bagian atas tiap halaman), diambil dari galeri dokumentasi kerja.
+// Disimpan di public/images/hero/. Ganti path-nya untuk memakai foto lain.
+const h = (file: string) => `/images/hero/${file}`;
+
+export const HERO_IMAGES = {
+  // Per layanan, kunci = slug layanan di src/content/site.ts
+  services: {
+    "electrical-motor-rewinding": h("layanan-rewinding.jpg"), // stator saat proses penggulungan
+    "mechanical-services": h("layanan-mekanikal.jpg"), // laser alignment kopling
+    "transformer-maintenance": h("layanan-trafo.jpg"), // kumparan trafo kering
+  } as Record<string, string>,
+  industries: h("industri.jpg"), // penurunan motor di lokasi pelanggan
+  facilities: h("fasilitas.jpg"), // workshop dengan overhead crane
+  news: h("berita.jpg"), // serah terima unit di lokasi
+  contact: h("kontak.jpg"), // tim teknisi di lapangan
+};

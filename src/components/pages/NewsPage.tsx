@@ -9,6 +9,7 @@ import Reveal from "@/components/Reveal";
 import EmptyState from "@/components/EmptyState";
 import ArrowIcon from "@/components/ArrowIcon";
 import CTASection from "@/components/CTASection";
+import { HERO_IMAGES } from "@/lib/site-images";
 import { NEWS, hasBody, type NewsItem } from "@/content/site";
 import { formatDate } from "@/lib/format";
 
@@ -48,7 +49,7 @@ export default function NewsPage() {
         title="Wawasan & kabar terbaru."
         intro="Artikel teknis seputar perawatan motor listrik dan transformator, serta kabar terbaru dari Megawatt."
         crumbs={[{ label: "Berita" }]}
-        image="/foto2.jpg"
+        image={HERO_IMAGES.news}
       />
 
       <section className="bg-paper py-14 sm:py-20 lg:py-28">

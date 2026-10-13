@@ -5,7 +5,7 @@ import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import CTASection from "@/components/CTASection";
 import { INDUSTRIES } from "@/content/site";
-import { IMAGES } from "@/lib/site-images";
+import { HERO_IMAGES } from "@/lib/site-images";
 
 export default function IndustriesPage() {
   const { t } = useTranslation();
@@ -16,7 +16,7 @@ export default function IndustriesPage() {
         title="Dipercaya lintas sektor industri berat."
         intro="Di mana pun motor listrik menggerakkan operasi, kami membantu menjaganya tetap berputar."
         crumbs={[{ label: "Industri" }]}
-        image={IMAGES.industries}
+        image={HERO_IMAGES.industries}
       />
 
       <section className="bg-paper py-14 sm:py-20 lg:py-28">

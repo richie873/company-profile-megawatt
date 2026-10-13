@@ -7,6 +7,7 @@ import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import WorkshopList, { WorkshopReminder } from "@/components/WorkshopList";
 import CTASection from "@/components/CTASection";
+import { HERO_IMAGES } from "@/lib/site-images";
 import { FACILITIES, hasWorkshop } from "@/content/site";
 
 export default function FacilitiesPage() {
@@ -18,6 +19,7 @@ export default function FacilitiesPage() {
         title="Workshop kami, siap menangani motor Anda."
         intro="Workshop kami dilengkapi fasilitas pemeriksaan dan pengujian untuk hasil kerja yang akurat."
         crumbs={[{ label: "Fasilitas" }]}
+        image={HERO_IMAGES.facilities}
       />
 
       {hasWorkshop() ? (

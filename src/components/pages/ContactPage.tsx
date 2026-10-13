@@ -7,6 +7,7 @@ import SectionHeading from "@/components/SectionHeading";
 import ContactForm from "@/components/ContactForm";
 import WorkshopList, { WorkshopReminder } from "@/components/WorkshopList";
 import ArrowIcon from "@/components/ArrowIcon";
+import { HERO_IMAGES } from "@/lib/site-images";
 import { COMPANY, hasWorkshop, waLink } from "@/content/site";
 
 export default function ContactPage() {
@@ -24,6 +25,7 @@ export default function ContactPage() {
         title="Mari bicarakan kebutuhan Anda."
         intro="Ceritakan kondisi motor atau peralatan Anda. Tim kami siap membantu, termasuk untuk kebutuhan darurat 24 jam."
         crumbs={[{ label: "Kontak" }]}
+        image={HERO_IMAGES.contact}
       />
 
       <section className="bg-paper py-14 sm:py-20 lg:py-28">
