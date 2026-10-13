@@ -27,7 +27,7 @@ Menu Portofolio dan Berita otomatis muncul setelah datanya diisi di `src/content
 
 ## Belum diisi
 
-- [ ] Alamat workshop (`WORKSHOP` di `src/content/site.ts`) — selama kosong, muncul kotak pengingat saat `npm run dev`
+- [x] Alamat workshop (`WORKSHOP` di `src/content/site.ts`) — selama kosong, muncul kotak pengingat saat `npm run dev`
 - [ ] Portofolio, berita, dan daftar peralatan fasilitas
 - [ ] Periksa teks bertanda `DRAFT` di `src/content/site.ts`
 - [ ] Ganti foto Pexels sementara dengan foto asli workshop

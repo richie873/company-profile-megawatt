@@ -26,7 +26,7 @@ export default function WorkshopList() {
         <div className="md:col-span-8">
           <p className="eyebrow text-[11px] text-muted">{t("Workshop")}</p>
           <h3 className="mt-2 font-display text-3xl font-semibold text-ink">{WORKSHOP.city}</h3>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-muted">{t(WORKSHOP.address)}</p>
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-muted">{WORKSHOP.address}</p>
         </div>
         <div className="md:col-span-4 md:text-right">
           <a

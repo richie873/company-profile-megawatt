@@ -75,7 +75,7 @@ export default function Footer() {
             <div>
               <h4 className="eyebrow text-xs text-muted-invert">{t("Workshop")}</h4>
               <p className="mt-4 text-sm font-medium text-white">{WORKSHOP.city}</p>
-              <p className="mt-1 text-xs leading-relaxed text-muted-invert">{t(WORKSHOP.address)}</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted-invert">{WORKSHOP.address}</p>
             </div>
           )}
         </div>

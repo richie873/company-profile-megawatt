@@ -116,12 +116,11 @@ export const INDUSTRIES = [
   { name: "Utilitas", desc: "Motor dan transformator untuk air, listrik, dan infrastruktur." },
 ];
 
-// ⚠️ BELUM DIISI — alamat workshop Megawatt.
-// Selama city/address kosong, bagian lokasi workshop disembunyikan di situs,
-// dan saat `npm run dev` muncul kotak pengingat bergaris di halaman terkait.
+// Alamat workshop Megawatt. Tampil di Footer, /kontak, /fasilitas, dan /tentang-kami.
+// Bila city/address dikosongkan, bagian lokasi disembunyikan otomatis.
 export const WORKSHOP = {
-  city: "", // mis. "Bekasi"
-  address: "", // alamat lengkap
+  city: "Bekasi",
+  address: "Jl. Pebayuran No. 89, Desa Karang Mekar, Kec. Kedungwaringin, Kab. Bekasi, Jawa Barat 17540",
 };
 
 export const hasWorkshop = () => Boolean(WORKSHOP.city.trim() && WORKSHOP.address.trim());
@@ -229,6 +228,7 @@ export const FACILITIES: Facility[] = [
   { name: "Hoist Crane 25 Ton", desc: "Mengangkat dan memindahkan motor, generator, dan rotor berbobot besar di dalam workshop.", image: "/images/fasilitas/hoist-crane-25-ton.jpg" },
   { name: "Hoist Crane 10 Ton", desc: "Penanganan unit dan komponen berukuran sedang di area kerja workshop.", image: "/images/fasilitas/hoist-crane-10-ton.jpg" },
   { name: "Counter Kawat", desc: "Menghitung jumlah lilitan secara akurat saat proses penggulungan coil.", image: "/images/fasilitas/counter-kawat.jpg" },
+  { name: "Oven Curing Industri", desc: "Pengeringan dan pematangan varnish pada gulungan stator, rotor, dan coil setelah proses rewinding.", image: "/images/fasilitas/oven-curing.jpg" },
 ];
 
 export type NewsItem = {

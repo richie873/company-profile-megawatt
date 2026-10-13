@@ -45,11 +45,11 @@ export default function FacilitiesPage() {
             <Reveal>
               <SectionHeading eyebrow="Peralatan" title="Fasilitas pemeriksaan dan pengerjaan." />
             </Reveal>
-            <div className="mt-10 grid grid-cols-1 gap-6 min-[480px]:grid-cols-2 sm:mt-14 lg:grid-cols-4 xl:grid-cols-5">
+            <div className="mt-10 grid grid-cols-1 gap-6 min-[480px]:grid-cols-2 sm:mt-14 md:grid-cols-3 lg:grid-cols-4">
               {FACILITIES.map((f, i) => (
-                <Reveal key={f.name} delay={(i % 5) * 60}>
+                <Reveal key={f.name} delay={(i % 4) * 60}>
                   <div className="group relative aspect-[4/3] overflow-hidden bg-navy">
-                    {f.image && <Image src={f.image} alt={t(f.name)} fill sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 480px) 50vw, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />}
+                    {f.image && <Image src={f.image} alt={t(f.name)} fill sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 480px) 50vw, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />}
                   </div>
                   <h3 className="mt-4 font-display text-lg font-semibold text-ink">{t(f.name)}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted">{t(f.desc)}</p>
