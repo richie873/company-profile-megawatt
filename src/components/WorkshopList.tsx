@@ -30,7 +30,7 @@ export default function WorkshopList() {
         </div>
         <div className="md:col-span-4 md:text-right">
           <a
-            href={mapsLink(WORKSHOP.address)}
+            href={mapsLink(WORKSHOP.address, WORKSHOP.coords)}
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 bg-navy px-5 py-2.5 text-[13px] sm:px-6 sm:py-3.5 sm:text-sm font-semibold text-white transition-colors hover:bg-blue"

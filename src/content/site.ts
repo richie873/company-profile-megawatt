@@ -121,12 +121,17 @@ export const INDUSTRIES = [
 export const WORKSHOP = {
   city: "Bekasi",
   address: "Jl. Pebayuran No. 89, Desa Karang Mekar, Kec. Kedungwaringin, Kab. Bekasi, Jawa Barat 17540",
+  // Titik peta untuk tombol "Lihat di Google Maps" (6°14'55.1"S 107°16'28.9"E).
+  // Kosongkan (null) untuk kembali mencari berdasarkan teks alamat.
+  coords: { lat: -6.248639, lng: 107.274694 } as { lat: number; lng: number } | null,
 };
 
 export const hasWorkshop = () => Boolean(WORKSHOP.city.trim() && WORKSHOP.address.trim());
 
-export const mapsLink = (address: string) =>
-  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+export const mapsLink = (address: string, coords?: { lat: number; lng: number } | null) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    coords ? `${coords.lat},${coords.lng}` : address
+  )}`;
 
 export const REASONS = [
   {
