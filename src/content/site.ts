@@ -216,7 +216,20 @@ export type Facility = {
   desc: string;
   image?: string;
 };
-export const FACILITIES: Facility[] = [];
+// Foto dari "Daftar Mesin & Tools" no. 1–10, disimpan di public/images/fasilitas/.
+// DRAFT: deskripsi ditulis umum, silakan disesuaikan dengan spesifikasi sebenarnya.
+export const FACILITIES: Facility[] = [
+  { name: "Mesin Bubut Kapasitas 1 Motor", desc: "Pembubutan poros, rumah bearing, dan komponen motor lainnya langsung di workshop.", image: "/images/fasilitas/mesin-bubut-1.jpg" },
+  { name: "Mesin Bubut Kapasitas 2 Motor", desc: "Pengerjaan bubut untuk poros dan komponen motor berukuran lebih panjang.", image: "/images/fasilitas/mesin-bubut-2.jpg" },
+  { name: "Mesin Milling", desc: "Pengerjaan frais seperti alur pasak (keyway) dan perataan permukaan komponen.", image: "/images/fasilitas/mesin-milling.jpg" },
+  { name: "Mesin Balancing", desc: "Balancing dinamis rotor setelah perbaikan untuk menekan getaran saat motor beroperasi.", image: "/images/fasilitas/mesin-balancing.jpg" },
+  { name: "Mesin Genset", desc: "Sumber daya cadangan agar pengujian dan pekerjaan workshop tetap berjalan saat listrik padam.", image: "/images/fasilitas/mesin-genset.jpg" },
+  { name: "Trafo Step Up", desc: "Menaikkan tegangan untuk kebutuhan pengujian motor dan peralatan listrik.", image: "/images/fasilitas/trafo-step-up.jpg" },
+  { name: "Trafo Step Down", desc: "Menurunkan tegangan sesuai kebutuhan pengujian motor dan peralatan listrik.", image: "/images/fasilitas/trafo-step-down.jpg" },
+  { name: "Hoist Crane 25 Ton", desc: "Mengangkat dan memindahkan motor, generator, dan rotor berbobot besar di dalam workshop.", image: "/images/fasilitas/hoist-crane-25-ton.jpg" },
+  { name: "Hoist Crane 10 Ton", desc: "Penanganan unit dan komponen berukuran sedang di area kerja workshop.", image: "/images/fasilitas/hoist-crane-10-ton.jpg" },
+  { name: "Counter Kawat", desc: "Menghitung jumlah lilitan secara akurat saat proses penggulungan coil.", image: "/images/fasilitas/counter-kawat.jpg" },
+];
 
 export type NewsItem = {
   slug: string;
