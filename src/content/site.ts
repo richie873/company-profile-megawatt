@@ -236,6 +236,25 @@ export const FACILITIES: Facility[] = [
   { name: "Oven Curing Industri", desc: "Pengeringan dan pematangan varnish pada gulungan stator, rotor, dan coil setelah proses rewinding.", image: "/images/fasilitas/oven-curing.jpg" },
 ];
 
+// Alat uji & ukur — ditampilkan di /fasilitas pada bagian "Alat Uji & Pengukuran".
+// Foto di public/images/alat-uji/ (latar putih, ditampilkan utuh tanpa terpotong).
+// DRAFT: deskripsi ditulis umum, silakan disesuaikan.
+export const TEST_TOOLS: Facility[] = [
+  { name: "Ultrasonic Flaw Detector, Vibration Tester & Pulley Partner", desc: "Ultrasonic Flaw Detector XUT550B, SPM A2010 Vibration/RPM Tester, Pulley Partner, dan Vibration Meter Benetech GT633C untuk memeriksa cacat material, getaran, putaran, dan kelurusan pulley.", image: "/images/alat-uji/uji-kondisi-mekanikal.jpg" },
+  { name: "DC Resistance Tester JAZL-10A", desc: "Mengukur resistansi DC gulungan untuk memastikan keseimbangan antarfase dan sambungan yang baik.", image: "/images/alat-uji/dc-resistance-tester.jpg" },
+  { name: "SKF Shaft Alignment Tool TKSA Series", desc: "Penyelarasan poros motor dengan peralatan yang digerakkan menggunakan sistem laser.", image: "/images/alat-uji/skf-shaft-alignment.jpg" },
+  { name: "Balance Monitor Type EMGA", desc: "Pemantauan ketidakseimbangan saat proses balancing rotor.", image: "/images/alat-uji/balance-monitor-emga.jpg" },
+  { name: "ALL-TEST PRO 31", desc: "Pengujian keseimbangan, resistansi gulungan, dan impedansi motor.", image: "/images/alat-uji/all-test-pro-31.jpg" },
+  { name: "Kyoritsu KEW 3125B Insulation Tester", desc: "Uji tahanan isolasi (megger) dengan tegangan uji 1.000 V, 2.500 V, dan 5.000 V.", image: "/images/alat-uji/kyoritsu-kew-3125b.jpg" },
+  { name: "Phase Rotation Tester", desc: "Memeriksa urutan fase R, S, dan T sebelum motor dijalankan.", image: "/images/alat-uji/phase-rotation-tester.jpg" },
+  { name: "Jabbals Digital Surge Tester D-12KHR", desc: "Uji surge 0–12 kV dan DC hi-pot 0–12 kV, dengan layar sentuh berwarna 8 inci.", image: "/images/alat-uji/jabbals-surge-tester.jpg" },
+  { name: "Kyoritsu KEW SNEP 2046RSPEC", desc: "Alat ukur pendukung untuk pemeriksaan kelistrikan motor dan panel.", image: "/images/alat-uji/kew-2046r.jpg" },
+  { name: "Surge Test Impulse Winding Tester YG212-05", desc: "Mendeteksi kelemahan isolasi antarlilitan pada gulungan motor.", image: "/images/alat-uji/surge-tester-yg212.jpg" },
+  { name: "UNI-T Thermal Imager UTi260B+", desc: "Mendeteksi titik panas pada motor, bearing, dan sambungan listrik.", image: "/images/alat-uji/unit-thermal-imager.jpg" },
+  { name: "Bearing Induction Heater", desc: "Memanaskan bearing secara merata agar pemasangan ke poros aman dan presisi.", image: "/images/alat-uji/bearing-induction-heater.jpg" },
+  { name: "Hydraulic Jack", desc: "Pengangkatan dan penekanan komponen berat saat bongkar-pasang unit.", image: "/images/alat-uji/hydraulic-jack.jpg" },
+];
+
 export type NewsItem = {
   slug: string;
   title: string;
