@@ -15,6 +15,7 @@ type TranslationContextType = {
   lang: string;
   loading: boolean;
   setLang: (lang: string) => void;
+  prefetch: (lang: string) => void;
   t: (text: string) => string;
 };
 
@@ -55,45 +56,99 @@ loadPersistedCache();
 // from 5,000 to 50,000 characters — no signup required.
 const CONTACT_EMAIL = "megawattpower.listrindo@yahoo.com";
 
-async function translateOne(text: string, target: string): Promise<string> {
+// Request yang sedang berjalan dipakai bersama, supaya teks yang sama
+// tidak dikirim dua kali (mis. saat hover lalu klik).
+const inflightRequests = new Map<string, Promise<string>>();
+
+function translateOne(text: string, target: string): Promise<string> {
   const key = `${target}::${text}`;
   const cached = cache.get(key);
-  if (cached) return cached;
-  if (!text.trim()) return text;
+  if (cached) return Promise.resolve(cached);
+  if (!text.trim()) return Promise.resolve(text);
+  const running = inflightRequests.get(key);
+  if (running) return running;
 
-  try {
-    const res = await fetch(
-      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
-        text
-      )}&langpair=id|${target}&de=${encodeURIComponent(CONTACT_EMAIL)}`
-    );
-    const data = await res.json();
-    const translated: unknown = data?.responseData?.translatedText;
-    const isQuotaWarning =
-      typeof translated === "string" &&
-      (translated.includes("MYMEMORY WARNING") ||
-        translated.includes("QUERY LENGTH LIMIT") ||
-        data?.responseStatus === 403);
+  const request = (async () => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000);
+    try {
+      const res = await fetch(
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
+          text
+        )}&langpair=id|${target}&de=${encodeURIComponent(CONTACT_EMAIL)}`,
+        { signal: controller.signal }
+      );
+      const data = await res.json();
+      const translated: unknown = data?.responseData?.translatedText;
+      const isQuotaWarning =
+        typeof translated === "string" &&
+        (translated.includes("MYMEMORY WARNING") ||
+          translated.includes("QUERY LENGTH LIMIT") ||
+          data?.responseStatus === 403);
 
-    if (typeof translated === "string" && translated.trim() && !isQuotaWarning) {
-      cache.set(key, translated);
-      persistCache();
-      return translated;
+      if (typeof translated === "string" && translated.trim() && !isQuotaWarning) {
+        cache.set(key, translated);
+        return translated;
+      }
+    } catch {
+      // network hiccup / timeout — fall back to original text below
+    } finally {
+      clearTimeout(timer);
+      inflightRequests.delete(key);
     }
-  } catch {
-    // network hiccup — just fall back to original text below
-  }
-  return text;
+    return text;
+  })();
+
+  inflightRequests.set(key, request);
+  return request;
 }
 
-// Translate in small concurrent batches so we don't hammer the free API
-async function translateBatch(texts: string[], target: string) {
-  const pending = texts.filter((t) => !cache.has(`${target}::${t}`));
-  const chunkSize = 5;
-  for (let i = 0; i < pending.length; i += chunkSize) {
-    const chunk = pending.slice(i, i + chunkSize);
-    await Promise.all(chunk.map((text) => translateOne(text, target)));
-  }
+// Worker pool: selalu ada beberapa request berjalan bersamaan. Tidak ada
+// lagi "tunggu 5 selesai semua baru lanjut", jadi jauh lebih cepat.
+const CONCURRENCY = 10;
+// Render ulang paling sering tiap 150ms agar teks muncul bertahap tanpa
+// membuat halaman patah-patah.
+const PROGRESS_INTERVAL_MS = 150;
+
+async function translateBatch(
+  texts: string[],
+  target: string,
+  onProgress?: () => void
+) {
+  const pending = Array.from(new Set(texts)).filter(
+    (t) => t.trim() && !cache.has(`${target}::${t}`)
+  );
+  if (pending.length === 0) return;
+
+  let next = 0;
+  let lastNotify = 0;
+  let dirty = false;
+
+  const notify = (force = false) => {
+    if (!onProgress) return;
+    const now = Date.now();
+    if (force || now - lastNotify >= PROGRESS_INTERVAL_MS) {
+      lastNotify = now;
+      dirty = false;
+      onProgress();
+    } else {
+      dirty = true;
+    }
+  };
+
+  const worker = async () => {
+    while (next < pending.length) {
+      const text = pending[next++];
+      await translateOne(text, target);
+      notify();
+    }
+  };
+
+  await Promise.all(
+    Array.from({ length: Math.min(CONCURRENCY, pending.length) }, worker)
+  );
+  persistCache();
+  if (dirty) notify(true);
 }
 
 export function TranslationProvider({ children }: { children: ReactNode }) {
@@ -109,9 +164,18 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
     }
     setLangState(newLang);
     setLoading(true);
-    await translateBatch(Array.from(registered.current), newLang);
+    await translateBatch(Array.from(registered.current), newLang, () =>
+      bump((n) => n + 1)
+    );
     setLoading(false);
     bump((n) => n + 1);
+  }, []);
+
+  // Dipanggil saat pengunjung mengarahkan kursor ke tombol bahasa, sehingga
+  // terjemahan sudah mulai diunduh sebelum tombol diklik.
+  const prefetch = useCallback((target: string) => {
+    if (target === "id") return;
+    translateBatch(Array.from(registered.current), target);
   }, []);
 
   // Teks yang baru muncul setelah bahasa diganti (mis. saat pindah halaman)
@@ -139,14 +203,14 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
     pending.current.clear();
     batch.forEach((text) => attempted.current.add(`${lang}::${text}`));
     inflight.current = true;
-    translateBatch(batch, lang).then(() => {
+    translateBatch(batch, lang, () => bump((n) => n + 1)).then(() => {
       inflight.current = false;
       bump((n) => n + 1);
     });
   });
 
   return (
-    <TranslationContext.Provider value={{ lang, loading, setLang, t }}>
+    <TranslationContext.Provider value={{ lang, loading, setLang, prefetch, t }}>
       {children}
     </TranslationContext.Provider>
   );

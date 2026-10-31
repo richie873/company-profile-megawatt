@@ -25,20 +25,27 @@ function GlobeIcon({ className }: { className?: string }) {
 }
 
 export default function LanguageSelector() {
-  const { lang: currentLang, loading, setLang } = useTranslation();
+  const { lang: currentLang, loading, setLang, prefetch } = useTranslation();
 
   const currentIndex = LANGUAGES.findIndex((l) => l.code === currentLang);
   const activeIndex = currentIndex === -1 ? 0 : currentIndex;
   const current = LANGUAGES[activeIndex];
 
+  const nextCode = LANGUAGES[(activeIndex + 1) % LANGUAGES.length].code;
+
   const handleClick = () => {
-    const nextIndex = (activeIndex + 1) % LANGUAGES.length;
-    setLang(LANGUAGES[nextIndex].code);
+    setLang(nextCode);
   };
+
+  // Mulai unduh terjemahan bahasa berikutnya begitu kursor/jari menyentuh tombol
+  const handlePrefetch = () => prefetch(nextCode);
 
   return (
     <button
       onClick={handleClick}
+      onMouseEnter={handlePrefetch}
+      onFocus={handlePrefetch}
+      onTouchStart={handlePrefetch}
       aria-label={`Ganti bahasa (saat ini: ${current.label})`}
       title={`Ganti bahasa (saat ini: ${current.label})`}
       className="relative flex h-9 items-center gap-1.5 px-2.5 text-ink transition-colors hover:border-blue hover:text-blue"
