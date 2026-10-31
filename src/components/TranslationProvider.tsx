@@ -24,7 +24,53 @@ const TranslationContext = createContext<TranslationContextType | null>(null);
 // Module-level cache so translations persist across component remounts
 // within the same page session. Key: `${lang}::${originalText}`.
 const cache = new Map<string, string>();
-const STORAGE_KEY = "mp-translation-cache-v1";
+// v2: menaikkan versi supaya cache lama yang berisi terjemahan salah
+// (mis. teks Arab pada menu "Tentang Kami") otomatis dibuang di browser pengunjung.
+const STORAGE_KEY = "mp-translation-cache-v2";
+
+// Terjemahan manual untuk teks pendek (menu/tombol). MyMemory berbasis
+// kontribusi pengguna sehingga teks pendek sering dapat hasil ngawur.
+// Pakai ini juga membuat menu langsung berganti tanpa menunggu API.
+const GLOSSARY: Record<string, Record<string, string>> = {
+  en: {
+    "Tentang Kami": "About Us",
+    Layanan: "Services",
+    Industri: "Industries",
+    Fasilitas: "Facilities",
+    Portofolio: "Portfolio",
+    Berita: "News",
+    Kontak: "Contact",
+    "Request Konsultasi": "Request a Consultation",
+    "Lihat Layanan Kami": "View Our Services",
+    Beranda: "Home",
+  },
+  "zh-CN": {
+    "Tentang Kami": "关于我们",
+    Layanan: "服务",
+    Industri: "行业",
+    Fasilitas: "设施",
+    Portofolio: "案例",
+    Berita: "新闻",
+    Kontak: "联系我们",
+    "Request Konsultasi": "咨询申请",
+    "Lihat Layanan Kami": "查看我们的服务",
+    Beranda: "首页",
+  },
+};
+
+const ARABIC_RE = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
+const CJK_RE = /[\u3400-\u9FFF]/;
+
+// Tolak hasil API yang skripnya tidak cocok dengan bahasa tujuan
+// (MyMemory kadang mengembalikan teks Arab/bahasa lain untuk teks pendek).
+function isPlausibleTranslation(result: string, target: string) {
+  if (ARABIC_RE.test(result)) return false;
+  if (target === "zh-CN" && !CJK_RE.test(result)) {
+    // boleh tanpa CJK hanya jika hasilnya angka/simbol/nama (tanpa huruf Latin panjang)
+    return !/[A-Za-z]{4,}/.test(result);
+  }
+  return true;
+}
 
 function loadPersistedCache() {
   if (typeof window === "undefined") return;
@@ -62,8 +108,13 @@ const inflightRequests = new Map<string, Promise<string>>();
 
 function translateOne(text: string, target: string): Promise<string> {
   const key = `${target}::${text}`;
+  const manual = GLOSSARY[target]?.[text.trim()];
+  if (manual) {
+    cache.set(key, manual);
+    return Promise.resolve(manual);
+  }
   const cached = cache.get(key);
-  if (cached) return Promise.resolve(cached);
+  if (cached && isPlausibleTranslation(cached, target)) return Promise.resolve(cached);
   if (!text.trim()) return Promise.resolve(text);
   const running = inflightRequests.get(key);
   if (running) return running;
@@ -86,7 +137,12 @@ function translateOne(text: string, target: string): Promise<string> {
           translated.includes("QUERY LENGTH LIMIT") ||
           data?.responseStatus === 403);
 
-      if (typeof translated === "string" && translated.trim() && !isQuotaWarning) {
+      if (
+        typeof translated === "string" &&
+        translated.trim() &&
+        !isQuotaWarning &&
+        isPlausibleTranslation(translated, target)
+      ) {
         cache.set(key, translated);
         return translated;
       }
