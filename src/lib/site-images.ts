@@ -39,7 +39,7 @@ export const HERO_IMAGES = {
     "transformer-maintenance": h("layanan-trafo.jpg"), // kumparan trafo kering
   } as Record<string, string>,
   industries: h("industri.jpg"), // penurunan motor di lokasi pelanggan
-  facilities: h("fasilitas.jpg"), // workshop dengan overhead crane
+  facilities: "/images/fasilitas/oven-curing.jpg", // oven curing industri (foto dari folder fasilitas)
   news: h("berita.jpg"), // serah terima unit di lokasi
   contact: h("kontak.jpg"), // tim teknisi di lapangan
 };

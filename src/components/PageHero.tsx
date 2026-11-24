@@ -12,25 +12,43 @@ export default function PageHero({
   intro,
   crumbs,
   image,
+  contained = false,
+  imagePosition,
 }: {
   eyebrow: string;
   title: string;
   intro?: string;
   crumbs: Crumb[];
   image?: string | null;
+  /** true = hero tidak full layar; lebarnya sama dengan container konten (max-w-7xl + padding yang sama) */
+  contained?: boolean;
+  /** nilai CSS object-position untuk gambar, mis. "50% 55%" */
+  imagePosition?: string;
 }) {
   const { t } = useTranslation();
   const trail: Crumb[] = [{ label: "Beranda", href: "/" }, ...crumbs];
 
-  return (
-    <section className="relative isolate overflow-hidden bg-navy pt-28 pb-14 text-white sm:pt-36 sm:pb-20 lg:pt-44 lg:pb-28">
+  const hero = (
+    <section
+      className={`relative isolate overflow-hidden bg-navy text-white ${
+        contained ? "py-12 sm:py-16 lg:py-20" : "pt-28 pb-14 sm:pt-36 sm:pb-20 lg:pt-44 lg:pb-28"
+      }`}
+    >
       {image && (
         <>
-          <Image src={image} alt="" fill priority sizes="100vw" className="-z-20 object-cover" />
+          <Image
+            src={image}
+            alt=""
+            fill
+            priority
+            sizes={contained ? "(min-width: 1280px) 1200px, 100vw" : "100vw"}
+            style={imagePosition ? { objectPosition: imagePosition } : undefined}
+            className="-z-20 object-cover"
+          />
           <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy/85 via-navy/60 to-navy/20" />
         </>
       )}
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+      <div className={contained ? "px-6 sm:px-10 lg:px-14" : "mx-auto max-w-7xl px-6 lg:px-10"}>
         <nav aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-2 text-xs text-white/70">
             {trail.map((c, i) => (
@@ -62,5 +80,14 @@ export default function PageHero({
         )}
       </div>
     </section>
+  );
+
+  if (!contained) return hero;
+
+  // pt-24 = ruang untuk navbar fixed + jarak; px sama dengan section "Lokasi Workshop"
+  return (
+    <div className="bg-paper pt-24">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">{hero}</div>
+    </div>
   );
 }
