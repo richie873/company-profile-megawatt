@@ -12,7 +12,7 @@ export default function PageHero({
   intro,
   crumbs,
   image,
-  contained = false,
+  contained = true,
   imagePosition,
 }: {
   eyebrow: string;
@@ -20,7 +20,7 @@ export default function PageHero({
   intro?: string;
   crumbs: Crumb[];
   image?: string | null;
-  /** true = hero tidak full layar; lebarnya sama dengan container konten (max-w-7xl + padding yang sama) */
+  /** default true = hero tidak full layar; lebarnya sama dengan container konten (max-w-7xl + padding yang sama). Isi false untuk hero full layar. */
   contained?: boolean;
   /** nilai CSS object-position untuk gambar, mis. "50% 55%" */
   imagePosition?: string;

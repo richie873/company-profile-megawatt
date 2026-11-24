@@ -20,7 +20,6 @@ export default function FacilitiesPage() {
         intro="Workshop kami dilengkapi fasilitas pemeriksaan dan pengujian untuk hasil kerja yang akurat."
         crumbs={[{ label: "Fasilitas" }]}
         image={HERO_IMAGES.facilities}
-        contained
         imagePosition="50% 55%"
       />
 
