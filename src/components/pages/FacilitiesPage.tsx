@@ -81,7 +81,12 @@ export default function FacilitiesPage() {
                         src={f.image}
                         alt={t(f.name)}
                         fill
-                        sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 480px) 50vw, 100vw"
+                        quality={90}
+                        sizes={
+                          i === 0
+                            ? "(min-width: 1024px) 50vw, (min-width: 480px) 100vw, 100vw"
+                            : "(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 480px) 50vw, 100vw"
+                        }
                         className="object-contain transition-transform duration-500 group-hover:scale-105"
                       />
                     )}

@@ -240,7 +240,8 @@ export const FACILITIES: Facility[] = [
 // Foto di public/images/alat-uji/ (latar putih, ditampilkan utuh tanpa terpotong).
 // DRAFT: deskripsi ditulis umum, silakan disesuaikan.
 export const TEST_TOOLS: Facility[] = [
-  { name: "Ultrasonic Flaw Detector, Vibration Tester & Pulley Partner", desc: "Ultrasonic Flaw Detector XUT550B, SPM A2010 Vibration/RPM Tester, Pulley Partner, dan Vibration Meter Benetech GT633C untuk memeriksa cacat material, getaran, putaran, dan kelurusan pulley.", image: "/images/alat-uji/uji-kondisi-mekanikal.jpg" },
+  { name: "Ultrasonic Flaw Detector, Vibration Tester & Pulley Partner", desc: "Ultrasonic Flaw Detector XUT550B, SPM A2010 Vibration/RPM Tester, Pulley Partner, dan Vibration Meter Benetech GT633C untuk memeriksa cacat material, getaran, putaran, dan kelurusan pulley.", image: "/images/alat-uji/uji-kondisi.jpg" },
+  { name: "Ultrasonic Flaw Detector", desc: "Mendeteksi cacat di dalam material seperti retak atau rongga pada poros dan komponen logam tanpa merusak benda uji.", image: "/images/alat-uji/ultrasonic-flaw-detector.jpg" },
   { name: "DC Resistance Tester JAZL-10A", desc: "Mengukur resistansi DC gulungan untuk memastikan keseimbangan antarfase dan sambungan yang baik.", image: "/images/alat-uji/dc-resistance-tester.jpg" },
   { name: "SKF Shaft Alignment Tool TKSA Series", desc: "Penyelarasan poros motor dengan peralatan yang digerakkan menggunakan sistem laser.", image: "/images/alat-uji/skf-shaft-alignment.jpg" },
   { name: "Balance Monitor Type EMGA", desc: "Pemantauan ketidakseimbangan saat proses balancing rotor.", image: "/images/alat-uji/balance-monitor-emga.jpg" },
